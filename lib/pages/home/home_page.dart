@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/constants/app_style.dart';
 import 'package:app_car_rescue/gen/assets.gen.dart';
+import 'package:app_car_rescue/pages/home/widget/promotion.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import '../../models/product_model.dart';
 import '../../models/promotion_model.dart';
 import '../../services/remote/category_service.dart';
 import '../../services/remote/product_service.dart';
+import 'product/item_produc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   String? _selectedCategoryId; // Biến để lưu trữ id category được chọn
   bool isGridView = false;
   bool isRecommended = false;
+  bool isFavorite = false;
   int _currentIndex = 0;
   Timer? _timer;
 
@@ -179,22 +182,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            SliverToBoxAdapter(
-                child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0),
-              child: Container(
-                  decoration: BoxDecoration(
-                      color: AppColor.F8F8FA,
-                      borderRadius: BorderRadius.circular(10.0)),
-                  height: 158.0,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Image.asset(
-                      Assets.images.vf3BannerJpg.path,
-                      fit: BoxFit.cover,
-                    ),
-                  )),
-            )),
+            SliverToBoxAdapter(child: Promotion()),
           ],
         ),
       ),
@@ -353,25 +341,37 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          height: 172.0,
-                          width: 126,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.8),
-                                spreadRadius: 0,
-                                blurRadius: 3,
-                                offset: const Offset(0, 2),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ItemProduct(
+                                  product: product,
+                                ),
                               ),
-                            ],
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: Image.network(
-                              product.image,
-                              fit: BoxFit.cover,
+                            );
+                          },
+                          child: Container(
+                            height: 172.0,
+                            width: 126,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.8),
+                                  spreadRadius: 0,
+                                  blurRadius: 3,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: Image.network(
+                                product.image,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
@@ -441,25 +441,37 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Stack(
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.8),
-                                spreadRadius: 0,
-                                blurRadius: 3,
-                                offset: const Offset(0, 2),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ItemProduct(
+                                  product: product,
+                                ),
                               ),
-                            ],
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: Image.network(
-                              height: 186.0,
-                              width: double.infinity,
-                              product.image,
-                              fit: BoxFit.cover,
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.8),
+                                  spreadRadius: 0,
+                                  blurRadius: 3,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: Image.network(
+                                height: 186.0,
+                                width: double.infinity,
+                                product.image,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
@@ -481,8 +493,22 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ],
                             ),
-                            child: Center(
-                                child: SvgPicture.asset(Assets.icons.heart1)),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isFavorite =
+                                      !isFavorite; // Đổi trạng thái khi người dùng nhấn vào
+                                });
+                              },
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  height: 18,
+                                  width: 18,
+                                  Assets.icons.heart1,
+                                  color: isFavorite ? Colors.red : Colors.grey,
+                                ),
+                              ),
+                            ),
                           ),
                         )
                       ],
@@ -717,8 +743,22 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ],
                             ),
-                            child: Center(
-                                child: SvgPicture.asset(Assets.icons.heart1)),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isFavorite =
+                                      !isFavorite; // Đổi trạng thái khi người dùng nhấn vào
+                                });
+                              },
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  height: 18,
+                                  width: 18,
+                                  Assets.icons.heart1,
+                                  color: isFavorite ? Colors.red : Colors.grey,
+                                ),
+                              ),
+                            ),
                           ),
                         )
                       ],
