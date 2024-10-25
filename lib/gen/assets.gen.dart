@@ -12,6 +12,9 @@ import 'package:flutter/widgets.dart';
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/DropdownButton.svg
+  String get dropdownButton => 'assets/icons/DropdownButton.svg';
+
   /// File path: assets/icons/Filled.svg
   String get filled => 'assets/icons/Filled.svg';
 
@@ -44,6 +47,7 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<String> get values => [
+        dropdownButton,
         filled,
         profile,
         back,

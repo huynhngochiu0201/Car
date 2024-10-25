@@ -5,6 +5,7 @@ import 'package:app_car_rescue/gen/assets.gen.dart';
 import 'package:app_car_rescue/pages/home/widget/promotion.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
+import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../models/category_model.dart';
@@ -150,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'New auto parts',
+                      'New Product',
                       style: AppStyle.bold_20
                           .copyWith(fontFamily: 'Product Sans Medium'),
                     ),
@@ -176,7 +177,7 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.symmetric(horizontal: 32.0)
                     .copyWith(bottom: 10.0),
                 child: Text(
-                  'Promotion!',
+                  'Discount!',
                   style: AppStyle.bold_20
                       .copyWith(fontFamily: 'Product Sans Medium'),
                 ),
@@ -429,7 +430,7 @@ class _HomePageState extends State<HomePage> {
           sliver: SliverGrid(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisExtent: 253,
+              mainAxisExtent: 263,
               crossAxisSpacing: 30,
               mainAxisSpacing: 30, // khoảng cách giữa các hàng
             ),
@@ -526,11 +527,14 @@ class _HomePageState extends State<HomePage> {
                       style:
                           AppStyle.bold_16.copyWith(fontFamily: 'Product Sans'),
                     ),
-                    Text(
-                      '******',
-                      style: AppStyle.regular_12
-                          .copyWith(fontFamily: 'Product Sans'),
-                    ),
+                    RatingBar.readOnly(
+                      filledColor: AppColor.E508A7B,
+                      size: 19.0,
+                      filledIcon: Icons.star,
+                      emptyIcon: Icons.star_border,
+                      initialRating: 4,
+                      maxRating: 5,
+                    )
                   ],
                 );
               },
@@ -701,24 +705,26 @@ class _HomePageState extends State<HomePage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(
-                                        product.name,
-                                        style: AppStyle.regular_16.copyWith(
-                                            color: AppColor.black,
-                                            fontFamily: 'Product Sans Medium'),
+                                    Text(
+                                      product.name,
+                                      style: AppStyle.regular_16.copyWith(
+                                          color: AppColor.black,
+                                          fontFamily: 'Product Sans Medium'),
+                                    ),
+                                    Text(
+                                      product.price.toVND(),
+                                      style: AppStyle.bold_20.copyWith(
+                                        fontFamily: 'Product Sans',
                                       ),
                                     ),
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(
-                                        product.price.toVND(),
-                                        style: AppStyle.bold_20.copyWith(
-                                          fontFamily: 'Product Sans',
-                                        ),
-                                      ),
-                                    ),
+                                    RatingBar.readOnly(
+                                      filledColor: AppColor.E508A7B,
+                                      size: 19.0,
+                                      filledIcon: Icons.star,
+                                      emptyIcon: Icons.star_border,
+                                      initialRating: 4,
+                                      maxRating: 5,
+                                    )
                                   ],
                                 ),
                               )
