@@ -114,3 +114,15 @@ class MultiValidator extends FieldValidator<String> {
     return isValid(value) ? null : _errorText;
   }
 }
+
+class PatternValidator extends TextFieldValidator {
+  final Pattern pattern;
+
+  PatternValidator(this.pattern, {required String errorText})
+      : super(errorText);
+
+  @override
+  bool isValid(String? value) {
+    return hasMatch(pattern.toString(), value!);
+  }
+}

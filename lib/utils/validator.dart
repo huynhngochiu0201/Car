@@ -21,4 +21,11 @@ class Validator {
       MatchValidator(password, errorText: 'Confirm password is not match'),
     ]).call;
   }
+
+  static final phoneNumber = MultiValidator([
+    RequiredValidator(errorText: 'This field is required'),
+    MinLengthValidator(10,
+        errorText: 'Phone number must be at least 10 digits long'),
+    PatternValidator(r'^\d+$', errorText: 'Enter a valid phone number'),
+  ]).call;
 }

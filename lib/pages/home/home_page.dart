@@ -2,27 +2,33 @@ import 'dart:async';
 import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/constants/app_style.dart';
 import 'package:app_car_rescue/gen/assets.gen.dart';
-import 'package:app_car_rescue/pages/home/widget/promotion.dart';
+import 'package:app_car_rescue/pages/home/widget/service.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import '../../components/app_bar/cr_app_bar.dart';
 import '../../models/category_model.dart';
 import '../../models/product_model.dart';
 import '../../models/promotion_model.dart';
 import '../../services/remote/category_service.dart';
 import '../../services/remote/product_service.dart';
+import '../auth/login_page.dart';
 import 'product/item_produc.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({
+    super.key,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  final zoomDrawerController = ZoomDrawerController();
   final PageController _pageController = PageController();
   final CategoryService _categoryService = CategoryService();
   final ProductService _productService = ProductService();
@@ -33,6 +39,7 @@ class _HomePageState extends State<HomePage> {
   bool isRecommended = false;
   bool isFavorite = false;
   int _currentIndex = 0;
+
   Timer? _timer;
 
   @override
@@ -50,6 +57,11 @@ class _HomePageState extends State<HomePage> {
         );
       }
     });
+  }
+
+  toggleDrawer() {
+    zoomDrawerController.toggle?.call();
+    setState(() {});
   }
 
   @override
@@ -91,6 +103,13 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: CrAppBar(
+        leftPressed: toggleDrawer,
+        rightPressed: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const LoginPage(),
+        )),
+        title: '',
+      ),
       body: RefreshIndicator(
         onRefresh: _refresh,
         child: CustomScrollView(
@@ -177,13 +196,13 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.symmetric(horizontal: 32.0)
                     .copyWith(bottom: 10.0),
                 child: Text(
-                  'Discount!',
+                  'Service',
                   style: AppStyle.bold_20
                       .copyWith(fontFamily: 'Product Sans Medium'),
                 ),
               ),
             ),
-            SliverToBoxAdapter(child: Promotion()),
+            SliverToBoxAdapter(child: Service()),
           ],
         ),
       ),

@@ -49,12 +49,12 @@ class AppStyle {
   static TextStyle regular_16 = TextStyle(
     fontSize: 16.0,
     fontWeight: regular,
-    color: AppColor.grey300,
+    color: AppColor.black,
   );
   static TextStyle regular_14 = TextStyle(
     fontSize: 14.0,
     fontWeight: regular,
-    color: AppColor.grey300,
+    color: AppColor.black,
   );
 
   static TextStyle regular_12 = TextStyle(
@@ -136,6 +136,11 @@ class AppStyle {
 
   static TextStyle bold_14 = TextStyle(
     fontSize: 14.0,
+    fontWeight: bold,
+    color: AppColor.black,
+  );
+  static TextStyle bold_12 = TextStyle(
+    fontSize: 12.0,
     fontWeight: bold,
     color: AppColor.black,
   );

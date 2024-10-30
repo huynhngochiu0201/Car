@@ -12,6 +12,9 @@ import 'package:flutter/widgets.dart';
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/Credit Card Icon.svg
+  String get creditCardIcon => 'assets/icons/Credit Card Icon.svg';
+
   /// File path: assets/icons/DropdownButton.svg
   String get dropdownButton => 'assets/icons/DropdownButton.svg';
 
@@ -21,8 +24,29 @@ class $AssetsIconsGen {
   /// File path: assets/icons/Profile.svg
   String get profile => 'assets/icons/Profile.svg';
 
+  /// File path: assets/icons/address.svg
+  String get address => 'assets/icons/address.svg';
+
   /// File path: assets/icons/back.svg
   String get back => 'assets/icons/back.svg';
+
+  /// File path: assets/icons/bag.svg
+  String get bag => 'assets/icons/bag.svg';
+
+  /// File path: assets/icons/cart.svg
+  String get cart => 'assets/icons/cart.svg';
+
+  /// File path: assets/icons/check.svg
+  String get check => 'assets/icons/check.svg';
+
+  /// File path: assets/icons/delete-svgrepo-com.svg
+  String get deleteSvgrepoCom => 'assets/icons/delete-svgrepo-com.svg';
+
+  /// File path: assets/icons/done_oder.svg
+  String get doneOder => 'assets/icons/done_oder.svg';
+
+  /// File path: assets/icons/dot....svg
+  String get dot => 'assets/icons/dot....svg';
 
   /// File path: assets/icons/heart1.svg
   String get heart1 => 'assets/icons/heart1.svg';
@@ -36,6 +60,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/menu_icon.svg
   String get menuIcon => 'assets/icons/menu_icon.svg';
 
+  /// File path: assets/icons/money.svg
+  String get money => 'assets/icons/money.svg';
+
   /// File path: assets/icons/notification.svg
   String get notification => 'assets/icons/notification.svg';
 
@@ -47,14 +74,23 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<String> get values => [
+        creditCardIcon,
         dropdownButton,
         filled,
         profile,
+        address,
         back,
+        bag,
+        cart,
+        check,
+        deleteSvgrepoCom,
+        doneOder,
+        dot,
         heart1,
         heart2,
         home,
         menuIcon,
+        money,
         notification,
         seach,
         shopCart

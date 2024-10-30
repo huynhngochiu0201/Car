@@ -1,6 +1,8 @@
 import 'dart:math' as math;
 import 'package:app_car_rescue/constants/app_style.dart';
 import 'package:app_car_rescue/gen/assets.gen.dart';
+import 'package:app_car_rescue/pages/home/cart/cart_page.dart';
+import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../constants/app_color.dart';
@@ -10,7 +12,7 @@ class CrAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.leftPressed,
     this.rightPressed,
-    required this.title,
+    this.title,
     this.avatar,
     this.color = AppColor.white,
     this.menuIconPath, // Add the menu icon SVG path as a new property
@@ -18,7 +20,7 @@ class CrAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   final VoidCallback? leftPressed;
   final VoidCallback? rightPressed;
-  final String title;
+  final String? title;
   final String? avatar;
   final Color color;
   final String? menuIconPath; // This will be the SVG path for the menu icon
@@ -45,7 +47,23 @@ class CrAppBar extends StatelessWidget implements PreferredSizeWidget {
             'CarRescue',
             style: AppStyle.bold_20,
           ),
-          GestureDetector(child: SvgPicture.asset(Assets.icons.notification))
+          Row(
+            children: [
+              GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CartPage()),
+                    );
+                  },
+                  child: Icon(Icons.shopping_cart)),
+              spaceW14,
+              GestureDetector(
+                  child: SvgPicture.asset(
+                Assets.icons.notification,
+              )),
+            ],
+          )
         ],
       ),
     );

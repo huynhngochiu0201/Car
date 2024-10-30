@@ -1,11 +1,11 @@
 import 'package:app_car_rescue/models/cart_model.dart';
 
-
 class AddCheckoutModel {
   final String? userId;
   final List<CartModel> cartData;
   final double? totalPrice;
   final int? totalProduct;
+  final String? name;
   final String? email;
   final String? phoneNumber;
   final String? address;
@@ -18,6 +18,7 @@ class AddCheckoutModel {
     this.totalPrice,
     this.totalProduct,
     this.email,
+    this.name,
     this.phoneNumber,
     this.address,
     this.createdAt,
@@ -31,6 +32,7 @@ class AddCheckoutModel {
       'totalPrice': totalPrice,
       'totalProduct': totalProduct,
       'email': email,
+      'name': name,
       'phoneNumber': phoneNumber,
       'address': address,
       'createdAt': createdAt,

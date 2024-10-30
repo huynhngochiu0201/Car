@@ -13,6 +13,9 @@ class FontFamily {
   /// Font family: Product Sans
   static const String productSans = 'Product Sans';
 
+  /// Font family: Product Sans Light
+  static const String productSansLight = 'Product Sans Light';
+
   /// Font family: Product Sans Medium
   static const String productSansMedium = 'Product Sans Medium';
 }
