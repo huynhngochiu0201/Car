@@ -174,10 +174,11 @@ class CartPageState extends State<CartPage> {
                                           ),
                                         ),
                                         Checkbox(
-                                          value: isChecked,
+                                          value: cartItem.isChecked ?? false,
                                           onChanged: (bool? value) {
                                             setState(() {
-                                              isChecked = value;
+                                              cartItem.isChecked =
+                                                  value ?? false;
                                             });
                                           },
                                         ),

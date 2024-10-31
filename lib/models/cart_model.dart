@@ -6,6 +6,7 @@ class CartModel {
   final String productImage;
   final double productPrice;
   final int quantity;
+  bool isChecked;
 
   CartModel({
     this.id,
@@ -15,6 +16,7 @@ class CartModel {
     required this.productImage,
     required this.productPrice,
     required this.quantity,
+    this.isChecked = false,
   });
 
   factory CartModel.fromJson(Map<String, dynamic> json) {
