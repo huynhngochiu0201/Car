@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../../models/cart_model.dart';
 import '../../resources/define_collection.dart';
-
 
 class CartService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -55,7 +53,6 @@ class CartService {
             .toList());
   }
 
-  // Remove a product from the user's cart by productId
   Future<String> removeFromCart(String productId) async {
     String res = "Some error occurred";
     try {
@@ -80,17 +77,14 @@ class CartService {
     return res;
   }
 
-  // Clear the entire cart for the current user
   Future<void> clearCart() async {
     try {
-      // Get all cart products for the user
       QuerySnapshot snapshot = await _firestore
           .collection(AppDefineCollection.APP_USER)
           .doc(userId)
           .collection(AppDefineCollection.APP_CART)
           .get();
 
-      // Delete all items in the user's cart
       for (var doc in snapshot.docs) {
         await doc.reference.delete();
       }
@@ -114,6 +108,24 @@ class CartService {
       }
     } catch (e) {
       throw Exception('Failed to update quantity: ${e.toString()}');
+    }
+  }
+
+  Future<void> updateCheckboxStatus(String productId, bool isChecked) async {
+    try {
+      QuerySnapshot snapshot = await _firestore
+          .collection(AppDefineCollection.APP_USER)
+          .doc(userId)
+          .collection(AppDefineCollection.APP_CART)
+          .where('productId', isEqualTo: productId)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+        DocumentReference docRef = snapshot.docs.first.reference;
+        await docRef.update({'isChecked': isChecked});
+      }
+    } catch (e) {
+      throw Exception('Failed to update checkbox status: ${e.toString()}');
     }
   }
 }

@@ -6,7 +6,7 @@ class CartModel {
   final String productImage;
   final double productPrice;
   final int quantity;
-  bool isChecked;
+  bool isChecked; // biến checkbox trạng thái
 
   CartModel({
     this.id,
@@ -26,8 +26,11 @@ class CartModel {
       productId: json['productId'],
       productName: json['productName'],
       productImage: json['productImage'],
-      productPrice: json['productPrice'],
+      productPrice:
+          json['productPrice'].toDouble(), // Đảm bảo chuyển đổi thành double
       quantity: json['quantity'],
+      isChecked: json['isChecked'] ??
+          false, // Thêm trường isChecked, mặc định là false nếu không tồn tại
     );
   }
 
@@ -40,6 +43,7 @@ class CartModel {
       'productImage': productImage,
       'productPrice': productPrice,
       'quantity': quantity,
+      'isChecked': isChecked, // Thêm trường isChecked để lưu trạng thái
     };
   }
 }

@@ -1,30 +1,28 @@
-import 'package:app_car_rescue/components/app_bar/custom_app_bar.dart';
-import 'package:app_car_rescue/constants/app_style.dart';
-import 'package:app_car_rescue/gen/assets.gen.dart';
-import 'package:app_car_rescue/pages/home/cart/widget/draggableScrollableSheet.dart';
-import 'package:app_car_rescue/resources/double_extension.dart';
-import 'package:app_car_rescue/utils/spaces.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../../components/snack_bar/td_snack_bar.dart';
-import '../../../components/snack_bar/top_snack_bar.dart';
-import '../../../constants/app_color.dart';
-import '../../../models/cart_model.dart';
-import '../../../services/remote/cart_service.dart';
+// import 'package:flutter/material.dart';
+// import 'package:app_car_rescue/models/cart_model.dart';
+// import 'package:app_car_rescue/services/remote/cart_service.dart';
+// import 'package:app_car_rescue/constants/app_style.dart';
+// import 'package:app_car_rescue/constants/app_color.dart';
+// import 'package:app_car_rescue/components/app_bar/custom_app_bar.dart';
+// import 'package:app_car_rescue/components/snack_bar/td_snack_bar.dart';
+// import 'package:app_car_rescue/components/snack_bar/top_snack_bar.dart';
+// import 'package:app_car_rescue/pages/home/cart/widget/draggableScrollableSheet.dart';
+// import 'package:app_car_rescue/resources/double_extension.dart';
+// import 'package:app_car_rescue/utils/spaces.dart';
 
-class CartPage extends StatefulWidget {
-  const CartPage({super.key});
+// class CartPage extends StatefulWidget {
+//   const CartPage({super.key});
 
-  @override
-  CartPageState createState() => CartPageState();
-}
+//   @override
+//   CartPageState createState() => CartPageState();
+// }
 
 // class CartPageState extends State<CartPage> {
 //   final CartService _cartService = CartService();
-//   late Stream<List<CartModel>> _cartItems;
-//   bool? isChecked = true;
+//   late List<CartModel> _cartItemsList = [];
+//   late Stream<List<CartModel>> _cartItemsStream;
 //   bool _isLoading = false;
+//   final List<CartModel> _selectedItems = [];
 
 //   @override
 //   void initState() {
@@ -33,34 +31,30 @@ class CartPage extends StatefulWidget {
 //   }
 
 //   void _fetchCartItems() {
-//     _cartItems = _cartService.getCartStream();
-//   }
-
-//   // Hàm để làm mới dữ liệu khi kéo xuống
-//   Future<void> _refreshCart() async {
-//     setState(() {
-//       _fetchCartItems();
+//     _cartItemsStream = _cartService.getCartStream();
+//     _cartItemsStream.listen((cartItems) {
+//       setState(() {
+//         _cartItemsList = cartItems;
+//       });
 //     });
-//     _cartItems;
 //   }
 
-//   // Hàm để xóa sản phẩm khỏi giỏ hàng
+//   Future<void> _refreshCart() async {
+//     _fetchCartItems();
+//   }
+
 //   Future<void> _removeItem(String productId) async {
 //     setState(() {
 //       _isLoading = true;
 //     });
 //     try {
 //       String res = await _cartService.removeFromCart(productId);
-//       showTopSnackBar(
-//         context,
-//         TDSnackBar.success(message: res),
-//       );
+//       showTopSnackBar(context, TDSnackBar.success(message: res));
 //       _fetchCartItems();
+//       _selectedItems.removeWhere((item) => item.productId == productId);
 //     } catch (e) {
 //       showTopSnackBar(
-//         context,
-//         TDSnackBar.error(message: 'Error: ${e.toString()}'),
-//       );
+//           context, TDSnackBar.error(message: 'Error: ${e.toString()}'));
 //     } finally {
 //       setState(() {
 //         _isLoading = false;
@@ -68,49 +62,89 @@ class CartPage extends StatefulWidget {
 //     }
 //   }
 
-//   // Hàm để cập nhật số lượng sản phẩm (tăng hoặc giảm)
+//   void _removeOnlySelectedItems() async {
+//     setState(() {
+//       _isLoading = true;
+//     });
+//     try {
+//       for (var item in _selectedItems) {
+//         await _cartService.removeFromCart(item.productId);
+//       }
+//       showTopSnackBar(context,
+//           TDSnackBar.success(message: 'Checked items removed from cart'));
+//       _fetchCartItems();
+//       _selectedItems.clear();
+//     } catch (e) {
+//       showTopSnackBar(
+//           context, TDSnackBar.error(message: 'Error: ${e.toString()}'));
+//     } finally {
+//       setState(() {
+//         _isLoading = false;
+//       });
+//     }
+//   }
+
 //   Future<void> _updateQuantity(CartModel cartItem, int newQuantity) async {
 //     if (newQuantity < 1) return;
-
 //     setState(() {
 //       _isLoading = true;
 //     });
 //     try {
 //       await _cartService.updateQuantity(cartItem.productId, newQuantity);
-//       // showTopSnackBar(
-//       //   context,
-//       //   const TDSnackBar.success(message: 'Quantity updated '),
-//       // );
-
 //       _fetchCartItems();
 //     } catch (e) {
 //       showTopSnackBar(
-//         context,
-//         TDSnackBar.error(message: 'Error: ${e.toString()}'),
-//       );
+//           context, TDSnackBar.error(message: 'Error: ${e.toString()}'));
 //     } finally {
 //       setState(() {
 //         _isLoading = false;
 //       });
+//     }
+//   }
+
+//   void _toggleSelection(CartModel cartItem, bool? isSelected) async {
+//     setState(() {
+//       cartItem.isChecked = isSelected ?? false;
+//       if (cartItem.isChecked) {
+//         if (!_selectedItems
+//             .any((item) => item.productId == cartItem.productId)) {
+//           _selectedItems.add(cartItem);
+//         }
+//       } else {
+//         _selectedItems
+//             .removeWhere((item) => item.productId == cartItem.productId);
+//       }
+//     });
+
+//     try {
+//       await _cartService.updateCheckboxStatus(
+//           cartItem.productId, cartItem.isChecked);
+//       print('Checkbox status updated on Firebase');
+//     } catch (e) {
+//       showTopSnackBar(
+//         context,
+//         TDSnackBar.error(
+//             message: 'Failed to update checkbox status: ${e.toString()}'),
+//       );
 //     }
 //   }
 
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-//       appBar: CustomAppBar(title: 'You Cart'),
+//       appBar: CustomAppBar(title: 'Your Cart'),
 //       backgroundColor: AppColor.white,
 //       body: Stack(
 //         children: [
 //           StreamBuilder<List<CartModel>>(
-//             stream: _cartItems,
+//             stream: _cartItemsStream,
 //             builder: (context, snapshot) {
 //               if (snapshot.connectionState == ConnectionState.waiting) {
 //                 return const Center(child: CircularProgressIndicator());
 //               } else if (snapshot.hasError) {
-//                 return Center(child: Text('Lỗi: ${snapshot.error}'));
+//                 return Center(child: Text('Error: ${snapshot.error}'));
 //               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-//                 return const Center(child: Text('Giỏ hàng của bạn trống'));
+//                 return const Center(child: Text('Your cart is empty'));
 //               }
 
 //               final cartItems = snapshot.data!;
@@ -119,23 +153,21 @@ class CartPage extends StatefulWidget {
 //                 onRefresh: _refreshCart,
 //                 child: ListView.builder(
 //                   itemCount: cartItems.length,
-//                   itemBuilder: (BuildContext context, int index) {
+//                   itemBuilder: (context, index) {
 //                     final cartItem = cartItems[index];
 //                     return Padding(
 //                       padding: const EdgeInsets.symmetric(
 //                           vertical: 15.0, horizontal: 20.0),
 //                       child: Container(
 //                         height: 110.0,
-//                         width: double.infinity,
 //                         decoration: BoxDecoration(
 //                           color: Colors.white,
 //                           borderRadius: BorderRadius.circular(35.0),
 //                           boxShadow: const [
 //                             BoxShadow(
-//                               color: Colors.black26,
-//                               offset: Offset(0, 2),
-//                               blurRadius: 20.0,
-//                             )
+//                                 color: Colors.black26,
+//                                 offset: Offset(0, 2),
+//                                 blurRadius: 20.0)
 //                           ],
 //                         ),
 //                         child: Row(
@@ -143,9 +175,10 @@ class CartPage extends StatefulWidget {
 //                             Container(
 //                               width: 100.0,
 //                               decoration: BoxDecoration(
-//                                 borderRadius: BorderRadius.only(
-//                                     topLeft: Radius.circular(20),
-//                                     bottomLeft: Radius.circular(20.0)),
+//                                 borderRadius: const BorderRadius.only(
+//                                   topLeft: Radius.circular(20),
+//                                   bottomLeft: Radius.circular(20.0),
+//                                 ),
 //                                 color: AppColor.white,
 //                                 image: DecorationImage(
 //                                   image: NetworkImage(cartItem.productImage),
@@ -174,20 +207,14 @@ class CartPage extends StatefulWidget {
 //                                           ),
 //                                         ),
 //                                         Checkbox(
-//                                           value: cartItem.isChecked ?? false,
-//                                           onChanged: (bool? value) {
-//                                             setState(() {
-//                                               cartItem.isChecked =
-//                                                   value ?? false;
-//                                             });
-//                                           },
+//                                           value: cartItem.isChecked,
+//                                           onChanged: (value) =>
+//                                               _toggleSelection(cartItem, value),
 //                                         ),
 //                                       ],
 //                                     ),
-//                                     Text(
-//                                       cartItem.productPrice.toVND(),
-//                                       style: AppStyle.bold_16,
-//                                     ),
+//                                     Text(cartItem.productPrice.toVND(),
+//                                         style: AppStyle.bold_16),
 //                                     spaceH6,
 //                                     Row(
 //                                       children: [
@@ -195,10 +222,11 @@ class CartPage extends StatefulWidget {
 //                                           height: 28.0,
 //                                           width: 75.0,
 //                                           decoration: BoxDecoration(
-//                                               border: Border.all(
-//                                                   width: 2, color: Colors.grey),
-//                                               borderRadius:
-//                                                   BorderRadius.circular(20.0)),
+//                                             border: Border.all(
+//                                                 width: 2, color: Colors.grey),
+//                                             borderRadius:
+//                                                 BorderRadius.circular(20.0),
+//                                           ),
 //                                           child: Padding(
 //                                             padding: const EdgeInsets.symmetric(
 //                                                 horizontal: 8.0),
@@ -216,53 +244,43 @@ class CartPage extends StatefulWidget {
 //                                                               1);
 //                                                     }
 //                                                   },
-//                                                   child: Icon(
-//                                                     FontAwesomeIcons.minus,
-//                                                     color: Colors.grey,
-//                                                     size: 12.0,
-//                                                   ),
+//                                                   child: const Icon(
+//                                                       Icons.remove,
+//                                                       color: Colors.grey,
+//                                                       size: 12.0),
 //                                                 ),
-//                                                 Padding(
-//                                                   padding: const EdgeInsets
-//                                                       .symmetric(
-//                                                       horizontal: 10.0),
-//                                                   child: Text(
-//                                                       cartItem.quantity
-//                                                           .toString(),
-//                                                       style: AppStyle.bold_12
-//                                                           .copyWith(
-//                                                               color:
-//                                                                   Colors.grey)),
+//                                                 Text(
+//                                                   cartItem.quantity.toString(),
+//                                                   style: AppStyle.bold_12
+//                                                       .copyWith(
+//                                                           color: Colors.grey),
 //                                                 ),
 //                                                 GestureDetector(
-//                                                   onTap: () {
-//                                                     _updateQuantity(cartItem,
-//                                                         cartItem.quantity + 1);
-//                                                   },
-//                                                   child: Icon(
-//                                                     FontAwesomeIcons.plus,
-//                                                     color: Colors.grey,
-//                                                     size: 12.0,
-//                                                   ),
+//                                                   onTap: () => _updateQuantity(
+//                                                       cartItem,
+//                                                       cartItem.quantity + 1),
+//                                                   child: const Icon(Icons.add,
+//                                                       color: Colors.grey,
+//                                                       size: 12.0),
 //                                                 ),
 //                                               ],
 //                                             ),
 //                                           ),
 //                                         ),
-//                                         Spacer(),
+//                                         const Spacer(),
 //                                         GestureDetector(
 //                                           onTap: () {
 //                                             showDialog(
 //                                               context: context,
 //                                               builder: (context) => AlertDialog(
-//                                                 title: const Text('Xác nhận'),
+//                                                 title: const Text('Confirm'),
 //                                                 content: const Text(
-//                                                     'Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?'),
+//                                                     'Are you sure you want to remove this item from the cart?'),
 //                                                 actions: [
 //                                                   TextButton(
 //                                                     onPressed: () =>
 //                                                         Navigator.pop(context),
-//                                                     child: const Text('Hủy'),
+//                                                     child: const Text('Cancel'),
 //                                                   ),
 //                                                   TextButton(
 //                                                     onPressed: () {
@@ -270,26 +288,22 @@ class CartPage extends StatefulWidget {
 //                                                           cartItem.productId);
 //                                                       Navigator.pop(context);
 //                                                     },
-//                                                     child: const Text('Xóa'),
+//                                                     child: const Text('Remove'),
 //                                                   ),
 //                                                 ],
 //                                               ),
 //                                             );
 //                                           },
-//                                           child: Padding(
-//                                             padding: const EdgeInsets.only(
-//                                                 right: 10.0),
-//                                             child: SvgPicture.asset(
-//                                               Assets.icons.deleteSvgrepoCom,
-//                                               height: 25.0,
-//                                               width: 25.0,
-//                                               color: Colors.grey,
-//                                             ),
+//                                           child: const Padding(
+//                                             padding:
+//                                                 EdgeInsets.only(right: 10.0),
+//                                             child: Icon(Icons.delete,
+//                                                 color: Colors.grey),
 //                                           ),
 //                                         ),
 //                                       ],
 //                                     ),
-//                                     const Spacer()
+//                                     const Spacer(),
 //                                   ],
 //                                 ),
 //                               ),
@@ -303,13 +317,15 @@ class CartPage extends StatefulWidget {
 //               );
 //             },
 //           ),
-//           DraggbleScrollable(cartItems: _cartItems),
+//           DraggbleScrollable(
+//             cartItems: _cartItemsStream,
+//             selectedItems: _selectedItems,
+//             onCheckoutComplete: _removeOnlySelectedItems,
+//           ),
 //           if (_isLoading)
 //             Container(
 //               color: Colors.black.withOpacity(0.3),
-//               child: const Center(
-//                 child: CircularProgressIndicator(),
-//               ),
+//               child: const Center(child: CircularProgressIndicator()),
 //             ),
 //         ],
 //       ),
@@ -317,12 +333,31 @@ class CartPage extends StatefulWidget {
 //   }
 // }
 
+import 'package:flutter/material.dart';
+import 'package:app_car_rescue/models/cart_model.dart';
+import 'package:app_car_rescue/services/remote/cart_service.dart';
+import 'package:app_car_rescue/constants/app_style.dart';
+import 'package:app_car_rescue/constants/app_color.dart';
+import 'package:app_car_rescue/components/app_bar/custom_app_bar.dart';
+import 'package:app_car_rescue/components/snack_bar/td_snack_bar.dart';
+import 'package:app_car_rescue/components/snack_bar/top_snack_bar.dart';
+import 'package:app_car_rescue/pages/home/cart/widget/draggableScrollableSheet.dart';
+import 'package:app_car_rescue/resources/double_extension.dart';
+import 'package:app_car_rescue/utils/spaces.dart';
+
+class CartPage extends StatefulWidget {
+  const CartPage({super.key});
+
+  @override
+  CartPageState createState() => CartPageState();
+}
 
 class CartPageState extends State<CartPage> {
   final CartService _cartService = CartService();
-  late Stream<List<CartModel>> _cartItems;
+  late List<CartModel> _cartItemsList = [];
+  late Stream<List<CartModel>> _cartItemsStream;
   bool _isLoading = false;
-  List<CartModel> _selectedItems = [];
+  final List<CartModel> _selectedItems = [];
 
   @override
   void initState() {
@@ -331,12 +366,11 @@ class CartPageState extends State<CartPage> {
   }
 
   void _fetchCartItems() {
-    _cartItems = _cartService.getCartStream();
-  }
-
-  Future<void> _refreshCart() async {
-    setState(() {
-      _fetchCartItems();
+    _cartItemsStream = _cartService.getCartStream();
+    _cartItemsStream.listen((cartItems) {
+      setState(() {
+        _cartItemsList = cartItems;
+      });
     });
   }
 
@@ -346,17 +380,34 @@ class CartPageState extends State<CartPage> {
     });
     try {
       String res = await _cartService.removeFromCart(productId);
-      showTopSnackBar(
-        context,
-        TDSnackBar.success(message: res),
-      );
+      showTopSnackBar(context, TDSnackBar.success(message: res));
       _fetchCartItems();
       _selectedItems.removeWhere((item) => item.productId == productId);
     } catch (e) {
       showTopSnackBar(
-        context,
-        TDSnackBar.error(message: 'Error: ${e.toString()}'),
-      );
+          context, TDSnackBar.error(message: 'Error: ${e.toString()}'));
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  void _removeOnlySelectedItems() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      for (var item in _selectedItems) {
+        await _cartService.removeFromCart(item.productId);
+      }
+      showTopSnackBar(context,
+          TDSnackBar.success(message: 'Checked items removed from cart'));
+      _fetchCartItems();
+      _selectedItems.clear();
+    } catch (e) {
+      showTopSnackBar(
+          context, TDSnackBar.error(message: 'Error: ${e.toString()}'));
     } finally {
       setState(() {
         _isLoading = false;
@@ -366,7 +417,6 @@ class CartPageState extends State<CartPage> {
 
   Future<void> _updateQuantity(CartModel cartItem, int newQuantity) async {
     if (newQuantity < 1) return;
-
     setState(() {
       _isLoading = true;
     });
@@ -375,9 +425,7 @@ class CartPageState extends State<CartPage> {
       _fetchCartItems();
     } catch (e) {
       showTopSnackBar(
-        context,
-        TDSnackBar.error(message: 'Error: ${e.toString()}'),
-      );
+          context, TDSnackBar.error(message: 'Error: ${e.toString()}'));
     } finally {
       setState(() {
         _isLoading = false;
@@ -385,15 +433,31 @@ class CartPageState extends State<CartPage> {
     }
   }
 
-  void _toggleSelection(CartModel cartItem, bool? isSelected) {
+  void _toggleSelection(CartModel cartItem, bool? isSelected) async {
     setState(() {
       cartItem.isChecked = isSelected ?? false;
-      if (cartItem.isChecked!) {
-        _selectedItems.add(cartItem);
+      if (cartItem.isChecked) {
+        if (!_selectedItems
+            .any((item) => item.productId == cartItem.productId)) {
+          _selectedItems.add(cartItem);
+        }
       } else {
-        _selectedItems.remove(cartItem);
+        _selectedItems
+            .removeWhere((item) => item.productId == cartItem.productId);
       }
     });
+
+    try {
+      await _cartService.updateCheckboxStatus(
+          cartItem.productId, cartItem.isChecked);
+      print('Checkbox status updated on Firebase');
+    } catch (e) {
+      showTopSnackBar(
+        context,
+        TDSnackBar.error(
+            message: 'Failed to update checkbox status: ${e.toString()}'),
+      );
+    }
   }
 
   @override
@@ -404,7 +468,7 @@ class CartPageState extends State<CartPage> {
       body: Stack(
         children: [
           StreamBuilder<List<CartModel>>(
-            stream: _cartItems,
+            stream: _cartItemsStream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -416,141 +480,175 @@ class CartPageState extends State<CartPage> {
 
               final cartItems = snapshot.data!;
 
-              return RefreshIndicator(
-                onRefresh: _refreshCart,
-                child: ListView.builder(
-                  itemCount: cartItems.length,
-                  itemBuilder: (context, index) {
-                    final cartItem = cartItems[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
-                      child: Container(
-                        height: 110.0,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(35.0),
-                          boxShadow: const [BoxShadow(color: Colors.black26, offset: Offset(0, 2), blurRadius: 20.0)],
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 100.0,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(20), bottomLeft: Radius.circular(20.0)),
-                                color: AppColor.white,
-                                image: DecorationImage(
-                                  image: NetworkImage(cartItem.productImage),
-                                  fit: BoxFit.cover,
-                                ),
+              return ListView.builder(
+                itemCount: cartItems.length,
+                itemBuilder: (context, index) {
+                  final cartItem = cartItems[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15.0, horizontal: 20.0),
+                    child: Container(
+                      height: 110.0,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(35.0),
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(0, 2),
+                              blurRadius: 20.0),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 100.0,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                bottomLeft: Radius.circular(20.0),
+                              ),
+                              color: AppColor.white,
+                              image: DecorationImage(
+                                image: NetworkImage(cartItem.productImage),
+                                fit: BoxFit.cover,
                               ),
                             ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                          width: 150.0,
-                                          child: Text(
-                                            cartItem.productName,
-                                            style: AppStyle.bold_14,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
+                                        width: 150.0,
+                                        child: Text(
+                                          cartItem.productName,
+                                          style: AppStyle.bold_14,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
+                                      ),
+                                      Checkbox(
+                                        value: cartItem.isChecked,
+                                        onChanged: (value) =>
+                                            _toggleSelection(cartItem, value),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(cartItem.productPrice.toVND(),
+                                      style: AppStyle.bold_16),
+                                  spaceH6,
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 28.0,
+                                        width: 75.0,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              width: 2, color: Colors.grey),
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  if (cartItem.quantity > 1) {
+                                                    _updateQuantity(cartItem,
+                                                        cartItem.quantity - 1);
+                                                  }
+                                                },
+                                                child: const Icon(
+                                                  Icons.remove,
+                                                  color: Colors.grey,
+                                                  size: 12.0,
+                                                ),
+                                              ),
+                                              Text(
+                                                cartItem.quantity.toString(),
+                                                style: AppStyle.bold_12
+                                                    .copyWith(
+                                                        color: Colors.grey),
+                                              ),
+                                              GestureDetector(
+                                                onTap: () => _updateQuantity(
+                                                    cartItem,
+                                                    cartItem.quantity + 1),
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  color: Colors.grey,
+                                                  size: 12.0,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Checkbox(
-                                          value: cartItem.isChecked,
-                                          onChanged: (value) => _toggleSelection(cartItem, value),
-                                        ),
-                                      ],
-                                    ),
-                                    Text(cartItem.productPrice.toVND(), style: AppStyle.bold_16),
-                                    spaceH6,
-                                    Row(
-                                      children: [
-                                        Container(
-                                          height: 28.0,
-                                          width: 75.0,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(width: 2, color: Colors.grey),
-                                            borderRadius: BorderRadius.circular(20.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    if (cartItem.quantity > 1) {
-                                                      _updateQuantity(cartItem, cartItem.quantity - 1);
-                                                    }
+                                      ),
+                                      const Spacer(),
+                                      GestureDetector(
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              title: const Text('Confirm'),
+                                              content: const Text(
+                                                  'Are you sure you want to remove this item from the cart?'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                  child: const Text('Cancel'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    _removeItem(
+                                                        cartItem.productId);
+                                                    Navigator.pop(context);
                                                   },
-                                                  child: Icon(Icons.remove, color: Colors.grey, size: 12.0),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                                  child: Text(cartItem.quantity.toString(), style: AppStyle.bold_12.copyWith(color: Colors.grey)),
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () => _updateQuantity(cartItem, cartItem.quantity + 1),
-                                                  child: Icon(Icons.add, color: Colors.grey, size: 12.0),
+                                                  child: const Text('Remove'),
                                                 ),
                                               ],
                                             ),
-                                          ),
+                                          );
+                                        },
+                                        child: const Padding(
+                                          padding: EdgeInsets.only(right: 10.0),
+                                          child: Icon(Icons.delete,
+                                              color: Colors.grey),
                                         ),
-                                        Spacer(),
-                                        GestureDetector(
-                                          onTap: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) => AlertDialog(
-                                                title: const Text('Confirm'),
-                                                content: const Text('Are you sure you want to remove this item from the cart?'),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () => Navigator.pop(context),
-                                                    child: const Text('Cancel'),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      _removeItem(cartItem.productId);
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text('Remove'),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(right: 10.0),
-                                            child: Icon(Icons.delete, color: Colors.grey),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const Spacer(),
-                                  ],
-                                ),
+                                      ),
+                                    ],
+                                  ),
+                                  const Spacer(),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               );
             },
           ),
-          DraggbleScrollable(cartItems: _cartItems, selectedItems: _selectedItems),
+          DraggbleScrollable(
+            cartItems: _cartItemsStream,
+            selectedItems: _selectedItems,
+            onCheckoutComplete: _removeOnlySelectedItems,
+          ),
           if (_isLoading)
             Container(
               color: Colors.black.withOpacity(0.3),

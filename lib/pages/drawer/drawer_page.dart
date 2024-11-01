@@ -1,8 +1,5 @@
-import 'package:app_car_rescue/gen/assets.gen.dart';
-import 'package:app_car_rescue/pages/main_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import '../../constants/app_color.dart';
 import '../auth/login_page.dart';
 import '../../services/shared_prefs.dart';

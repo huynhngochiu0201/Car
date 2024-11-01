@@ -36,10 +36,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final CheckoutService _checkoutService = CheckoutService();
-  int _currentStep = 0; // Current step index
+  int _currentStep = 0;
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
     _addressController.dispose();
@@ -105,10 +106,20 @@ class _CheckoutPageState extends State<CheckoutPage> {
       TDSnackBar.success(message: response),
     );
 
-    // If the order is placed successfully, clear the cart and navigate back
+    // If the order is placed successfully, clear the selected items from the cart and navigate back
     if (response == 'Order placed successfully') {
-      await CartService().clearCart(); // Clear the cart
-      Navigator.pop(context); // Navigate back to the previous screen
+      // Chỉ xóa các mục được chọn sau khi thanh toán thành công
+      await _clearSelectedItemsFromCart();
+      Navigator.pop(
+          context, true); // Return true to indicate a successful checkout
+    }
+  }
+
+  // Hàm để xóa các mục được chọn trong giỏ hàng
+  Future<void> _clearSelectedItemsFromCart() async {
+    final CartService cartService = CartService();
+    for (var item in widget.cartData) {
+      await cartService.removeFromCart(item.productId);
     }
   }
 
@@ -173,11 +184,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
           addressController: _addressController,
         );
       case 1:
-        return BuildDetailsStep();
+        return BuildDetailsStep(
+            // cartData: widget.cartData,
+            // totalPrice: widget.totalPrice,
+            // totalProduct: widget.totalProduct,
+            );
       case 2:
-        return BuildConfirmStep();
+        return BuildConfirmStep(
+            // cartData: widget.cartData,
+            // totalPrice: widget.totalPrice,
+            // totalProduct: widget.totalProduct,
+            );
       default:
-        return Text('Erro');
+        return const Text('Error');
     }
   }
 }
