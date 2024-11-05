@@ -20,69 +20,52 @@ class BottomNavBarCurvedFb1 extends StatefulWidget {
 class _BottomNavBarCurvedFb1State extends State<BottomNavBarCurvedFb1> {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     double height = 56;
-
-    // const backgroundColor = Colors.white;
-
     return BottomAppBar(
       color: Colors.transparent,
       elevation: 0,
-      child: Stack(
-        children: [
-          CustomPaint(
-            size: Size(size.width, height + 6),
-            // painter: BottomNavCurvePainter(backgroundColor: backgroundColor),
-          ),
-          Center(
-            heightFactor: 0.6,
-            child: FloatingActionButton(
-                backgroundColor: AppColor.BEBFC4,
-                elevation: 0.1,
-                onPressed: () => widget.onPressed(2),
-                child: const Icon(
-                  Icons.map_outlined,
-                  color: AppColor.black,
-                )),
-          ),
-          SizedBox(
-            height: height,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                NavBarIcon(
-                  svg: Assets.icons.home,
-                  selected: widget.selected == 0,
-                  onPressed: () => widget.onPressed(0),
-                  defaultColor: AppColor.BEBFC4,
-                  selectedColor: AppColor.black,
-                ),
-                NavBarIcon(
-                  svg: Assets.icons.seach,
-                  selected: widget.selected == 1,
-                  onPressed: () => widget.onPressed(1),
-                  defaultColor: AppColor.BEBFC4,
-                  selectedColor: AppColor.black,
-                ),
-                const SizedBox(width: 56),
-                NavBarIcon(
-                  svg: Assets.icons.shopCart,
-                  selected: widget.selected == 3,
-                  onPressed: () => widget.onPressed(3),
-                  defaultColor: AppColor.BEBFC4,
-                  selectedColor: AppColor.black,
-                ),
-                NavBarIcon(
-                  svg: Assets.icons.profile,
-                  selected: widget.selected == 4,
-                  onPressed: () => widget.onPressed(4),
-                  defaultColor: AppColor.BEBFC4,
-                  selectedColor: AppColor.black,
-                )
-              ],
+      child: SizedBox(
+        height: height,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            NavBarIcon(
+              svg: Assets.icons.home,
+              selected: widget.selected == 0,
+              onPressed: () => widget.onPressed(0),
+              defaultColor: AppColor.BEBFC4,
+              selectedColor: AppColor.black,
             ),
-          ),
-        ],
+            NavBarIcon(
+              svg: Assets.icons.mapPinSvgrepoCom,
+              selected: widget.selected == 1,
+              onPressed: () => widget.onPressed(1),
+              defaultColor: AppColor.BEBFC4,
+              selectedColor: AppColor.black,
+            ),
+            NavBarIcon(
+              svg: Assets.icons.shopCart,
+              selected: widget.selected == 2,
+              onPressed: () => widget.onPressed(2),
+              defaultColor: AppColor.BEBFC4,
+              selectedColor: AppColor.black,
+            ),
+            NavBarIcon(
+              svg: Assets.icons.profile,
+              selected: widget.selected == 3,
+              onPressed: () => widget.onPressed(3),
+              defaultColor: AppColor.BEBFC4,
+              selectedColor: AppColor.black,
+            ),
+            NavBarIcon(
+              svg: Assets.icons.notification,
+              selected: widget.selected == 4,
+              onPressed: () => widget.onPressed(4),
+              defaultColor: AppColor.BEBFC4,
+              selectedColor: AppColor.black,
+            )
+          ],
+        ),
       ),
     );
   }
@@ -111,7 +94,12 @@ class NavBarIcon extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(svg, color: selected ? selectedColor : defaultColor),
+          SvgPicture.asset(
+            svg,
+            color: selected ? selectedColor : defaultColor,
+            height: 25.0,
+            width: 25.0,
+          ),
         ],
       ),
     );

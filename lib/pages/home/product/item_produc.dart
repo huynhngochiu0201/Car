@@ -32,7 +32,7 @@ class _ItemProductState extends State<ItemProduct> {
   bool isFavorite = false;
   bool _isDescriptionExpanded = true;
   bool _isReviewsExpanded = true;
-  bool _isNewProduct = true;
+  final bool _isNewProduct = true;
 
   Future<void> _addProductToCart() async {
     setState(() {
@@ -300,44 +300,44 @@ class _ItemProductState extends State<ItemProduct> {
                       ),
                       Divider(),
                       if (_isReviewsExpanded) CrRatingBar(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 9.0),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'New Product',
-                                style: AppStyle.bold_16.copyWith(
-                                    fontFamily: 'Product Sans Medium'),
-                              ),
-                              GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _isNewProduct = !_isNewProduct;
-                                    });
-                                  },
-                                  child: Container(
-                                    height: 20.0,
-                                    width: 20.0,
-                                    decoration:
-                                        BoxDecoration(shape: BoxShape.circle),
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                          height: 10.0,
-                                          width: 10.0,
-                                          Assets.icons.dropdownButton),
-                                    ),
-                                  )),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Divider(),
-                      spaceH20,
-                      if (_isNewProduct) NewProduct(),
-                      spaceH40,
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(vertical: 9.0),
+                      //   child: Align(
+                      //     alignment: Alignment.topLeft,
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //       children: [
+                      //         Text(
+                      //           'New Product',
+                      //           style: AppStyle.bold_16.copyWith(
+                      //               fontFamily: 'Product Sans Medium'),
+                      //         ),
+                      //         GestureDetector(
+                      //             onTap: () {
+                      //               setState(() {
+                      //                 _isNewProduct = !_isNewProduct;
+                      //               });
+                      //             },
+                      //             child: Container(
+                      //               height: 20.0,
+                      //               width: 20.0,
+                      //               decoration:
+                      //                   BoxDecoration(shape: BoxShape.circle),
+                      //               child: Center(
+                      //                 child: SvgPicture.asset(
+                      //                     height: 10.0,
+                      //                     width: 10.0,
+                      //                     Assets.icons.dropdownButton),
+                      //               ),
+                      //             )),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      // Divider(),
+                      // spaceH20,
+                      // if (_isNewProduct) NewProduct(),
+                      spaceH10,
                     ],
                   ),
                 ),

@@ -2,12 +2,12 @@ import 'dart:async';
 import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/constants/app_style.dart';
 import 'package:app_car_rescue/gen/assets.gen.dart';
+import 'package:app_car_rescue/pages/home/widget/new_product.dart';
 import 'package:app_car_rescue/pages/home/widget/service.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import '../../components/app_bar/cr_app_bar.dart';
 import '../../models/category_model.dart';
@@ -15,7 +15,6 @@ import '../../models/product_model.dart';
 import '../../models/promotion_model.dart';
 import '../../services/remote/category_service.dart';
 import '../../services/remote/product_service.dart';
-import '../auth/login_page.dart';
 import 'product/item_produc.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,9 +36,7 @@ class _HomePageState extends State<HomePage> {
   String? _selectedCategoryId; // Biến để lưu trữ id category được chọn
   bool isGridView = false;
   bool isRecommended = false;
-  bool isFavorite = false;
   int _currentIndex = 0;
-
   Timer? _timer;
 
   @override
@@ -67,7 +64,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     _pageController.dispose();
-    _timer?.cancel(); // Hủy timer nếu widget bị hủy
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -103,13 +100,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CrAppBar(
-        leftPressed: toggleDrawer,
-        rightPressed: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const LoginPage(),
-        )),
-        title: '',
-      ),
+      appBar: CrAppBar(),
       body: RefreshIndicator(
         onRefresh: _refresh,
         child: CustomScrollView(
@@ -167,34 +158,21 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.symmetric(horizontal: 32.0)
                     .copyWith(bottom: 10.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'New Product',
                       style: AppStyle.bold_20
                           .copyWith(fontFamily: 'Product Sans Medium'),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isRecommended = !isRecommended;
-                        });
-                      },
-                      child: Text(
-                        isRecommended ? 'Show list' : 'Show all',
-                        style: AppStyle.regular_12
-                            .copyWith(fontFamily: 'Product Sans'),
-                      ),
-                    ),
                   ],
                 ),
               ),
             ),
-            isRecommended ? _buildGridRecommended() : _buildListRecommended(),
+            SliverToBoxAdapter(child: NewProduct()),
             SliverToBoxAdapter(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 32.0)
-                    .copyWith(bottom: 10.0),
+                    .copyWith(bottom: 10.0, top: 10.0),
                 child: Text(
                   'Service',
                   style: AppStyle.bold_20
@@ -495,42 +473,6 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ),
-                        Positioned(
-                          top: 5.0,
-                          right: 10.0,
-                          child: Container(
-                            height: 27.0,
-                            width: 27.0,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppColor.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.8),
-                                  spreadRadius: 0,
-                                  blurRadius: 3,
-                                  offset: const Offset(0, 1),
-                                ),
-                              ],
-                            ),
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  isFavorite =
-                                      !isFavorite; // Đổi trạng thái khi người dùng nhấn vào
-                                });
-                              },
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  height: 18,
-                                  width: 18,
-                                  Assets.icons.heart1,
-                                  color: isFavorite ? Colors.red : Colors.grey,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
                       ],
                     ),
                     spaceH8,
@@ -558,239 +500,6 @@ class _HomePageState extends State<HomePage> {
                 );
               },
               childCount: products.length,
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildListRecommended() {
-    return FutureBuilder<List<ProductModel>>(
-      future: _products,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return SliverToBoxAdapter(
-              child: Center(child: CircularProgressIndicator()));
-        } else if (snapshot.hasError) {
-          return SliverToBoxAdapter(
-              child: Center(child: Text('Error: ${snapshot.error}')));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return SliverToBoxAdapter(
-              child: Center(child: Text('No products found')));
-        }
-
-        final products = snapshot.data!;
-
-        return SliverToBoxAdapter(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0)
-                  .copyWith(bottom: 10.0),
-              child: Row(
-                children: products.map((product) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 100.0,
-                          width: 213,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: AppColor.F9F9F9,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.8),
-                                spreadRadius: 0,
-                                blurRadius: 3,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10.0),
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Image.network(
-                                    height: 100.0,
-                                    width: 100.0,
-                                    product.image,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0, vertical: 12.5),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(
-                                        product.name,
-                                        style: AppStyle.regular_12.copyWith(
-                                            fontFamily: 'Product Sans Medium'),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(
-                                        product.price.toVND(),
-                                        style: AppStyle.bold_16.copyWith(
-                                          fontFamily: 'Product Sans',
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildGridRecommended() {
-    return FutureBuilder<List<ProductModel>>(
-      future: _products,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return SliverToBoxAdapter(
-              child: Center(child: CircularProgressIndicator()));
-        } else if (snapshot.hasError) {
-          return SliverToBoxAdapter(
-              child: Center(child: Text('Error: ${snapshot.error}')));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return SliverToBoxAdapter(
-              child: Center(child: Text('No products found')));
-        }
-
-        final products = snapshot.data!;
-
-        return SliverToBoxAdapter(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0),
-              child: Column(
-                children: products.map((product) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Stack(
-                      children: [
-                        Container(
-                          height: 100.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: AppColor.F9F9F9,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.8),
-                                spreadRadius: 0,
-                                blurRadius: 3,
-                                offset: const Offset(0, 1),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10.0),
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Image.network(
-                                    height: 100.0,
-                                    width: 100.0,
-                                    product.image,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0, vertical: 12.5),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      product.name,
-                                      style: AppStyle.regular_16.copyWith(
-                                          color: AppColor.black,
-                                          fontFamily: 'Product Sans Medium'),
-                                    ),
-                                    Text(
-                                      product.price.toVND(),
-                                      style: AppStyle.bold_20.copyWith(
-                                        fontFamily: 'Product Sans',
-                                      ),
-                                    ),
-                                    RatingBar.readOnly(
-                                      filledColor: AppColor.E508A7B,
-                                      size: 19.0,
-                                      filledIcon: Icons.star,
-                                      emptyIcon: Icons.star_border,
-                                      initialRating: 4,
-                                      maxRating: 5,
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          top: 5.0,
-                          right: 10.0,
-                          child: Container(
-                            height: 27.0,
-                            width: 27.0,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppColor.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.8),
-                                  spreadRadius: 0,
-                                  blurRadius: 3,
-                                  offset: const Offset(0, 1),
-                                ),
-                              ],
-                            ),
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  isFavorite =
-                                      !isFavorite; // Đổi trạng thái khi người dùng nhấn vào
-                                });
-                              },
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  height: 18,
-                                  width: 18,
-                                  Assets.icons.heart1,
-                                  color: isFavorite ? Colors.red : Colors.grey,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                }).toList(),
-              ),
             ),
           ),
         );

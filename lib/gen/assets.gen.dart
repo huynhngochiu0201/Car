@@ -57,8 +57,17 @@ class $AssetsIconsGen {
   /// File path: assets/icons/home.svg
   String get home => 'assets/icons/home.svg';
 
+  /// File path: assets/icons/map-pin-svgrepo-com.svg
+  String get mapPinSvgrepoCom => 'assets/icons/map-pin-svgrepo-com.svg';
+
   /// File path: assets/icons/menu_icon.svg
   String get menuIcon => 'assets/icons/menu_icon.svg';
+
+  /// File path: assets/icons/menu_vector.svg
+  String get menuVector => 'assets/icons/menu_vector.svg';
+
+  /// File path: assets/icons/menu_vector_border.svg
+  String get menuVectorBorder => 'assets/icons/menu_vector_border.svg';
 
   /// File path: assets/icons/money.svg
   String get money => 'assets/icons/money.svg';
@@ -89,7 +98,10 @@ class $AssetsIconsGen {
         heart1,
         heart2,
         home,
+        mapPinSvgrepoCom,
         menuIcon,
+        menuVector,
+        menuVectorBorder,
         money,
         notification,
         seach,

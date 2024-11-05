@@ -5,6 +5,7 @@ import 'drawer/drawer_page.dart';
 import '../constants/app_color.dart';
 import '../components/navigator/app_bottomnavbar1.dart';
 import 'home/home_page.dart';
+import 'home/map/map_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({
@@ -44,7 +45,7 @@ class _MainPageState extends State<MainPage> {
             index: currentIndex,
             children: const [
               HomePage(),
-              // SearchPage(),
+              MapPage(),
               // MapPage(),
               // CartPage(),
               // CalendarPage()

@@ -1,11 +1,10 @@
-import 'dart:math' as math;
-import 'package:app_car_rescue/constants/app_style.dart';
 import 'package:app_car_rescue/gen/assets.gen.dart';
 import 'package:app_car_rescue/pages/home/cart/cart_page.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../constants/app_color.dart';
+import '../../pages/home/search/search_page.dart';
 
 class CrAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CrAppBar({
@@ -36,16 +35,7 @@ class CrAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           GestureDetector(
             onTap: leftPressed,
-            child: Transform.rotate(
-              angle: 45 * math.pi / 180,
-              child: Transform.rotate(
-                  angle: -45 * math.pi / 180,
-                  child: SvgPicture.asset(Assets.icons.menuIcon)),
-            ),
-          ),
-          Text(
-            'CarRescue',
-            style: AppStyle.bold_20,
+            child: SvgPicture.asset(Assets.icons.menuIcon),
           ),
           Row(
             children: [
@@ -57,11 +47,20 @@ class CrAppBar extends StatelessWidget implements PreferredSizeWidget {
                     );
                   },
                   child: Icon(Icons.shopping_cart)),
-              spaceW14,
+              spaceW10,
               GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SearchPage()),
+                    );
+                  },
                   child: SvgPicture.asset(
-                Assets.icons.notification,
-              )),
+                    Assets.icons.seach,
+                    color: AppColor.black,
+                    height: 20.0,
+                    width: 20.0,
+                  )),
             ],
           )
         ],

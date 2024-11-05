@@ -1,6 +1,5 @@
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:flutter/material.dart';
-
 import '../../../constants/app_color.dart';
 import '../../../gen/assets.gen.dart';
 
@@ -28,38 +27,7 @@ class Service extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               )),
-          spaceH16,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                  decoration: BoxDecoration(
-                      color: AppColor.F8F8FA,
-                      borderRadius: BorderRadius.circular(10.0)),
-                  height: 194.0,
-                  width: 156.0,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Image.asset(
-                      Assets.images.vf3BannerJpg.path,
-                      fit: BoxFit.cover,
-                    ),
-                  )),
-              Container(
-                  decoration: BoxDecoration(
-                      color: AppColor.F8F8FA,
-                      borderRadius: BorderRadius.circular(10.0)),
-                  height: 194.0,
-                  width: 156.0,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Image.asset(
-                      Assets.images.vf3BannerJpg.path,
-                      fit: BoxFit.cover,
-                    ),
-                  )),
-            ],
-          ),
+          spaceH10,
         ],
       ),
     );
