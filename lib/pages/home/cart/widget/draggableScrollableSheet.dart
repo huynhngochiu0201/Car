@@ -4,32 +4,41 @@ import '../../../../components/button/cr_elevated_button.dart';
 import '../../../../constants/app_color.dart';
 import '../../../../constants/app_style.dart';
 import '../../../../models/cart_model.dart';
-import '../../../../utils/spaces.dart';
+import '../../../../services/remote/cart_service.dart';
 import '../checkouts/checkouts_page.dart';
 
-class DraggbleScrollable extends StatelessWidget {
+class DraggbleScrollable extends StatefulWidget {
   const DraggbleScrollable({
     super.key,
     required Stream<List<CartModel>> cartItems,
     required List<CartModel> selectedItems,
     required this.onCheckoutComplete,
+    required this.cartService,
   })  : _cartItems = cartItems,
         _selectedItems = selectedItems;
 
   final Stream<List<CartModel>> _cartItems;
   final List<CartModel> _selectedItems;
   final VoidCallback onCheckoutComplete;
+  final CartService cartService;
+
+  @override
+  DraggbleScrollableState createState() => DraggbleScrollableState();
+}
+
+class DraggbleScrollableState extends State<DraggbleScrollable> {
+  bool _selectAll = false;
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<CartModel>>(
-      stream: _cartItems,
+      stream: widget._cartItems,
       builder: (context, snapshot) {
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const SizedBox.shrink();
         }
 
-        final selectedItems = _selectedItems;
+        final selectedItems = widget._selectedItems;
         double productCost = selectedItems.fold(
             0.0, (sum, item) => sum + item.productPrice * item.quantity);
         int totalQuantity =
@@ -39,8 +48,8 @@ class DraggbleScrollable extends StatelessWidget {
 
         return DraggableScrollableSheet(
           initialChildSize: 0.2,
-          minChildSize: 0.05,
-          maxChildSize: 0.3,
+          minChildSize: 0.03,
+          maxChildSize: 0.25,
           builder: (context, scrollController) {
             return Container(
               decoration: const BoxDecoration(
@@ -58,41 +67,77 @@ class DraggbleScrollable extends StatelessWidget {
               ),
               child: SingleChildScrollView(
                 controller: scrollController,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15, bottom: 20),
-                        child: Container(
-                          height: 6,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(10)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 5.0,
+                      ),
+                      child: Container(
+                        height: 6,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: _selectAll,
+                          onChanged: (bool? value) async {
+                            setState(() {
+                              _selectAll = value ?? false;
+                              widget._selectedItems.clear();
+                            });
+
+                            List<CartModel> cartItems = snapshot.data!;
+
+                            if (_selectAll) {
+                              // Chọn tất cả sản phẩm và tích checkbox của từng sản phẩm
+                              for (var item in cartItems) {
+                                item.isChecked =
+                                    true; // Cập nhật trạng thái của từng item
+                                widget._selectedItems
+                                    .add(item); // Thêm vào danh sách đã chọn
+                                try {
+                                  await widget.cartService.updateCheckboxStatus(
+                                      item.productId, true);
+                                  print(
+                                      'Checkbox status updated on Firebase (select all)');
+                                } catch (e) {
+                                  print(
+                                      'Error updating checkbox status: ${e.toString()}');
+                                }
+                              }
+                            } else {
+                              // Bỏ chọn tất cả sản phẩm và bỏ tích checkbox của từng sản phẩm
+                              for (var item in cartItems) {
+                                item.isChecked =
+                                    false; // Cập nhật trạng thái của từng item
+                                try {
+                                  await widget.cartService.updateCheckboxStatus(
+                                      item.productId, false);
+                                  print(
+                                      'Checkbox status updated on Firebase (deselect all)');
+                                } catch (e) {
+                                  print(
+                                      'Error updating checkbox status: ${e.toString()}');
+                                }
+                              }
+                            }
+                          },
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Product Quantity',
-                            style: AppStyle.regular_14
-                                .copyWith(color: AppColor.black),
-                          ),
-                          Text(totalQuantity.toString(),
-                              style: AppStyle.regular_14
-                                  .copyWith(fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                      spaceH8,
-                      Divider(
-                        color: Colors.grey[300],
-                        thickness: 2.5,
-                      ),
-                      spaceH8,
-                      Row(
+                      ],
+                    ),
+                    Divider(
+                      color: Colors.grey[300],
+                      thickness: 2.5,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
@@ -105,11 +150,14 @@ class DraggbleScrollable extends StatelessWidget {
                                   .copyWith(fontWeight: FontWeight.bold)),
                         ],
                       ),
-                      const SizedBox(height: 20.0),
-                      CrElevatedButton(
+                    ),
+                    const SizedBox(height: 20.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: CrElevatedButton(
                         height: 60.0,
                         borderRadius: BorderRadius.circular(25.0),
-                        text: 'Proceed to checkout',
+                        text: 'Proceed to checkout ($totalQuantity)',
                         onPressed: () {
                           if (selectedItems.isEmpty) {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -130,14 +178,14 @@ class DraggbleScrollable extends StatelessWidget {
                                     )),
                           ).then((result) {
                             if (result == true) {
-                              // Only remove the selected items after a successful checkout
-                              onCheckoutComplete();
+                              // Chỉ xóa các sản phẩm đã chọn sau khi thanh toán thành công
+                              widget.onCheckoutComplete();
                             }
                           });
                         },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             );

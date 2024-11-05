@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../../constants/app_color.dart';
 
@@ -31,26 +30,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               onTap: () {
                 Navigator.pop(context);
               },
-              child: Transform.rotate(
-                angle: 45 * math.pi / 180,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Container(
-                  margin: const EdgeInsets.all(8.6),
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: AppColor.white,
-                    borderRadius: BorderRadius.circular(8.0),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: AppColor.shadow,
-                        offset: Offset(3.0, 3.0),
-                        blurRadius: 4.6,
-                      ),
-                    ],
-                  ),
-                  child: Transform.rotate(
-                      angle: -45 * math.pi / 180,
-                      child: const Icon(Icons.arrow_back,
-                          size: 22.0, color: AppColor.brown)),
+                  height: 36.0,
+                  width: 36.0,
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(
+                        color: Colors.black26,
+                        offset: Offset(0, 2),
+                        blurRadius: 20.0),
+                  ], color: AppColor.white, shape: BoxShape.circle),
+                  child: const Icon(Icons.arrow_back,
+                      size: 22.0, color: AppColor.brown),
                 ),
               ),
             ),
