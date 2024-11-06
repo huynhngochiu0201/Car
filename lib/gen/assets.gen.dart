@@ -36,6 +36,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/cart.svg
   String get cart => 'assets/icons/cart.svg';
 
+  /// File path: assets/icons/cartt.svg
+  String get cartt => 'assets/icons/cartt.svg';
+
   /// File path: assets/icons/check.svg
   String get check => 'assets/icons/check.svg';
 
@@ -91,6 +94,7 @@ class $AssetsIconsGen {
         back,
         bag,
         cart,
+        cartt,
         check,
         deleteSvgrepoCom,
         doneOder,

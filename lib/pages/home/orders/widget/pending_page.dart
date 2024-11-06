@@ -1,3 +1,4 @@
+// import 'package:app_car_rescue/pages/home/orders/widget/Details_page.dart';
 // import 'package:app_car_rescue/resources/double_extension.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:flutter/material.dart';
@@ -62,7 +63,15 @@
 //                 String orderId = order.id;
 //                 String status = order['status'];
 
-//                 // Cast data to Map<String, dynamic> to access fields with containsKey
+//                 // Calculate total quantity from cartData if it exists
+//                 int totalQuantity = 0;
+//                 final data = order.data() as Map<String, dynamic>;
+//                 if (data.containsKey('cartData')) {
+//                   List<dynamic> cartData = data['cartData'];
+//                   totalQuantity = cartData.fold(0, (sum, item) {
+//                     return sum + ((item['quantity'] as num?)?.toInt() ?? 0);
+//                   });
+//                 }
 
 //                 return Padding(
 //                   padding: const EdgeInsets.only(bottom: 20.0),
@@ -88,23 +97,25 @@
 //                             Text(
 //                               'Order #$orderId',
 //                               style: AppStyle.bold_18,
-//                               overflow: TextOverflow.ellipsis,
 //                             ),
 //                           ],
+//                         ),
+//                         const SizedBox(height: 10),
+//                         Text(
+//                           DateFormat('dd/MM/yyyy').format(createdAt),
+//                           style: AppStyle.regular_14,
 //                         ),
 //                         const SizedBox(height: 10),
 //                         Row(
 //                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //                           children: [
 //                             Text(
-//                               'Subtotal: ${(totalPrice.toVND())}',
+//                               'Quantity: $totalQuantity', // Display total quantity
 //                               style: AppStyle.regular_14,
-//                               overflow: TextOverflow.ellipsis,
 //                             ),
 //                             Text(
-//                               DateFormat('dd/MM/yyyy').format(createdAt),
+//                               'Subtotal: ${(totalPrice.toVND())}',
 //                               style: AppStyle.regular_14,
-//                               overflow: TextOverflow.ellipsis,
 //                             ),
 //                           ],
 //                         ),
@@ -117,10 +128,14 @@
 //                               style: AppStyle.regular_14.copyWith(
 //                                 color: AppColor.ECF6212,
 //                               ),
-//                               overflow: TextOverflow.ellipsis,
 //                             ),
 //                             CrElevatedButton.outline(
-//                               onPressed: () {},
+//                               onPressed: () {
+//                                 Navigator.push(
+//                                     context,
+//                                     MaterialPageRoute(
+//                                         builder: (context) => DetailsPage()));
+//                               },
 //                               text: 'Details',
 //                               width: 100.0,
 //                               height: 35.0,
@@ -140,6 +155,7 @@
 //   }
 // }
 
+import 'package:app_car_rescue/pages/home/orders/widget/Details_page.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -157,20 +173,18 @@ class PendingPage extends StatefulWidget {
 }
 
 class PendingPageState extends State<PendingPage> {
-  // Retrieve the current user's ID
   String get userId => FirebaseAuth.instance.currentUser!.uid;
 
-  // Stream to fetch only orders with 'Pending' status
   Stream<QuerySnapshot> fetchPendingOrders() {
     return FirebaseFirestore.instance
         .collection('orders')
         .where('uId', isEqualTo: userId)
-        .where('status', isEqualTo: 'Pending') // Filter for Pending status
+        .where('status', isEqualTo: 'Pending')
         .snapshots();
   }
 
   Future<void> _refreshOrders() async {
-    setState(() {}); // Trigger UI refresh
+    setState(() {});
     await Future.delayed(const Duration(seconds: 1));
   }
 
@@ -204,7 +218,6 @@ class PendingPageState extends State<PendingPage> {
                 String orderId = order.id;
                 String status = order['status'];
 
-                // Calculate total quantity from cartData if it exists
                 int totalQuantity = 0;
                 final data = order.data() as Map<String, dynamic>;
                 if (data.containsKey('cartData')) {
@@ -251,7 +264,7 @@ class PendingPageState extends State<PendingPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Quantity: $totalQuantity', // Display total quantity
+                              'Quantity: $totalQuantity',
                               style: AppStyle.regular_14,
                             ),
                             Text(
@@ -271,11 +284,19 @@ class PendingPageState extends State<PendingPage> {
                               ),
                             ),
                             CrElevatedButton.outline(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        DetailsPage(order: data),
+                                  ),
+                                );
+                              },
                               text: 'Details',
                               width: 100.0,
                               height: 35.0,
-                            )
+                            ),
                           ],
                         ),
                       ],

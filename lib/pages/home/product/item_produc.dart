@@ -14,7 +14,6 @@ import '../../../gen/assets.gen.dart';
 import '../../../models/cart_model.dart';
 import '../../../models/product_model.dart';
 import '../../../services/remote/cart_service.dart';
-import 'new_product.dart';
 
 class ItemProduct extends StatefulWidget {
   final ProductModel product;
@@ -32,7 +31,6 @@ class _ItemProductState extends State<ItemProduct> {
   bool isFavorite = false;
   bool _isDescriptionExpanded = true;
   bool _isReviewsExpanded = true;
-  final bool _isNewProduct = true;
 
   Future<void> _addProductToCart() async {
     setState(() {
@@ -58,7 +56,7 @@ class _ItemProductState extends State<ItemProduct> {
         productName: widget.product.name,
         productImage: widget.product.image,
         productPrice: widget.product.price,
-        quantity: 1, // Mặc định thêm 1 sản phẩm
+        quantity: 1,
       );
       String res = await _cartService.addToCart(cartItem);
       showTopSnackBar(
@@ -176,13 +174,10 @@ class _ItemProductState extends State<ItemProduct> {
                             decoration: BoxDecoration(
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(
-                                      0.5), // Ensure enough opacity
-                                  spreadRadius:
-                                      1, // You can increase this for a larger shadow
-                                  blurRadius: 5, // Increase to make it softer
-                                  offset:
-                                      const Offset(0, 2), // Adjust as necessary
+                                  color: Colors.black.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 2),
                                 ),
                               ],
                               color: AppColor.white,
@@ -300,43 +295,6 @@ class _ItemProductState extends State<ItemProduct> {
                       ),
                       Divider(),
                       if (_isReviewsExpanded) CrRatingBar(),
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(vertical: 9.0),
-                      //   child: Align(
-                      //     alignment: Alignment.topLeft,
-                      //     child: Row(
-                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //       children: [
-                      //         Text(
-                      //           'New Product',
-                      //           style: AppStyle.bold_16.copyWith(
-                      //               fontFamily: 'Product Sans Medium'),
-                      //         ),
-                      //         GestureDetector(
-                      //             onTap: () {
-                      //               setState(() {
-                      //                 _isNewProduct = !_isNewProduct;
-                      //               });
-                      //             },
-                      //             child: Container(
-                      //               height: 20.0,
-                      //               width: 20.0,
-                      //               decoration:
-                      //                   BoxDecoration(shape: BoxShape.circle),
-                      //               child: Center(
-                      //                 child: SvgPicture.asset(
-                      //                     height: 10.0,
-                      //                     width: 10.0,
-                      //                     Assets.icons.dropdownButton),
-                      //               ),
-                      //             )),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
-                      // Divider(),
-                      // spaceH20,
-                      // if (_isNewProduct) NewProduct(),
                       spaceH10,
                     ],
                   ),

@@ -1,3 +1,4 @@
+import 'package:app_car_rescue/pages/home/orders/widget/Details_page.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -130,7 +131,13 @@ class DeliveredPageState extends State<DeliveredPage> {
                               ),
                             ),
                             CrElevatedButton.outline(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            DetailsPage(order: data)));
+                              },
                               text: 'Details',
                               width: 100.0,
                               height: 35.0,
