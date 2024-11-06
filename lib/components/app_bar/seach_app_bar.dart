@@ -43,7 +43,7 @@ class SeachAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           Expanded(
               child: Container(
-            height: 45.0,
+            height: 40.0,
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             decoration: BoxDecoration(
               color: AppColor.white,
@@ -56,8 +56,8 @@ class SeachAppBar extends StatelessWidget implements PreferredSizeWidget {
               style: const TextStyle(color: AppColor.black),
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Search',
-                hintStyle: const TextStyle(color: AppColor.grey),
+                hintText: 'Search...',
+                hintStyle: const TextStyle(color: AppColor.E43484B),
                 prefixIcon: SvgPicture.asset(
                   Assets.icons.seach,
                   width: 18.0,

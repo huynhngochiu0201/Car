@@ -33,10 +33,36 @@ class CrAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          GestureDetector(
-            onTap: leftPressed,
-            child: SvgPicture.asset(Assets.icons.menuIcon),
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SearchPage()),
+                );
+              },
+              child: Container(
+                height: 40.0,
+                decoration: BoxDecoration(
+                    border: Border.all(color: AppColor.E43484B),
+                    borderRadius: BorderRadius.circular(10.0)),
+                child: Row(
+                  children: [
+                    spaceW10,
+                    SvgPicture.asset(
+                      Assets.icons.seach,
+                      color: AppColor.black,
+                      height: 18.0,
+                      width: 18.0,
+                    ),
+                    spaceW10,
+                    Text('Seach...')
+                  ],
+                ),
+              ),
+            ),
           ),
+          spaceW24,
           Row(
             children: [
               GestureDetector(
@@ -56,7 +82,7 @@ class CrAppBar extends StatelessWidget implements PreferredSizeWidget {
                     );
                   },
                   child: SvgPicture.asset(
-                    Assets.icons.seach,
+                    Assets.icons.notification,
                     color: AppColor.black,
                     height: 20.0,
                     width: 20.0,

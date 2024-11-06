@@ -57,13 +57,6 @@ class _BottomNavBarCurvedFb1State extends State<BottomNavBarCurvedFb1> {
               defaultColor: AppColor.BEBFC4,
               selectedColor: AppColor.black,
             ),
-            NavBarIcon(
-              svg: Assets.icons.notification,
-              selected: widget.selected == 4,
-              onPressed: () => widget.onPressed(4),
-              defaultColor: AppColor.BEBFC4,
-              selectedColor: AppColor.black,
-            )
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:app_car_rescue/pages/home/orders/orders_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'drawer/cr_zoom_drawer.dart';
@@ -46,7 +47,8 @@ class _MainPageState extends State<MainPage> {
             children: const [
               HomePage(),
               MapPage(),
-              // MapPage(),
+              OrdersPage(),
+
               // CartPage(),
               // CalendarPage()
             ],
