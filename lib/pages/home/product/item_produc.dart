@@ -1,6 +1,5 @@
 import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/constants/app_style.dart';
-import 'package:app_car_rescue/pages/home/orders/orders_page.dart';
 import 'package:app_car_rescue/pages/home/product/rating_bar.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:app_car_rescue/utils/spaces.dart';

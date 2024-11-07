@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:app_car_rescue/pages/home/orders/rating/rating_bar_custom.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-
 import '../../../../gen/assets.gen.dart';
 
 class DetailsPage extends StatelessWidget {
@@ -221,7 +220,7 @@ class DetailsPage extends StatelessWidget {
 
   String _getButtonText() {
     if (sourcePage == 'PendingPage') {
-      return 'Cancel Order';
+      return 'Cancel';
     } else if (sourcePage == 'CancelledPage') {
       return 'Reorder';
     } else {

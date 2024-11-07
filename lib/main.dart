@@ -44,7 +44,7 @@
 // }
 
 import 'package:app_car_rescue/firebase_options.dart';
-import 'package:app_car_rescue/pages/splash/splash_page.dart';
+import 'package:app_car_rescue/pages/auth/register_page.dart';
 import 'package:app_car_rescue/services/shared_prefs.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Product Sans Medium'),
-      home: const SplashPage(),
+      home: const RegisterPage(),
     );
   }
 }

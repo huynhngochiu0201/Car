@@ -16,6 +16,7 @@ import '../../components/text_field/cr_text_field.dart';
 import '../../components/text_field/cr_text_field_password.dart';
 import '../../constants/app_color.dart';
 import '../../constants/app_style.dart';
+import '../../gen/assets.gen.dart';
 import '../../utils/spaces.dart';
 import '../../utils/validator.dart';
 
@@ -63,7 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future<void> pickAvatar() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
+      type: FileType.media,
     );
     if (result == null) return;
     fileAvatar = File(result.files.single.path!);
@@ -137,18 +138,22 @@ class _RegisterPageState extends State<RegisterPage> {
             child: ListView(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 93.0),
-                  child: SizedBox(
-                      height: 96,
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          'Log into \n your account',
-                          style: AppStyle.bold_24,
-                        ),
-                      )),
+                  padding: const EdgeInsets.only(top: 30.0),
+                  child: Center(
+                    child: _buildAvatar(),
+                  ),
                 ),
-                spaceH48,
+                spaceH20,
+                SizedBox(
+                    height: 96,
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Log into \n your account',
+                        style: AppStyle.bold_24,
+                      ),
+                    )),
+                spaceH20,
                 CrTextField(
                   hintText: 'Enter your name',
                   textInputAction: TextInputAction.next,
@@ -221,6 +226,63 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  GestureDetector _buildAvatar() {
+    return GestureDetector(
+      onTap: isLoading == true ? null : pickAvatar,
+      child: Stack(
+        children: [
+          isLoading == true
+              ? CircleAvatar(
+                  radius: 34.6,
+                  backgroundColor: Colors.orange.shade200,
+                  child: const SizedBox.square(
+                    dimension: 36.0,
+                    child: CircularProgressIndicator(
+                      color: AppColor.pink,
+                      strokeWidth: 2.6,
+                    ),
+                  ),
+                )
+              : Container(
+                  margin: const EdgeInsets.all(3.6),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    // border: Border.all(color: Colors.grey),
+                  ),
+                  child: CircleAvatar(
+                    radius: 34.6,
+                    backgroundImage: fileAvatar == null
+                        // ? Assets.images.defaultAvatar.provider()
+                        // ? AssetImage(Assets.images.defaultAvatar.path)
+                        //     as ImageProvider
+                        ? Image.asset(Assets.images.dummyCategory.path).image
+                        : FileImage(
+                            File(fileAvatar?.path ?? ''),
+                          ),
+                  ),
+                ),
+          const Positioned(
+            right: 0.0,
+            bottom: 0.0,
+            child: Icon(Icons.favorite, size: 26.0, color: AppColor.red),
+            // child: Container(
+            //   padding: const EdgeInsets.all(4.0),
+            //   decoration: BoxDecoration(
+            //       color: Colors.white,
+            //       shape: BoxShape.circle,
+            //       border: Border.all(color: Colors.pink)),
+            //   child: const Icon(
+            //     Icons.camera_alt_outlined,
+            //     size: 14.6,
+            //     color: AppColor.pink,
+            //   ),
+            // ),
+          ),
+        ],
       ),
     );
   }

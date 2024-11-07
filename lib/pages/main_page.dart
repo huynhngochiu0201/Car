@@ -1,12 +1,11 @@
 import 'package:app_car_rescue/pages/home/orders/orders_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
-import 'drawer/cr_zoom_drawer.dart';
-import 'drawer/drawer_page.dart';
 import '../constants/app_color.dart';
 import '../components/navigator/app_bottomnavbar1.dart';
 import 'home/home_page.dart';
 import 'home/map/map_page.dart';
+import 'home/profile/profile_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({
@@ -39,20 +38,14 @@ class _MainPageState extends State<MainPage> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         backgroundColor: AppColor.bgColor,
-        body: CrZoomDrawer(
-          controller: zoomDrawerController,
-          menuScreen: DrawerPage(pageIndex: selectedIndex),
-          screen: IndexedStack(
-            index: currentIndex,
-            children: const [
-              HomePage(),
-              MapPage(),
-              OrdersPage(),
-
-              // CartPage(),
-              // CalendarPage()
-            ],
-          ),
+        body: IndexedStack(
+          index: currentIndex,
+          children: const [
+            HomePage(),
+            MapPage(),
+            OrdersPage(),
+            ProfilePage(),
+          ],
         ),
         bottomNavigationBar: BottomNavBarCurvedFb1(
           selected: currentIndex,

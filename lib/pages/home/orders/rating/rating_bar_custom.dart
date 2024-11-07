@@ -134,7 +134,7 @@ class _RatingBarCustomState extends State<RatingBarCustom> {
                                   horizontal: 10.0, vertical: 10.0),
                               child: TextFormField(
                                 controller: _reviews[index]['comment'],
-                                maxLines: 5,
+                                maxLines: 4,
                                 decoration: InputDecoration(
                                   hintStyle: AppStyle.regular_12
                                       .copyWith(color: AppColor.grey500),
