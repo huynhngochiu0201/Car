@@ -38,6 +38,7 @@ class CrTextField extends StatelessWidget {
           height: 48.6,
         ),
         TextFormField(
+          
           maxLines: maxLines,
           controller: controller,
           focusNode: focusNode,
@@ -48,6 +49,7 @@ class CrTextField extends StatelessWidget {
           readOnly: readOnly,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
+            
             floatingLabelBehavior: FloatingLabelBehavior.always,
             filled: true,
             fillColor: AppColor.white,

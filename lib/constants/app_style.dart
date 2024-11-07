@@ -105,7 +105,19 @@ class AppStyle {
     color: AppColor.whiteColor,
   );
   static TextStyle semibold_12 = TextStyle(
-    fontSize: 14.0,
+    fontSize: 12.0,
+    fontWeight: semibold,
+    color: AppColor.whiteColor,
+  );
+
+  static TextStyle semibold_11 = TextStyle(
+    fontSize: 11.0,
+    fontWeight: semibold,
+    color: AppColor.whiteColor,
+  );
+
+  static TextStyle semibold_10 = TextStyle(
+    fontSize: 10.0,
     fontWeight: semibold,
     color: AppColor.whiteColor,
   );

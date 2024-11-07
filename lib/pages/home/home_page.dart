@@ -122,8 +122,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Text(
                       'Products',
-                      style: AppStyle.bold_20
-                          .copyWith(fontFamily: 'Product Sans Medium'),
+                      style: AppStyle.bold_20,
                     ),
                     GestureDetector(
                       onTap: () {
@@ -133,8 +132,7 @@ class _HomePageState extends State<HomePage> {
                       },
                       child: Text(
                         isGridView ? 'Show list' : 'Show all',
-                        style: AppStyle.regular_12
-                            .copyWith(fontFamily: 'Product Sans'),
+                        style: AppStyle.regular_12,
                       ),
                     ),
                   ],
@@ -478,15 +476,12 @@ class _HomePageState extends State<HomePage> {
                     spaceH8,
                     Text(
                       product.name,
-                      style: AppStyle.regular_12.copyWith(
-                        fontFamily: 'Product Sans Medium',
-                      ),
+                      style: AppStyle.regular_12,
                     ),
                     spaceH2,
                     Text(
                       product.price.toVND(),
-                      style:
-                          AppStyle.bold_16.copyWith(fontFamily: 'Product Sans'),
+                      style: AppStyle.bold_16,
                     ),
                     RatingBar.readOnly(
                       filledColor: AppColor.E508A7B,

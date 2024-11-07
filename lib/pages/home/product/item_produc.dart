@@ -1,5 +1,6 @@
 import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/constants/app_style.dart';
+import 'package:app_car_rescue/pages/home/orders/orders_page.dart';
 import 'package:app_car_rescue/pages/home/product/rating_bar.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
@@ -14,6 +15,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../models/cart_model.dart';
 import '../../../models/product_model.dart';
 import '../../../services/remote/cart_service.dart';
+import '../cart/cart_page.dart';
 
 class ItemProduct extends StatefulWidget {
   final ProductModel product;
@@ -28,7 +30,6 @@ class _ItemProductState extends State<ItemProduct> {
   final CartService _cartService = CartService();
   bool isExpanded = false;
   bool _isAddingToCart = false;
-  bool isFavorite = false;
   bool _isDescriptionExpanded = true;
   bool _isReviewsExpanded = true;
 
@@ -147,19 +148,13 @@ class _ItemProductState extends State<ItemProduct> {
                                 ),
                                 child: GestureDetector(
                                   onTap: () {
-                                    setState(() {
-                                      isFavorite = !isFavorite;
-                                    });
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => CartPage()));
                                   },
-                                  child: Center(
-                                    child: SvgPicture.asset(
-                                      height: 18,
-                                      width: 18,
-                                      Assets.icons.heart1,
-                                      color:
-                                          isFavorite ? Colors.red : Colors.grey,
-                                    ),
-                                  ),
+                                  child:
+                                      Center(child: Icon(Icons.shopping_cart)),
                                 ),
                               ),
                             ],

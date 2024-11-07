@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: ''),
+      theme: ThemeData(fontFamily: 'Product Sans Medium'),
       home: const SplashPage(),
     );
   }

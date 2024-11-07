@@ -51,6 +51,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/dot....svg
   String get dot => 'assets/icons/dot....svg';
 
+  /// File path: assets/icons/gift.svg
+  String get gift => 'assets/icons/gift.svg';
+
   /// File path: assets/icons/heart1.svg
   String get heart1 => 'assets/icons/heart1.svg';
 
@@ -99,6 +102,7 @@ class $AssetsIconsGen {
         deleteSvgrepoCom,
         doneOder,
         dot,
+        gift,
         heart1,
         heart2,
         home,

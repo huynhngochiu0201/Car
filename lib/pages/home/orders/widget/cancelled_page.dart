@@ -54,7 +54,7 @@ class CancelledPageState extends State<CancelledPage> {
             onRefresh: _refreshOrders,
             child: ListView.builder(
               padding:
-                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 32.0),
               itemCount: orders.length,
               itemBuilder: (BuildContext context, int index) {
                 var order = orders[index];
@@ -127,18 +127,35 @@ class CancelledPageState extends State<CancelledPage> {
                                 color: AppColor.EC50000,
                               ),
                             ),
+                            // CrElevatedButton.outline(
+                            //   onPressed: () {
+                            //     Navigator.push(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //             builder: (context) =>
+                            //                 DetailsPage(order: data)));
+                            //   },
+                            //   text: 'Details',
+                            //   width: 100.0,
+                            //   height: 35.0,
+                            //)
                             CrElevatedButton.outline(
                               onPressed: () {
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            DetailsPage(order: data)));
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailsPage(
+                                      order: data,
+                                      sourcePage:
+                                          'CancelledPage', // Thêm sourcePage vào đây
+                                    ),
+                                  ),
+                                );
                               },
                               text: 'Details',
                               width: 100.0,
                               height: 35.0,
-                            )
+                            ),
                           ],
                         ),
                       ],
