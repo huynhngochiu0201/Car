@@ -8,7 +8,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
 import '../../components/button/cr_elevated_button.dart';
 import '../../components/snack_bar/td_snack_bar.dart';
 import '../../components/snack_bar/top_snack_bar.dart';
@@ -16,7 +15,6 @@ import '../../components/text_field/cr_text_field.dart';
 import '../../components/text_field/cr_text_field_password.dart';
 import '../../constants/app_color.dart';
 import '../../constants/app_style.dart';
-import '../../gen/assets.gen.dart';
 import '../../utils/spaces.dart';
 import '../../utils/validator.dart';
 

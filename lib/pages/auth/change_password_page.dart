@@ -1,5 +1,4 @@
 import 'package:app_car_rescue/components/app_bar/custom_app_bar.dart';
-import 'package:app_car_rescue/constants/app_style.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../components/button/cr_elevated_button.dart';

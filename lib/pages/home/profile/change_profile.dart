@@ -1,12 +1,10 @@
 import 'dart:io';
 import 'dart:developer' as dev;
 import 'package:app_car_rescue/components/app_bar/custom_app_bar.dart';
-import 'package:app_car_rescue/constants/app_style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
 import '../../../components/button/cr_elevated_button.dart';
 import '../../../components/snack_bar/td_snack_bar.dart';
 import '../../../components/snack_bar/top_snack_bar.dart';
