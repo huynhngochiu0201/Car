@@ -1,11 +1,11 @@
+import 'package:app_car_rescue/components/app_bar/custom_app_bar.dart';
+import 'package:app_car_rescue/constants/app_style.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../components/button/cr_elevated_button.dart';
 import '../../components/snack_bar/td_snack_bar.dart';
 import '../../components/snack_bar/top_snack_bar.dart';
 import '../../components/text_field/cr_text_field_password.dart';
-import '../../constants/app_color.dart';
-import '../../gen/assets.gen.dart';
 import '../../services/shared_prefs.dart';
 import '../../utils/validator.dart';
 import 'login_page.dart';
@@ -66,22 +66,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        appBar: CustomAppBar(title: 'Change Password'),
         body: Form(
           key: formKey,
           child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0).copyWith(
-                top: MediaQuery.of(context).padding.top + 38.0, bottom: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0)
+                .copyWith(top: MediaQuery.of(context).padding.bottom + 20.0),
             children: [
-              const Center(
-                child: Text('Change Password',
-                    style: TextStyle(color: AppColor.red, fontSize: 24.0)),
-              ),
-              const SizedBox(height: 38.0),
-              Center(
-                child: Image.asset(Assets.images.autocarlogo.path,
-                    width: 90.0, fit: BoxFit.cover),
-              ),
-              const SizedBox(height: 46.0),
               CrTextFieldPassword(
                 controller: currentPasswordController,
                 hintText: 'Current Password',

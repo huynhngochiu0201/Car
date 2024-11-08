@@ -132,29 +132,30 @@ class _RegisterPageState extends State<RegisterPage> {
       child: Scaffold(
         backgroundColor: AppColor.white,
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 33.0),
+          padding: const EdgeInsets.symmetric(horizontal: 32.0),
           child: Form(
             key: formKey,
             child: ListView(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 30.0),
-                  child: Center(
-                    child: _buildAvatar(),
-                  ),
-                ),
                 spaceH20,
-                SizedBox(
-                    height: 96,
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Log into \n your account',
-                        style: AppStyle.bold_24,
-                      ),
-                    )),
+                Padding(
+                  padding: const EdgeInsets.only(top: 90.0),
+                  child: SizedBox(
+                      height: 96,
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          'Log into \n your account',
+                          style: AppStyle.bold_24,
+                        ),
+                      )),
+                ),
+                // Center(
+                //   child: _buildAvatar(),
+                // ),
                 spaceH20,
                 CrTextField(
+                  maxLines: 1,
                   hintText: 'Enter your name',
                   textInputAction: TextInputAction.next,
                   validator: Validator.required,
@@ -162,6 +163,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 spaceH20,
                 CrTextField(
+                  maxLines: 1,
                   hintText: 'Email address',
                   controller: emailController,
                   textInputAction: TextInputAction.next,
@@ -230,60 +232,60 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  GestureDetector _buildAvatar() {
-    return GestureDetector(
-      onTap: isLoading == true ? null : pickAvatar,
-      child: Stack(
-        children: [
-          isLoading == true
-              ? CircleAvatar(
-                  radius: 34.6,
-                  backgroundColor: Colors.orange.shade200,
-                  child: const SizedBox.square(
-                    dimension: 36.0,
-                    child: CircularProgressIndicator(
-                      color: AppColor.pink,
-                      strokeWidth: 2.6,
-                    ),
-                  ),
-                )
-              : Container(
-                  margin: const EdgeInsets.all(3.6),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    // border: Border.all(color: Colors.grey),
-                  ),
-                  child: CircleAvatar(
-                    radius: 34.6,
-                    backgroundImage: fileAvatar == null
-                        // ? Assets.images.defaultAvatar.provider()
-                        // ? AssetImage(Assets.images.defaultAvatar.path)
-                        //     as ImageProvider
-                        ? Image.asset(Assets.images.dummyCategory.path).image
-                        : FileImage(
-                            File(fileAvatar?.path ?? ''),
-                          ),
-                  ),
-                ),
-          const Positioned(
-            right: 0.0,
-            bottom: 0.0,
-            child: Icon(Icons.favorite, size: 26.0, color: AppColor.red),
-            // child: Container(
-            //   padding: const EdgeInsets.all(4.0),
-            //   decoration: BoxDecoration(
-            //       color: Colors.white,
-            //       shape: BoxShape.circle,
-            //       border: Border.all(color: Colors.pink)),
-            //   child: const Icon(
-            //     Icons.camera_alt_outlined,
-            //     size: 14.6,
-            //     color: AppColor.pink,
-            //   ),
-            // ),
-          ),
-        ],
-      ),
-    );
-  }
+  // GestureDetector _buildAvatar() {
+  //   return GestureDetector(
+  //     onTap: isLoading == true ? null : pickAvatar,
+  //     child: Stack(
+  //       children: [
+  //         isLoading == true
+  //             ? CircleAvatar(
+  //                 radius: 34.6,
+  //                 backgroundColor: Colors.orange.shade200,
+  //                 child: const SizedBox.square(
+  //                   dimension: 36.0,
+  //                   child: CircularProgressIndicator(
+  //                     color: AppColor.pink,
+  //                     strokeWidth: 2.6,
+  //                   ),
+  //                 ),
+  //               )
+  //             : Container(
+  //                 margin: const EdgeInsets.all(3.6),
+  //                 decoration: BoxDecoration(
+  //                   shape: BoxShape.circle,
+  //                   // border: Border.all(color: Colors.grey),
+  //                 ),
+  //                 child: CircleAvatar(
+  //                   radius: 34.6,
+  //                   backgroundImage: fileAvatar == null
+  //                       // ? Assets.images.defaultAvatar.provider()
+  //                       // ? AssetImage(Assets.images.defaultAvatar.path)
+  //                       //     as ImageProvider
+  //                       ? Image.asset(Assets.images.dummyCategory.path).image
+  //                       : FileImage(
+  //                           File(fileAvatar?.path ?? ''),
+  //                         ),
+  //                 ),
+  //               ),
+  //         const Positioned(
+  //           right: 0.0,
+  //           bottom: 0.0,
+  //           child: Icon(Icons.favorite, size: 26.0, color: AppColor.red),
+  //           // child: Container(
+  //           //   padding: const EdgeInsets.all(4.0),
+  //           //   decoration: BoxDecoration(
+  //           //       color: Colors.white,
+  //           //       shape: BoxShape.circle,
+  //           //       border: Border.all(color: Colors.pink)),
+  //           //   child: const Icon(
+  //           //     Icons.camera_alt_outlined,
+  //           //     size: 14.6,
+  //           //     color: AppColor.pink,
+  //           //   ),
+  //           // ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

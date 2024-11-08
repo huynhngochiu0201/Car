@@ -54,6 +54,7 @@ Widget spaceH48 = SizedBox(height: 48);
 Widget spaceH50 = SizedBox(height: 50);
 Widget spaceH52 = SizedBox(height: 52);
 Widget spaceH54 = SizedBox(height: 54);
+Widget spaceH58 = SizedBox(height: 58);
 Widget spaceH64 = SizedBox(height: 64);
 Widget spaceH68 = SizedBox(height: 68);
 Widget spaceH72 = SizedBox(height: 72);

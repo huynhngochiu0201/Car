@@ -1,12 +1,16 @@
+import 'package:app_car_rescue/constants/app_style.dart';
 import 'package:app_car_rescue/gen/assets.gen.dart';
+import 'package:app_car_rescue/pages/home/profile/change_profile.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../components/app_dialog/app_dialog.dart';
 import '../../../constants/app_color.dart';
 import '../../../services/shared_prefs.dart';
 import '../../auth/change_password_page.dart';
 import '../../auth/login_page.dart';
+import 'language/language_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -41,22 +45,16 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       Text(
                         'Welcome',
-                        style: TextStyle(color: AppColor.red, fontSize: 20.0),
+                        style: AppStyle.bold_18,
                       ),
-                      Text(
-                        SharedPrefs.user?.name ?? '',
-                        style: const TextStyle(
-                          color: AppColor.brown,
-                          fontSize: 16.8,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      Text(SharedPrefs.user?.name ?? '',
+                          style: AppStyle.regular_14),
                     ],
                   ),
                 ],
               ),
             ),
-            spaceH54,
+            spaceH58,
             Container(
               decoration: BoxDecoration(
                 color: AppColor.white,
@@ -64,6 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
                     blurRadius: 5,
                     offset: Offset(0, 3),
                   ),
@@ -80,15 +79,18 @@ class _ProfilePageState extends State<ProfilePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    const ChangePasswordPage(),
+                                builder: (context) => const ChangeProfile(),
                               ));
                         },
                         behavior: HitTestBehavior.translucent,
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(Icons.lock_outline),
-                            Text('Change Password'),
+                            SvgPicture.asset(
+                              Assets.icons.profile,
+                              color: AppColor.black,
+                            ),
+                            spaceW10,
+                            Text('Change Profile'),
                           ],
                         ),
                       ),
@@ -106,9 +108,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               ));
                         },
                         behavior: HitTestBehavior.translucent,
-                        child: const Row(
+                        child: Row(
                           children: [
                             Icon(Icons.lock_outline),
+                            spaceW10,
                             Text('Change Password'),
                           ],
                         ),
@@ -122,15 +125,15 @@ class _ProfilePageState extends State<ProfilePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    const ChangePasswordPage(),
+                                builder: (context) => const LanguagePage(),
                               ));
                         },
                         behavior: HitTestBehavior.translucent,
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(Icons.lock_outline),
-                            Text('Change Password'),
+                            SvgPicture.asset(Assets.icons.language),
+                            spaceW10,
+                            Text('Language'),
                           ],
                         ),
                       ),
@@ -158,9 +161,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,
-                        child: const Row(
+                        child: Row(
                           children: [
                             Icon(Icons.logout),
+                            spaceW10,
                             Text(
                               'Logout',
                             ),

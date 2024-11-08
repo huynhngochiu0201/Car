@@ -114,6 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 spaceH48,
                 CrTextField(
+                  maxLines: 1,
                   controller: emailController,
                   hintText: 'Email address',
                   validator: Validator.email,

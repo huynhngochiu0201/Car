@@ -1,5 +1,6 @@
 import 'package:app_car_rescue/gen/assets.gen.dart';
 import 'package:app_car_rescue/pages/home/cart/cart_page.dart';
+import 'package:app_car_rescue/pages/home/profile/notification/notification_page.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,7 +15,8 @@ class CrAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.title,
     this.avatar,
     this.color = AppColor.white,
-    this.menuIconPath, // Add the menu icon SVG path as a new property
+    this.menuIconPath,
+    this.hasNotification = false, // Thêm thuộc tính này
   });
 
   final VoidCallback? leftPressed;
@@ -22,7 +24,8 @@ class CrAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final String? avatar;
   final Color color;
-  final String? menuIconPath; // This will be the SVG path for the menu icon
+  final String? menuIconPath;
+  final bool hasNotification;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +59,7 @@ class CrAppBar extends StatelessWidget implements PreferredSizeWidget {
                       width: 18.0,
                     ),
                     spaceW10,
-                    Text('Seach...')
+                    const Text('Search...'),
                   ],
                 ),
               ),
@@ -66,29 +69,50 @@ class CrAppBar extends StatelessWidget implements PreferredSizeWidget {
           Row(
             children: [
               GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CartPage()),
-                    );
-                  },
-                  child: Icon(Icons.shopping_cart)),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CartPage()),
+                  );
+                },
+                child: const Icon(Icons.shopping_cart),
+              ),
               spaceW10,
               GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SearchPage()),
-                    );
-                  },
-                  child: SvgPicture.asset(
-                    Assets.icons.notification,
-                    color: AppColor.black,
-                    height: 20.0,
-                    width: 20.0,
-                  )),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => NotificationPage()),
+                  );
+                },
+                child: Stack(
+                  clipBehavior:
+                      Clip.none, // Để cho chấm đỏ có thể đè lên ngoài Stack
+                  children: [
+                    SvgPicture.asset(
+                      Assets.icons.notification,
+                      color: AppColor.black,
+                      height: 20.0,
+                      width: 20.0,
+                    ),
+                    // if (hasNotification) // Nếu có thông báo, hiển thị chấm đỏ
+                    Positioned(
+                      right: -0.1, // Vị trí chấm đỏ
+                      top: -0.1,
+                      child: Container(
+                        width: 8.0,
+                        height: 8.0,
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

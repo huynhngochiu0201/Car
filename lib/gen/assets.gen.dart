@@ -63,6 +63,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/home.svg
   String get home => 'assets/icons/home.svg';
 
+  /// File path: assets/icons/language.svg
+  String get language => 'assets/icons/language.svg';
+
   /// File path: assets/icons/map-pin-svgrepo-com.svg
   String get mapPinSvgrepoCom => 'assets/icons/map-pin-svgrepo-com.svg';
 
@@ -106,6 +109,7 @@ class $AssetsIconsGen {
         heart1,
         heart2,
         home,
+        language,
         mapPinSvgrepoCom,
         menuIcon,
         menuVector,
