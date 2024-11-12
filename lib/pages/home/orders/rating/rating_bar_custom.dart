@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 import '../../../../services/remote/review_service.dart';
 
 class RatingBarCustom extends StatefulWidget {
-  final List<Map<String, dynamic>> products; // Danh sách sản phẩm trong đơn hàng
+  final List<Map<String, dynamic>>
+      products; // Danh sách sản phẩm trong đơn hàng
 
   const RatingBarCustom({super.key, required this.products});
 
@@ -44,8 +45,8 @@ class _RatingBarCustomState extends State<RatingBarCustom> {
     for (var review in _reviews) {
       if (review['rating'] > 0 && review['comment'].text.isNotEmpty) {
         await ReviewService().submitReview(
-          userId: user.uid, // Truyền userId vào đây
-          productId: review['productId'],
+          userId: user.uid,
+          productId: review['productId'], // Truyền productId cho từng đánh giá
           rating: review['rating'],
           comment: review['comment'].text,
         );

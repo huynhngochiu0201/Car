@@ -1,6 +1,6 @@
 import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/constants/app_style.dart';
-import 'package:app_car_rescue/pages/home/product/rating_bar.dart';
+import 'package:app_car_rescue/pages/home/product/rating_review_bar.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
@@ -288,10 +288,7 @@ class _ItemProductState extends State<ItemProduct> {
                         ),
                       ),
                       Divider(),
-                      if (_isReviewsExpanded)
-                        CrRatingBar(
-                          productId: widget.product.id,
-                        ),
+                      if (_isReviewsExpanded) CrRatingReview(),
                       spaceH10,
                     ],
                   ),

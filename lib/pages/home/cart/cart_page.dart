@@ -423,12 +423,15 @@ class CartPageState extends State<CartPage> {
 
               final cartItems = snapshot.data!;
 
-              return ListView.builder(
-                itemCount: cartItems.length,
-                itemBuilder: (context, index) {
-                  final cartItem = cartItems[index];
-                  return _buildCartItem(cartItem);
-                },
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: ListView.builder(
+                  itemCount: cartItems.length,
+                  itemBuilder: (context, index) {
+                    final cartItem = cartItems[index];
+                    return _buildCartItem(cartItem);
+                  },
+                ),
               );
             },
           ),
@@ -450,12 +453,12 @@ class CartPageState extends State<CartPage> {
 
   Widget _buildCartItem(CartModel cartItem) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
       child: Container(
         height: 110.0,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(35.0),
+          borderRadius: BorderRadius.circular(10.0),
           boxShadow: const [
             BoxShadow(
                 color: Colors.black26, offset: Offset(0, 2), blurRadius: 20.0),
@@ -491,8 +494,8 @@ class CartPageState extends State<CartPage> {
       width: 100.0,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20),
-          bottomLeft: Radius.circular(20.0),
+          topLeft: Radius.circular(10),
+          bottomLeft: Radius.circular(10.0),
         ),
         color: AppColor.white,
         image: DecorationImage(
@@ -532,7 +535,7 @@ class CartPageState extends State<CartPage> {
           width: 75.0,
           decoration: BoxDecoration(
             border: Border.all(width: 2, color: Colors.grey),
-            borderRadius: BorderRadius.circular(20.0),
+            borderRadius: BorderRadius.circular(10.0),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),

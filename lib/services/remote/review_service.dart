@@ -2,9 +2,7 @@ import 'package:app_car_rescue/models/review_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ReviewService {
-  final CollectionReference _reviewsCollection =
-      FirebaseFirestore.instance.collection('reviews');
-
+  // Thêm đánh giá vào subcollection 'reviews' trong tài liệu của sản phẩm
   Future<void> submitReview({
     required String userId,
     required String productId,
@@ -12,9 +10,13 @@ class ReviewService {
     required String comment,
   }) async {
     try {
-      await _reviewsCollection.add({
+      // Truy cập subcollection 'reviews' trong sản phẩm có ID productId
+      await FirebaseFirestore.instance
+          .collection('products')
+          .doc(productId)
+          .collection('reviews')
+          .add({
         'userId': userId,
-        'productId': productId,
         'rating': rating,
         'comment': comment,
         'timestamp': Timestamp.now(),
@@ -25,10 +27,13 @@ class ReviewService {
     }
   }
 
+  // Lấy danh sách đánh giá từ subcollection 'reviews' trong sản phẩm có ID productId
   Future<List<ReviewModel>> getReviews(String productId) async {
     try {
-      QuerySnapshot querySnapshot = await _reviewsCollection
-          .where('productId', isEqualTo: productId)
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('products')
+          .doc(productId)
+          .collection('reviews')
           .orderBy('timestamp', descending: true)
           .get();
 
