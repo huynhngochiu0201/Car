@@ -95,7 +95,7 @@ class CrAppBar extends StatelessWidget implements PreferredSizeWidget {
                       height: 20.0,
                       width: 20.0,
                     ),
-                    // if (hasNotification) // Nếu có thông báo, hiển thị chấm đỏ
+                    //if (hasNotification) // Nếu có thông báo, hiển thị chấm đỏ
                     Positioned(
                       right: -0.1, // Vị trí chấm đỏ
                       top: -0.1,

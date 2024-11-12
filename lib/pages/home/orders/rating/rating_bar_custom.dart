@@ -4,12 +4,12 @@ import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/constants/app_style.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../../services/remote/review_service.dart';
 
 class RatingBarCustom extends StatefulWidget {
-  final List<Map<String, dynamic>>
-      products; // Danh sách sản phẩm trong đơn hàng
+  final List<Map<String, dynamic>> products; // Danh sách sản phẩm trong đơn hàng
 
   const RatingBarCustom({super.key, required this.products});
 
@@ -33,9 +33,18 @@ class _RatingBarCustomState extends State<RatingBarCustom> {
   }
 
   Future<void> _submitReviews() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please log in to submit a review')),
+      );
+      return;
+    }
+
     for (var review in _reviews) {
       if (review['rating'] > 0 && review['comment'].text.isNotEmpty) {
         await ReviewService().submitReview(
+          userId: user.uid, // Truyền userId vào đây
           productId: review['productId'],
           rating: review['rating'],
           comment: review['comment'].text,
@@ -44,7 +53,7 @@ class _RatingBarCustomState extends State<RatingBarCustom> {
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Đã gửi đánh giá thành công')),
+      const SnackBar(content: Text('Reviews submitted successfully')),
     );
     Navigator.pop(context);
   }

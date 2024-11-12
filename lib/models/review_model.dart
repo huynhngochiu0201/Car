@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Review {
+class ReviewModel {
   final String userId;
   final String productId;
   final double rating;
   final String comment;
   final Timestamp timestamp;
 
-  Review({
+  ReviewModel({
     required this.userId,
     required this.productId,
     required this.rating,
@@ -27,8 +27,8 @@ class Review {
   }
 
   // Create a Review object from JSON data from Firestore
-  factory Review.fromJson(Map<String, dynamic> json) {
-    return Review(
+  factory ReviewModel.fromJson(Map<String, dynamic> json) {
+    return ReviewModel(
       userId: json['userId'] as String,
       productId: json['productId'] as String,
       rating: (json['rating'] as num).toDouble(),

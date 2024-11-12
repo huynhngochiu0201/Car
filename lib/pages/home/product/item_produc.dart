@@ -51,7 +51,7 @@ class _ItemProductState extends State<ItemProduct> {
       }
 
       CartModel cartItem = CartModel(
-        userId: user.uid,
+        userId: user.email!, // Sử dụng email làm userId
         productId: widget.product.id.toString(),
         productName: widget.product.name,
         productImage: widget.product.image,
@@ -288,7 +288,10 @@ class _ItemProductState extends State<ItemProduct> {
                         ),
                       ),
                       Divider(),
-                      if (_isReviewsExpanded) CrRatingBar(),
+                      if (_isReviewsExpanded)
+                        CrRatingBar(
+                          productId: widget.product.id,
+                        ),
                       spaceH10,
                     ],
                   ),
