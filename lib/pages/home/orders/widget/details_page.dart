@@ -4,13 +4,14 @@ import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/constants/app_style.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:app_car_rescue/pages/home/orders/rating/rating_bar_custom.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import '../../../../gen/assets.gen.dart';
 
-class DetailsPage extends StatelessWidget {
+class DetailsPage extends StatefulWidget {
   final Map<String, dynamic> order;
   final String sourcePage;
 
@@ -21,9 +22,14 @@ class DetailsPage extends StatelessWidget {
       : cartData = List<Map<String, dynamic>>.from(order['cartData'] ?? []);
 
   @override
+  State<DetailsPage> createState() => _DetailsPageState();
+}
+
+class _DetailsPageState extends State<DetailsPage> {
+  @override
   Widget build(BuildContext context) {
-    final String address = order['address'];
-    final double totalPrice = order['totalPrice'] ?? 0.0;
+    final String address = widget.order['address'];
+    final double totalPrice = widget.order['totalPrice'] ?? 0.0;
 
     return Scaffold(
       backgroundColor: AppColor.white,
@@ -88,22 +94,27 @@ class DetailsPage extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Delivery address: $address ',
-                                    style: AppStyle.bold_14,
-                                  ),
-                                  spaceH10,
-                                  Row(
-                                    children: [
-                                      Text('Total: ', style: AppStyle.bold_14),
-                                      Text(totalPrice.toVND(),
-                                          style: AppStyle.bold_14),
-                                    ],
-                                  ),
-                                ],
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Address: $address ',
+                                      style: AppStyle.bold_14,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                    ),
+                                    spaceH10,
+                                    Row(
+                                      children: [
+                                        Text('Total: ',
+                                            style: AppStyle.bold_14),
+                                        Text(totalPrice.toVND(),
+                                            style: AppStyle.bold_14),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -111,9 +122,9 @@ class DetailsPage extends StatelessWidget {
                           ListView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: cartData.length,
+                            itemCount: widget.cartData.length,
                             itemBuilder: (context, index) {
-                              var product = cartData[index];
+                              var product = widget.cartData[index];
                               return GestureDetector(
                                 onTap: () {
                                   // Handle tap on product item here, e.g., show product details
@@ -219,9 +230,9 @@ class DetailsPage extends StatelessWidget {
   }
 
   String _getButtonText() {
-    if (sourcePage == 'PendingPage') {
+    if (widget.sourcePage == 'PendingPage') {
       return 'Cancel';
-    } else if (sourcePage == 'CancelledPage') {
+    } else if (widget.sourcePage == 'CancelledPage') {
       return 'Reorder';
     } else {
       return 'Rate';
@@ -229,27 +240,115 @@ class DetailsPage extends StatelessWidget {
   }
 
   void _handleButtonAction(BuildContext context) {
-    if (sourcePage == 'PendingPage') {
-      _cancelOrder();
-    } else if (sourcePage == 'CancelledPage') {
+    if (widget.sourcePage == 'PendingPage') {
+      _cancelOrder(context);
+    } else if (widget.sourcePage == 'CancelledPage') {
       _reorderProducts(context);
-    } else if (sourcePage == 'DeliveredPage') {
+    } else if (widget.sourcePage == 'DeliveredPage') {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => RatingBarCustom(
-            products: cartData,
+            products: widget.cartData,
           ),
         ),
       );
     }
   }
 
-  void _cancelOrder() {
-    print('Order cancelled');
+  void _cancelOrder(BuildContext context) {
+    // Hộp thoại xác nhận hủy đơn hàng
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Cancellation'),
+          content: const Text('Are you sure you want to cancel this order?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () async {
+                try {
+                  // Lấy orderId và cập nhật trạng thái
+                  String? orderId = widget.order['orderId'];
+                  if (orderId != null && orderId.isNotEmpty) {
+                    await FirebaseFirestore.instance
+                        .collection('orders')
+                        .doc(orderId)
+                        .update({'status': 'Cancelled'});
+
+                    // Thông báo hủy thành công
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Order has been cancelled'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+
+                    Navigator.of(context).pop(); // Đóng hộp thoại
+                    Navigator.of(context).pop(); // Trở lại trang trước
+                  } else {
+                    throw 'Order ID not found';
+                  }
+                } catch (e) {
+                  // Thông báo lỗi nếu thất bại
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Failed to cancel order: $e'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
-  void _reorderProducts(BuildContext context) {
-    print('Reorder products');
+  void _reorderProducts(BuildContext context) async {
+    try {
+      // Get the cart data from the current order
+      List<Map<String, dynamic>> cartData = widget.cartData;
+
+      // Create a new order with the same cart items
+      Map<String, dynamic> newOrder = {
+        'cartData': cartData,
+        'totalPrice': widget.order['totalPrice'],
+        'address': widget.order['address'],
+        'uId': widget.order['uId'],
+        'status': 'Pending',
+        'createdAt': Timestamp.now(),
+      };
+
+      // Add the new order to Firestore
+      await FirebaseFirestore.instance.collection('orders').add(newOrder);
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Order has been reordered successfully'),
+          backgroundColor: Colors.green,
+        ),
+      );
+
+      // Navigate back
+      Navigator.of(context).pop();
+    } catch (e) {
+      // Show error message if failed
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to reorder: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 }

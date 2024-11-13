@@ -288,7 +288,8 @@ class _ItemProductState extends State<ItemProduct> {
                         ),
                       ),
                       Divider(),
-                      if (_isReviewsExpanded) CrRatingReview(),
+                      if (_isReviewsExpanded)
+                        CrRatingReview(),
                       spaceH10,
                     ],
                   ),

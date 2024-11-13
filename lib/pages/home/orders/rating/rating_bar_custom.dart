@@ -45,8 +45,8 @@ class _RatingBarCustomState extends State<RatingBarCustom> {
     for (var review in _reviews) {
       if (review['rating'] > 0 && review['comment'].text.isNotEmpty) {
         await ReviewService().submitReview(
-          userId: user.uid,
-          productId: review['productId'], // Truyền productId cho từng đánh giá
+          userEmail: user.email!, // Sử dụng email người dùng thay vì UID
+          productId: review['productId'],
           rating: review['rating'],
           comment: review['comment'].text,
         );

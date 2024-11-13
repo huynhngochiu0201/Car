@@ -19,44 +19,51 @@ class BuildAddressStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'STEP 1',
-            style: AppStyle.regular_12,
-          ),
-          Text(
-            'Shipping',
-            style: AppStyle.bold_24,
-          ),
-          spaceH20,
-          CrTextField(
-            controller: nameController,
-            labelText: 'First name',
-            validator: Validator.required,
-          ),
-          spaceH30,
-          CrTextField(
-            controller: emailController,
-            labelText: 'Email',
-            validator: Validator.email,
-          ),
-          spaceH30,
-          CrTextField(
-            controller: phoneController,
-            labelText: 'Phone Number',
-            validator: Validator.phoneNumber,
-          ),
-          spaceH30,
-          CrTextField(
-            maxLines: 2,
-            controller: addressController,
-            labelText: 'Address',
-            validator: Validator.required,
-          ),
-        ],
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'STEP 1',
+              style: AppStyle.regular_12,
+            ),
+            Text(
+              'Shipping',
+              style: AppStyle.bold_24,
+            ),
+            spaceH20,
+            CrTextField(
+              controller: nameController,
+              labelText: 'First name',
+              validator: Validator.required,
+              textInputAction: TextInputAction.next,
+            ),
+            spaceH30,
+            CrTextField(
+              controller: emailController,
+              labelText: 'Email',
+              validator: Validator.email,
+              textInputAction: TextInputAction.next,
+            ),
+            spaceH30,
+            CrTextField(
+              controller: phoneController,
+              labelText: 'Phone Number',
+              validator: Validator.phoneNumber,
+              textInputAction: TextInputAction.next,
+            ),
+            spaceH30,
+            CrTextField(
+              maxLines: 2,
+              controller: addressController,
+              labelText: 'Address',
+              validator: Validator.required,
+              textInputAction: TextInputAction.done,
+            ),
+          ],
+        ),
       ),
     );
   }

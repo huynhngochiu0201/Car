@@ -92,10 +92,13 @@ class DeliveredPageState extends State<DeliveredPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              'Order #$orderId',
-                              style: AppStyle.bold_18,
-                              overflow: TextOverflow.ellipsis,
+                            Expanded(
+                              child: Text(
+                                'Order# $orderId',
+                                style: AppStyle.bold_18,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                              ),
                             ),
                           ],
                         ),

@@ -171,7 +171,7 @@ class CTDraggableScrollableState extends State<CTDraggableScrollable> {
       child: CrElevatedButton(
         height: 60.0,
         borderRadius: BorderRadius.circular(25.0),
-        text: 'Proceed to checkout ($totalQuantity)',
+        text: 'Proceed to checkout ( $totalQuantity )',
         onPressed: () {
           if (widget._selectedItems.isEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(

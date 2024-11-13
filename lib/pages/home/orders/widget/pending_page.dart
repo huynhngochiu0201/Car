@@ -91,9 +91,13 @@ class PendingPageState extends State<PendingPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              'Order #$orderId',
-                              style: AppStyle.bold_18,
+                            Expanded(
+                              child: Text(
+                                'Order# $orderId',
+                                style: AppStyle.bold_18,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                              ),
                             ),
                           ],
                         ),
@@ -126,30 +130,17 @@ class PendingPageState extends State<PendingPage> {
                                 color: AppColor.ECF6212,
                               ),
                             ),
-                            // CrElevatedButton.outline(
-                            //   onPressed: () {
-                            //     Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //         builder: (context) =>
-                            //             DetailsPage(order: data),
-                            //       ),
-                            //     );
-                            //   },
-                            //   text: 'Details',
-                            //   width: 100.0,
-                            //   height: 35.0,
-                            // ),
-
                             CrElevatedButton.outline(
                               onPressed: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => DetailsPage(
-                                      order: data,
-                                      sourcePage:
-                                          'PendingPage', // Thêm sourcePage vào đây
+                                      order: {
+                                        ...data,
+                                        'orderId': orderId
+                                      }, // Add orderId to the map
+                                      sourcePage: 'PendingPage',
                                     ),
                                   ),
                                 );

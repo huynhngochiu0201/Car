@@ -3,10 +3,9 @@ import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/constants/app_style.dart';
 import 'package:app_car_rescue/gen/assets.gen.dart';
 import 'package:app_car_rescue/pages/home/widget/new_product.dart';
-import 'package:app_car_rescue/pages/home/widget/service.dart';
+import 'package:app_car_rescue/pages/home/service/service.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
-import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import '../../components/app_bar/cr_app_bar.dart';
@@ -159,8 +158,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Text(
                       'New Product',
-                      style: AppStyle.bold_20
-                          .copyWith(fontFamily: 'Product Sans Medium'),
+                      style: AppStyle.bold_20,
                     ),
                   ],
                 ),
@@ -483,14 +481,14 @@ class _HomePageState extends State<HomePage> {
                       product.price.toVND(),
                       style: AppStyle.bold_16,
                     ),
-                    RatingBar.readOnly(
-                      filledColor: AppColor.E508A7B,
-                      size: 19.0,
-                      filledIcon: Icons.star,
-                      emptyIcon: Icons.star_border,
-                      initialRating: 4,
-                      maxRating: 5,
-                    )
+                    // RatingBar.readOnly(
+                    //   filledColor: AppColor.E508A7B,
+                    //   size: 19.0,
+                    //   filledIcon: Icons.star,
+                    //   emptyIcon: Icons.star_border,
+                    //   initialRating: 4,
+                    //   maxRating: 5,
+                    // )
                   ],
                 );
               },

@@ -92,9 +92,13 @@ class CancelledPageState extends State<CancelledPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              'Order #$orderId',
-                              style: AppStyle.bold_18,
+                            Expanded(
+                              child: Text(
+                                'Order# $orderId',
+                                style: AppStyle.bold_18,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                              ),
                             ),
                           ],
                         ),

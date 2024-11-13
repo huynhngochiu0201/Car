@@ -132,6 +132,10 @@ class $AssetsImagesGen {
   AssetGenImage get bannerVn =>
       const AssetGenImage('assets/images/banner_vn.jpg');
 
+  /// File path: assets/images/car_truck_standard.png
+  AssetGenImage get carTruckStandard =>
+      const AssetGenImage('assets/images/car_truck_standard.png');
+
   /// File path: assets/images/carrescue1.png
   AssetGenImage get carrescue1 =>
       const AssetGenImage('assets/images/carrescue1.png');
@@ -155,6 +159,34 @@ class $AssetsImagesGen {
   /// File path: assets/images/dummy_category.png
   AssetGenImage get dummyCategory =>
       const AssetGenImage('assets/images/dummy_category.png');
+
+  /// File path: assets/images/icob_lop.png
+  AssetGenImage get icobLop =>
+      const AssetGenImage('assets/images/icob_lop.png');
+
+  /// File path: assets/images/mobiel_car1.jpg
+  AssetGenImage get mobielCar1 =>
+      const AssetGenImage('assets/images/mobiel_car1.jpg');
+
+  /// File path: assets/images/mobiel_car2.jpeg
+  AssetGenImage get mobielCar2 =>
+      const AssetGenImage('assets/images/mobiel_car2.jpeg');
+
+  /// File path: assets/images/mobiel_car3.jpg
+  AssetGenImage get mobielCar3 =>
+      const AssetGenImage('assets/images/mobiel_car3.jpg');
+
+  /// File path: assets/images/mobiel_car4.jpg
+  AssetGenImage get mobielCar4 =>
+      const AssetGenImage('assets/images/mobiel_car4.jpg');
+
+  /// File path: assets/images/mobiel_car5.jpg
+  AssetGenImage get mobielCar5 =>
+      const AssetGenImage('assets/images/mobiel_car5.jpg');
+
+  /// File path: assets/images/pngegg (1).png
+  AssetGenImage get pngegg1 =>
+      const AssetGenImage('assets/images/pngegg (1).png');
 
   /// File path: assets/images/usa.png
   AssetGenImage get usa => const AssetGenImage('assets/images/usa.png');
@@ -186,12 +218,20 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [
         autocarlogo,
         bannerVn,
+        carTruckStandard,
         carrescue1,
         carrescue10,
         carrescue2,
         carrescue8,
         carrescue9,
         dummyCategory,
+        icobLop,
+        mobielCar1,
+        mobielCar2,
+        mobielCar3,
+        mobielCar4,
+        mobielCar5,
+        pngegg1,
         usa,
         vf3R,
         vf3W,
