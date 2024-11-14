@@ -3,7 +3,7 @@ import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../models/product_model.dart';
-import '../product/item_produc.dart';
+import '../product/product_detail_page.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -81,7 +81,8 @@ class SearchPageState extends State<SearchPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ItemProduct(
+                                builder: (context) => ProductDetailPage(
+                                  productId: product.id,
                                   product: productData,
                                 ),
                               ),

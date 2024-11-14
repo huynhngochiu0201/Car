@@ -2,7 +2,26 @@ import 'package:app_car_rescue/models/review_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ReviewService {
-  // Thêm đánh giá vào subcollection 'reviews' trong tài liệu của sản phẩm
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  // Lấy danh sách reviews của sản phẩm
+  Future<List<ReviewModel>> getProductReviews(String productId) async {
+    try {
+      final snapshot = await _firestore
+          .collection('products')
+          .doc(productId)
+          .collection('reviews')
+          .orderBy('createdAt', descending: true)
+          .get();
+
+      return snapshot.docs
+          .map((doc) => ReviewModel.fromJson(doc.data(), doc.id))
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load reviews: $e');
+    }
+  }
+
   Future<void> submitReview({
     required String userEmail,
     required String productId,
@@ -27,42 +46,33 @@ class ReviewService {
     }
   }
 
-  // Lấy danh sách đánh giá từ subcollection 'reviews' trong sản phẩm có ID productId
-  // Future<List<ReviewModel>> getReviews(String productId) async {
-  //   try {
-  //     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-  //         .collection('products')
-  //         .doc(productId)
-  //         .collection('reviews')
-  //         .orderBy('timestamp', descending: true)
-  //         .get();
-
-  //     return querySnapshot.docs
-  //         .map(
-  //             (doc) => ReviewModel.fromJson(doc.data() as Map<String, dynamic>))
-  //         .toList();
-  //   } catch (e) {
-  //     print('Error fetching reviews: $e');
-  //     throw Exception('Failed to fetch reviews');
-  //   }
-  // }
-
-  Future<List<ReviewModel>> getReviews(String productId) async {
+  // Lấy thống kê rating
+  Future<Map<String, dynamic>> getProductRatingStats(String productId) async {
     try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+      final snapshot = await _firestore
           .collection('products')
           .doc(productId)
           .collection('reviews')
-          .orderBy('timestamp', descending: true)
           .get();
 
-      return querySnapshot.docs
-          .map(
-              (doc) => ReviewModel.fromJson(doc.data() as Map<String, dynamic>))
-          .toList();
+      double totalRating = 0;
+      Map<int, int> ratingDistribution = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
+
+      for (var doc in snapshot.docs) {
+        double rating = doc.data()['rating'].toDouble();
+        totalRating += rating;
+        ratingDistribution[rating.round()] =
+            (ratingDistribution[rating.round()] ?? 0) + 1;
+      }
+
+      return {
+        'averageRating':
+            snapshot.docs.isEmpty ? 0.0 : totalRating / snapshot.docs.length,
+        'totalReviews': snapshot.docs.length,
+        'ratingDistribution': ratingDistribution,
+      };
     } catch (e) {
-      print('Error fetching reviews: $e');
-      throw Exception('Failed to fetch reviews');
+      throw Exception('Failed to load rating stats: $e');
     }
   }
 }

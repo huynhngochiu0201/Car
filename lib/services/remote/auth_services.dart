@@ -76,4 +76,24 @@ class AuthService {
   Future<void> signOut() async {
     await _auth.signOut();
   }
+
+  Future<Map<String, String?>> getUserInfo(String userId) async {
+    try {
+      final userDoc = await _firestore.collection('users').doc(userId).get();
+
+      if (userDoc.exists) {
+        String? name = userDoc.data()?['userName'];
+        String? avatar = userDoc.data()?['userAvatar'];
+
+        return {
+          'userName': name,
+          'userAvatar': avatar,
+        };
+      } else {
+        throw Exception("User document does not exist");
+      }
+    } catch (e) {
+      throw Exception('Failed to retrieve user information: $e');
+    }
+  }
 }

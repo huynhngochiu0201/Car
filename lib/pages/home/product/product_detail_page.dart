@@ -1,6 +1,5 @@
 import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/constants/app_style.dart';
-import 'package:app_car_rescue/pages/home/product/rating_review_bar.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
@@ -8,29 +7,67 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import '../../../components/snack_bar/td_snack_bar.dart';
 import '../../../components/snack_bar/top_snack_bar.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../models/cart_model.dart';
 import '../../../models/product_model.dart';
+import '../../../models/review_model.dart';
 import '../../../services/remote/cart_service.dart';
+import '../../../services/remote/review_service.dart';
 import '../cart/cart_page.dart';
 
-class ItemProduct extends StatefulWidget {
+class ProductDetailPage extends StatefulWidget {
   final ProductModel product;
+  final String productId;
 
-  const ItemProduct({super.key, required this.product});
+  const ProductDetailPage(
+      {super.key, required this.product, required this.productId});
 
   @override
-  State<ItemProduct> createState() => _ItemProductState();
+  State<ProductDetailPage> createState() => _ProductDetailPageState();
 }
 
-class _ItemProductState extends State<ItemProduct> {
+class _ProductDetailPageState extends State<ProductDetailPage> {
   final CartService _cartService = CartService();
   bool isExpanded = false;
   bool _isAddingToCart = false;
   bool _isDescriptionExpanded = true;
   bool _isReviewsExpanded = true;
+
+  final ReviewService _reviewService = ReviewService();
+  final List<ReviewModel> _reviews = []; // Remove 'final'
+
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadReviewData();
+  }
+
+  Future<void> _loadReviewData() async {
+    try {
+      setState(() => _isLoading = true);
+
+      // Load reviews and rating stats concurrently
+      final results = await Future.wait([
+        _reviewService.getProductReviews(widget.product.id),
+        _reviewService.getProductRatingStats(widget.product.id),
+      ]);
+
+      setState(() {
+        _reviews.addAll(results[0] as List<ReviewModel>);
+
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() => _isLoading = false);
+      showTopSnackBar(
+          context, TDSnackBar.error(message: 'Error loading reviews: $e'));
+    }
+  }
 
   Future<void> _addProductToCart() async {
     setState(() {
@@ -51,7 +88,7 @@ class _ItemProductState extends State<ItemProduct> {
       }
 
       CartModel cartItem = CartModel(
-        userId: user.email!, // Sử dụng email làm userId
+        userId: user.email!,
         productId: widget.product.id.toString(),
         productName: widget.product.name,
         productImage: widget.product.image,
@@ -289,7 +326,122 @@ class _ItemProductState extends State<ItemProduct> {
                       ),
                       Divider(),
                       if (_isReviewsExpanded)
-                        CrRatingReview(),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  '4.9',
+                                  style: AppStyle.bold_36
+                                      .copyWith(fontFamily: 'Product Sans'),
+                                ),
+                                spaceW10,
+                                Text(
+                                  'OUT OF 5 ',
+                                  style: AppStyle.regular_12
+                                      .copyWith(color: AppColor.grey500),
+                                ),
+                                Spacer(),
+                                RatingBar.readOnly(
+                                  filledColor: AppColor.E508A7B,
+                                  size: 25,
+                                  filledIcon: Icons.star,
+                                  emptyIcon: Icons.star_border,
+                                  initialRating: 4,
+                                  maxRating: 5,
+                                )
+                              ],
+                            ),
+                            spaceH14,
+                            // SizedBox(
+                            //   width: 200.0,
+                            //   child: ListView.builder(
+                            //     shrinkWrap: true,
+                            //     reverse: true,
+                            //     itemCount: 5,
+                            //     itemBuilder: (context, index) {
+                            //       return Row(
+                            //         children: [
+                            //           Text(
+                            //             "${index + 1}",
+                            //             style: TextStyle(fontSize: 18.0),
+                            //           ),
+                            //           SizedBox(width: 4.0),
+                            //           Icon(Icons.star, color: AppColor.E508A7B),
+                            //           SizedBox(width: 8.0),
+                            //           LinearPercentIndicator(
+                            //             lineHeight: 6.0,
+                            //             // linearStrokeCap: LinearStrokeCap.roundAll,
+                            //             width:
+                            //                 MediaQuery.of(context).size.width /
+                            //                     2.8,
+                            //             animation: true,
+                            //             animationDuration: 2500,
+                            //             // percent: _ratingStats[],
+
+                            //             progressColor: AppColor.E508A7B,
+                            //           ),
+                            //         ],
+                            //       );
+                            //     },
+                            //   ),
+                            // ),
+                            spaceH10,
+                            Text(' lấy tổng số bao nhiêu  Reviws'),
+                            spaceH40,
+                            SizedBox(
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: ScrollPhysics(),
+                                reverse: true,
+                                itemCount: 5,
+                                itemBuilder: (context, index) {
+                                  if (index >= 3) {
+                                    return SizedBox.shrink();
+                                  }
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          CircleAvatar(
+                                            child:
+                                                Image.asset('ảnh người review'),
+                                          ),
+                                          spaceW10,
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text('tê người review'),
+                                              RatingBar.readOnly(
+                                                filledColor: AppColor.E508A7B,
+                                                size: 25,
+                                                filledIcon: Icons.star,
+                                                emptyIcon: Icons.star_border,
+                                                initialRating: 5,
+                                                maxRating: 5,
+                                              )
+
+                                              /// đưa vào 1 hàm để lấy dữ liệu rating từ firebase
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 20.0),
+                                        child: Text('Nội dung review'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       spaceH10,
                     ],
                   ),

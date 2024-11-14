@@ -339,45 +339,6 @@ class _DetailsPageState extends State<DetailsPage> {
     );
   }
 
-  // void _reorderProducts(BuildContext context) async {
-  //   try {
-  //     // Get the cart data from the current order
-  //     List<Map<String, dynamic>> cartData = widget.cartData;
-
-  //     // Create a new order with the same cart items
-  //     Map<String, dynamic> newOrder = {
-  //       'cartData': cartData,
-  //       'totalPrice': widget.order['totalPrice'],
-  //       'address': widget.order['address'],
-  //       'uId': widget.order['uId'],
-  //       'status': 'Pending',
-  //       'createdAt': Timestamp.now(),
-  //     };
-
-  //     // Add the new order to Firestore
-  //     await FirebaseFirestore.instance.collection('orders').add(newOrder);
-
-  //     // Show success message
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text('Order has been reordered successfully'),
-  //         backgroundColor: Colors.green,
-  //       ),
-  //     );
-
-  //     // Navigate back
-  //     Navigator.of(context).pop();
-  //   } catch (e) {
-  //     // Show error message if failed
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text('Failed to reorder: $e'),
-  //         backgroundColor: Colors.red,
-  //       ),
-  //     );
-  //   }
-  // }
-
   void _reorderProducts(BuildContext context) async {
     try {
       final user = FirebaseAuth.instance.currentUser;
@@ -398,7 +359,7 @@ class _DetailsPageState extends State<DetailsPage> {
         MaterialPageRoute(builder: (context) => CartPage()),
       );
     } catch (e) {
-      // ... error handling ...
+      print('Error: $e');
     }
   }
 }

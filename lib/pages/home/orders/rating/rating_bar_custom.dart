@@ -20,6 +20,7 @@ class RatingBarCustom extends StatefulWidget {
 
 class _RatingBarCustomState extends State<RatingBarCustom> {
   final List<Map<String, dynamic>> _reviews = [];
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -33,7 +34,37 @@ class _RatingBarCustomState extends State<RatingBarCustom> {
     }
   }
 
+  @override
+  void dispose() {
+    for (var review in _reviews) {
+      review['comment'].dispose();
+    }
+    super.dispose();
+  }
+
+  bool _validateReviews() {
+    for (var review in _reviews) {
+      if (review['rating'] < 1.0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('Please rate all products (minimum 1 star)')),
+        );
+        return false;
+      }
+      if (review['comment'].text.trim().isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('Please provide comments for all products')),
+        );
+        return false;
+      }
+    }
+    return true;
+  }
+
   Future<void> _submitReviews() async {
+    if (!_validateReviews()) return;
+
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -42,21 +73,29 @@ class _RatingBarCustomState extends State<RatingBarCustom> {
       return;
     }
 
-    for (var review in _reviews) {
-      if (review['rating'] > 0 && review['comment'].text.isNotEmpty) {
+    setState(() => _isLoading = true);
+
+    try {
+      for (var review in _reviews) {
         await ReviewService().submitReview(
-          userEmail: user.email!, // Sử dụng email người dùng thay vì UID
+          userEmail: user.email!,
           productId: review['productId'],
           rating: review['rating'],
-          comment: review['comment'].text,
+          comment: review['comment'].text.trim(),
         );
       }
-    }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Reviews submitted successfully')),
-    );
-    Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Reviews submitted successfully')),
+      );
+      Navigator.pop(context);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error submitting reviews: ${e.toString()}')),
+      );
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -84,7 +123,7 @@ class _RatingBarCustomState extends State<RatingBarCustom> {
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.5),
                               blurRadius: 5,
-                              offset: Offset(0, 3),
+                              offset: const Offset(0, 3),
                             ),
                           ],
                         ),
@@ -139,25 +178,34 @@ class _RatingBarCustomState extends State<RatingBarCustom> {
                                 ],
                               ),
                             ),
+                            //
+                            spaceH10,
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 10.0, vertical: 10.0),
                               child: TextFormField(
                                 controller: _reviews[index]['comment'],
                                 maxLines: 4,
+                                maxLength: 500,
                                 decoration: InputDecoration(
                                   hintStyle: AppStyle.regular_12
                                       .copyWith(color: AppColor.grey500),
                                   hintText:
-                                      'Would you like to write anything about this product?',
-                                  enabledBorder: const UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.transparent),
+                                      'Share your experience with this product...',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                    ),
                                   ),
-                                  focusedBorder: const UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.transparent),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(
+                                      color: AppColor.E508A7B,
+                                    ),
                                   ),
+                                  filled: true,
+                                  fillColor: Colors.white,
                                 ),
                               ),
                             ),
@@ -170,12 +218,25 @@ class _RatingBarCustomState extends State<RatingBarCustom> {
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0)
-                .copyWith(bottom: 20.0),
-            child: CrElevatedButton(
-              onPressed: _submitReviews,
-              text: 'Submit Review',
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  blurRadius: 4,
+                  offset: const Offset(0, -2),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                CrElevatedButton(
+                  onPressed: _isLoading ? null : _submitReviews,
+                  text: _isLoading ? 'Submitting...' : 'Submit Review',
+                ),
+              ],
             ),
           ),
         ],

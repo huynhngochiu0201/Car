@@ -3,7 +3,7 @@ import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../models/product_model.dart';
-import '../product/item_produc.dart';
+import '../product/product_detail_page.dart';
 
 class NewProduct extends StatefulWidget {
   const NewProduct({super.key});
@@ -65,7 +65,8 @@ class _NewProductState extends State<NewProduct> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ItemProduct(
+                      builder: (context) => ProductDetailPage(
+                        productId: product.id,
                         product: product,
                       ),
                     ),

@@ -14,7 +14,7 @@ import '../../models/product_model.dart';
 import '../../models/promotion_model.dart';
 import '../../services/remote/category_service.dart';
 import '../../services/remote/product_service.dart';
-import 'product/item_produc.dart';
+import 'product/product_detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -340,7 +340,8 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ItemProduct(
+                                builder: (context) => ProductDetailPage(
+                                  productId: product.id,
                                   product: product,
                                 ),
                               ),
@@ -440,7 +441,8 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ItemProduct(
+                                builder: (context) => ProductDetailPage(
+                                  productId: product.id,
                                   product: product,
                                 ),
                               ),
