@@ -2,13 +2,14 @@ import 'package:app_car_rescue/components/app_bar/custom_app_bar.dart';
 import 'package:app_car_rescue/components/button/cr_elevated_button.dart';
 import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/constants/app_style.dart';
+import 'package:app_car_rescue/pages/home/orders/rating/review_rating.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:app_car_rescue/services/remote/cart_service.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:app_car_rescue/pages/home/orders/rating/rating_bar_custom.dart';
+
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import '../../../../gen/assets.gen.dart';
@@ -18,8 +19,6 @@ import '../../cart/cart_page.dart';
 class DetailsPage extends StatefulWidget {
   final Map<String, dynamic> order;
   final String sourcePage;
-
-  // Định nghĩa cartData tại đây để toàn bộ class có thể sử dụng
   final List<Map<String, dynamic>> cartData;
 
   DetailsPage({super.key, required this.order, required this.sourcePage})
@@ -274,7 +273,7 @@ class _DetailsPageState extends State<DetailsPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => RatingBarCustom(
+          builder: (context) => ReviewRating(
             products: widget.cartData,
           ),
         ),

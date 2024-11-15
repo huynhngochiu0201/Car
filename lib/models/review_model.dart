@@ -3,54 +3,41 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ReviewModel {
   final String id;
   final String userEmail;
-  final String userId;
-  final String userName;
+  final String productId;
   final double rating;
   final String comment;
-  final bool isVerifiedPurchase;
   final DateTime timestamp;
-  final DateTime updatedAt;
-  final String userAvatar;
 
   ReviewModel({
     required this.id,
     required this.userEmail,
-    required this.userId,
-    required this.userName,
+    required this.productId,
     required this.rating,
     required this.comment,
-    required this.isVerifiedPurchase,
     required this.timestamp,
-    required this.updatedAt,
-    required this.userAvatar,
   });
 
-  factory ReviewModel.fromJson(Map<String, dynamic> json, String id) {
+  factory ReviewModel.fromJson(Map<String, dynamic> json) {
     return ReviewModel(
-      id: id,
+      id: json['id'] ?? '',
       userEmail: json['userEmail'] ?? '',
-      userId: json['userId'] ?? '',
-      userName: json['userName'] ?? '',
+      productId: json['productId'] ?? '',
       rating: (json['rating'] ?? 0).toDouble(),
       comment: json['comment'] ?? '',
-      isVerifiedPurchase: json['isVerifiedPurchase'] ?? false,
-      timestamp: (json['timestamp'] as Timestamp).toDate(),
-      updatedAt: (json['updatedAt'] as Timestamp).toDate(),
-      userAvatar: json['userAvatar'] ?? '',
+      timestamp: json['timestamp'] != null 
+          ? (json['timestamp'] as Timestamp).toDate()
+          : DateTime.now(),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'userEmail': userEmail,
-      'userId': userId,
-      'userName': userName,
+      'productId': productId,
       'rating': rating,
       'comment': comment,
-      'isVerifiedPurchase': isVerifiedPurchase,
-      'timestamp': Timestamp.fromDate(timestamp),
-      'updatedAt': Timestamp.fromDate(updatedAt),
-      'userAvatar': userAvatar,
+      'timestamp': timestamp,
     };
   }
 }

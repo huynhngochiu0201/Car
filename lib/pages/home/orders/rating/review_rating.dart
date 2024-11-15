@@ -8,17 +8,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../../services/remote/review_service.dart';
 
-class RatingBarCustom extends StatefulWidget {
+class ReviewRating extends StatefulWidget {
   final List<Map<String, dynamic>>
       products; // Danh sách sản phẩm trong đơn hàng
 
-  const RatingBarCustom({super.key, required this.products});
+  const ReviewRating({super.key, required this.products});
 
   @override
-  State<RatingBarCustom> createState() => _RatingBarCustomState();
+  State<ReviewRating> createState() => _ReviewRatingState();
 }
 
-class _RatingBarCustomState extends State<RatingBarCustom> {
+class _ReviewRatingState extends State<ReviewRating> {
   final List<Map<String, dynamic>> _reviews = [];
   bool _isLoading = false;
 
@@ -42,29 +42,27 @@ class _RatingBarCustomState extends State<RatingBarCustom> {
     super.dispose();
   }
 
-  bool _validateReviews() {
-    for (var review in _reviews) {
-      if (review['rating'] < 1.0) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Please rate all products (minimum 1 star)')),
-        );
-        return false;
-      }
-      if (review['comment'].text.trim().isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Please provide comments for all products')),
-        );
-        return false;
-      }
-    }
-    return true;
-  }
+  // bool _validateReviews() {
+  //   for (var review in _reviews) {
+  //     if (review['rating'] < 1.0) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //             content: Text('Please rate all products (minimum 1 star)')),
+  //       );
+  //       return false;
+  //     }
+  //     if (review['comment'].text.trim().isEmpty) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //             content: Text('Please provide comments for all products')),
+  //       );
+  //       return false;
+  //     }
+  //   }
+  //   return true;
+  // }
 
   Future<void> _submitReviews() async {
-    if (!_validateReviews()) return;
-
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -77,7 +75,8 @@ class _RatingBarCustomState extends State<RatingBarCustom> {
 
     try {
       for (var review in _reviews) {
-        await ReviewService().submitReview(
+        await ReviewService().addReview(
+          userId: user.uid,
           userEmail: user.email!,
           productId: review['productId'],
           rating: review['rating'],
