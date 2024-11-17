@@ -114,6 +114,7 @@ class _ChangeProfileState extends State<ChangeProfile> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        backgroundColor: AppColor.white,
         appBar: CustomAppBar(title: 'My Profile'),
         body: Form(
           key: formKey,

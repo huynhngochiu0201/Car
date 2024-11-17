@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensure this is at the top
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -21,7 +21,7 @@ Future<void> main() async {
   ));
   await SharedPrefs.initialise();
 
-  runApp(const MyApp()); // Call runApp only once at the end
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

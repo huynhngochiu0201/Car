@@ -71,7 +71,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0)
+                padding: const EdgeInsets.symmetric(horizontal: 10.0)
                     .copyWith(top: 20.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

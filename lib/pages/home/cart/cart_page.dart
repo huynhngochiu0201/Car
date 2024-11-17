@@ -148,9 +148,9 @@ class CartPageState extends State<CartPage> {
 
   Widget _buildCartItem(CartModel cartItem) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
       child: Container(
-        height: 110.0,
+        height: 115.0,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10.0),
@@ -186,7 +186,7 @@ class CartPageState extends State<CartPage> {
 
   Widget _buildImage(CartModel cartItem) {
     return Container(
-      width: 100.0,
+      width: 115.0,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(10),
@@ -227,35 +227,41 @@ class CartPageState extends State<CartPage> {
       children: [
         Container(
           height: 28.0,
-          width: 75.0,
+          width: 80.0,
           decoration: BoxDecoration(
             border: Border.all(width: 2, color: Colors.grey),
             borderRadius: BorderRadius.circular(10.0),
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    if (cartItem.quantity > 1) {
-                      _updateQuantity(cartItem, cartItem.quantity - 1);
-                    }
-                  },
-                  child:
-                      const Icon(Icons.remove, color: Colors.grey, size: 12.0),
-                ),
-                Text(
-                  cartItem.quantity.toString(),
-                  style: AppStyle.bold_12.copyWith(color: Colors.grey),
-                ),
-                GestureDetector(
-                  onTap: () => _updateQuantity(cartItem, cartItem.quantity + 1),
-                  child: const Icon(Icons.add, color: Colors.grey, size: 12.0),
-                ),
-              ],
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  if (cartItem.quantity > 1) {
+                    _updateQuantity(cartItem, cartItem.quantity - 1);
+                  }
+                },
+                child: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: 12.0,
+                    child: Center(
+                        child: Icon(
+                            size: 20.0, Icons.remove, color: Colors.grey))),
+              ),
+              Text(
+                cartItem.quantity.toString(),
+                style: AppStyle.bold_12.copyWith(color: Colors.grey),
+              ),
+              GestureDetector(
+                onTap: () => _updateQuantity(cartItem, cartItem.quantity + 1),
+                child: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: 12.0,
+                    child: Center(
+                        child: const Icon(Icons.add,
+                            size: 20.0, color: Colors.grey))),
+              ),
+            ],
           ),
         ),
         const Spacer(),

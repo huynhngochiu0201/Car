@@ -1,7 +1,9 @@
 import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
+import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../../constants/app_style.dart';
 import '../../../models/product_model.dart';
 import '../product/product_detail_page.dart';
 
@@ -100,18 +102,24 @@ class _NewProductState extends State<NewProduct> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(product.name,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold)),
-                            Text(product.price.toVND(),
-                                style: const TextStyle(color: Colors.green)),
-                          ],
+                      spaceW10,
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(product.name,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppStyle.regular_12),
+                              spaceH6,
+                              Text(product.price.toVND(),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: AppStyle.regular_14),
+                            ],
+                          ),
                         ),
                       )
                     ],

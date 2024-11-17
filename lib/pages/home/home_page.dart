@@ -249,7 +249,7 @@ class _HomePageState extends State<HomePage> {
         final categories = snapshot.data!;
 
         return SizedBox(
-          height: 85,
+          height: 90.0,
           child: ListView.separated(
             padding: EdgeInsets.symmetric(horizontal: 35.0),
             scrollDirection: Axis.horizontal,
@@ -284,15 +284,17 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     spaceH6,
-                    SizedBox(
-                      width: 42,
-                      child: Center(
-                        child: Text(
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          category.name ?? 'Unknown Category',
-                          style: AppStyle.regular_12
-                              .copyWith(color: AppColor.black),
+                    Expanded(
+                      child: SizedBox(
+                        width: 50,
+                        child: Center(
+                          child: Text(
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            category.name ?? 'Unknown Category',
+                            style: AppStyle.regular_12
+                                .copyWith(color: AppColor.black),
+                          ),
                         ),
                       ),
                     ),
@@ -371,25 +373,29 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         spaceH12,
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            product.name,
-                            style: AppStyle.regular_12
-                                .copyWith(fontFamily: 'Product Sans Medium'),
+                        SizedBox(
+                          width: 126,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                product.name,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppStyle.regular_12.copyWith(
+                                    fontFamily: 'Product Sans Medium'),
+                              ),
+                              spaceH2,
+                              Text(
+                                product.price.toVND(),
+                                overflow: TextOverflow.ellipsis,
+                                style: AppStyle.bold_16.copyWith(
+                                  fontFamily: 'Product Sans',
+                                ),
+                              ),
+                              spaceH12,
+                            ],
                           ),
                         ),
-                        spaceH2,
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            product.price.toVND(),
-                            style: AppStyle.bold_16.copyWith(
-                              fontFamily: 'Product Sans',
-                            ),
-                          ),
-                        ),
-                        spaceH12,
                       ],
                     ),
                   );
@@ -424,7 +430,7 @@ class _HomePageState extends State<HomePage> {
           sliver: SliverGrid(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisExtent: 263,
+              mainAxisExtent: 280,
               crossAxisSpacing: 30,
               mainAxisSpacing: 30, // khoảng cách giữa các hàng
             ),
@@ -451,38 +457,53 @@ class _HomePageState extends State<HomePage> {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.8),
-                                  spreadRadius: 0,
-                                  blurRadius: 3,
-                                  offset: const Offset(0, 2),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.8),
+                                        spreadRadius: 0,
+                                        blurRadius: 3,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    child: Image.network(
+                                      height: 186.0,
+                                      width: double.infinity,
+                                      product.image,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                spaceH8,
+                                Text(
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  product.name,
+                                  style: AppStyle.regular_12,
+                                ),
+                                spaceH2,
+                                Text(
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  product.price.toVND(),
+                                  style: AppStyle.bold_16,
                                 ),
                               ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10.0),
-                              child: Image.network(
-                                height: 186.0,
-                                width: double.infinity,
-                                product.image,
-                                fit: BoxFit.cover,
-                              ),
                             ),
                           ),
                         ),
                       ],
                     ),
-                    spaceH8,
-                    Text(
-                      product.name,
-                      style: AppStyle.regular_12,
-                    ),
-                    spaceH2,
-                    Text(
-                      product.price.toVND(),
-                      style: AppStyle.bold_16,
-                    ),
+
                     // RatingBar.readOnly(
                     //   filledColor: AppColor.E508A7B,
                     //   size: 19.0,

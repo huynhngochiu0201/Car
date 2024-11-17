@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import '../../../components/snack_bar/td_snack_bar.dart';
 import '../../../components/snack_bar/top_snack_bar.dart';
 import '../../../gen/assets.gen.dart';
@@ -31,8 +32,7 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage> {
   final CartService _cartService = CartService();
   List<ReviewModel> _reviews = [];
-  bool _isLoadingReviews = true;
-
+  bool isLoadingReviews = true;
   bool isExpanded = false;
   bool _isAddingToCart = false;
   bool _isDescriptionExpanded = true;
@@ -57,11 +57,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         _reviews = snapshot.docs
             .map((doc) => ReviewModel.fromJson(doc.data()))
             .toList();
-        _isLoadingReviews = false;
+        isLoadingReviews = false;
       });
     } catch (e) {
       setState(() {
-        _isLoadingReviews = false;
+        isLoadingReviews = false;
       });
       print('Failed to fetch reviews: $e');
     }
@@ -108,6 +108,23 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         _isAddingToCart = false;
       });
     }
+  }
+
+  // Thêm phương thức tính số lượng đánh giá cho mỗi số sao
+  Map<int, int> _calculateRatingCounts() {
+    Map<int, int> ratingCounts = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
+    for (var review in _reviews) {
+      ratingCounts[review.rating.toInt()] =
+          (ratingCounts[review.rating.toInt()] ?? 0) + 1;
+    }
+    return ratingCounts;
+  }
+
+  // Thêm phương thức tính phần trăm cho mỗi số sao
+  double _calculateRatingPercentage(int rating) {
+    if (_reviews.isEmpty) return 0.0;
+    Map<int, int> ratingCounts = _calculateRatingCounts();
+    return (ratingCounts[rating] ?? 0) / _reviews.length;
   }
 
   @override
@@ -228,9 +245,21 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(widget.product.name, style: AppStyle.bold_18),
-                          Text(widget.product.price.toVND(),
-                              style: AppStyle.bold_24),
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              widget.product.name,
+                              style: AppStyle.bold_12,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              widget.product.price.toVND(),
+                              style: AppStyle.bold_14,
+                            ),
+                          ),
                         ],
                       ),
                       Align(
@@ -253,24 +282,26 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             children: [
                               Text('Description', style: AppStyle.bold_16),
                               GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _isDescriptionExpanded =
-                                          !_isDescriptionExpanded;
-                                    });
-                                  },
-                                  child: Container(
-                                    height: 20.0,
-                                    width: 20.0,
-                                    decoration:
-                                        BoxDecoration(shape: BoxShape.circle),
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                          height: 10.0,
-                                          width: 10.0,
-                                          Assets.icons.dropdownButton),
-                                    ),
-                                  ))
+                                onTap: () {
+                                  setState(() {
+                                    _isDescriptionExpanded =
+                                        !_isDescriptionExpanded;
+                                  });
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(top: 4.0),
+                                  height: 20.0,
+                                  width: 20.0,
+                                  decoration:
+                                      BoxDecoration(shape: BoxShape.circle),
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                        height: 10.0,
+                                        width: 10.0,
+                                        Assets.icons.dropdownButton),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -292,6 +323,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     });
                                   },
                                   child: Container(
+                                    margin: const EdgeInsets.only(top: 4.0),
                                     height: 20.0,
                                     width: 20.0,
                                     decoration:
@@ -308,63 +340,62 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         ),
                       ),
                       Divider(),
-                      if (_isReviewsExpanded)
+                      if (_isReviewsExpanded && _reviews.isNotEmpty)
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Total Reviews: ${_reviews.length}',
-                                style: AppStyle.bold_16),
-                            SizedBox(
-                              height: 300, // Đặt chiều cao phù hợp
-                              child: _isLoadingReviews
-                                  ? CircularProgressIndicator()
-                                  : ListView.builder(
-                                      itemCount: _reviews.length,
-                                      itemBuilder: (context, index) {
-                                        final review = _reviews[index];
-                                        return Column(
+                            _buildRatingBars(),
+                            spaceH20,
+                            Text('${_reviews.length} Reviews',
+                                style: AppStyle.regular_14
+                                    .copyWith(color: AppColor.E8A8A8F)),
+                            spaceH40,
+                            Column(
+                              children: _reviews.map((review) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        CircleAvatar(
+                                          backgroundImage: NetworkImage(
+                                              'URL Avatar người dùng'),
+                                        ),
+                                        spaceW10,
+                                        Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Row(
-                                              children: [
-                                                CircleAvatar(
-                                                  backgroundImage: NetworkImage(
-                                                      'URL Avatar người dùng'),
-                                                ),
-                                                spaceW10,
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                        'User Name'), // Hiển thị tên người dùng
-                                                    RatingBar.readOnly(
-                                                      filledColor:
-                                                          AppColor.E508A7B,
-                                                      size: 25,
-                                                      filledIcon: Icons.star,
-                                                      emptyIcon:
-                                                          Icons.star_border,
-                                                      initialRating:
-                                                          review.rating,
-                                                      maxRating: 5,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                            Text(
+                                              review.userEmail.split('@').first,
+                                              style: AppStyle.bold_16,
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 10.0),
-                                              child: Text(review.comment),
+                                            RatingBar.readOnly(
+                                              filledColor: AppColor.E508A7B,
+                                              size: 15,
+                                              filledIcon: Icons.star,
+                                              emptyIcon: Icons.star_border,
+                                              initialRating: review.rating,
+                                              maxRating: 5,
                                             ),
-                                            Divider(),
                                           ],
-                                        );
-                                      },
+                                        ),
+                                      ],
                                     ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10.0),
+                                      child: Text(
+                                        review.comment,
+                                        style: AppStyle.regular_14.copyWith(
+                                            color: Colors.black,
+                                            fontFamily: 'Product Sans Light'),
+                                      ),
+                                    ),
+                                    spaceH20,
+                                  ],
+                                );
+                              }).toList(),
                             ),
                           ],
                         ),
@@ -387,7 +418,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         text: isExpanded || widget.product.description.length <= 200
             ? widget.product.description
             : '${widget.product.description.substring(0, 200)}...',
-        style: AppStyle.regular_12.copyWith(fontFamily: 'Product Sans Light'),
+        style: AppStyle.regular_14.copyWith(fontFamily: 'Product Sans Light'),
         children: [
           if (!isExpanded && widget.product.description.length > 200)
             TextSpan(
@@ -441,6 +472,47 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildRatingBars() {
+    return SizedBox(
+      width: 200.0,
+      child: ListView.builder(
+        shrinkWrap: true,
+        reverse: true,
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          int rating = 5 - index;
+          double percentage = _calculateRatingPercentage(rating);
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "$rating",
+                style: AppStyle.regular_12.copyWith(color: AppColor.grey500),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Icon(Icons.star, color: AppColor.E508A7B),
+              ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10.0),
+                child: LinearPercentIndicator(
+                  lineHeight: 8.0,
+                  width: MediaQuery.of(context).size.width / 2.8,
+                  animation: true,
+                  animationDuration: 2500,
+                  percent: percentage,
+                  progressColor: AppColor.E508A7B,
+                  backgroundColor: Colors.grey[300],
+                  barRadius: const Radius.circular(10.0),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

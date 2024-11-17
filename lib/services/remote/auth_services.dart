@@ -77,23 +77,35 @@ class AuthService {
     await _auth.signOut();
   }
 
-  Future<Map<String, String?>> getUserInfo(String userId) async {
-    try {
-      final userDoc = await _firestore.collection('users').doc(userId).get();
+  // Future<void> updateUserInfo({
+  //   required String userId,
+  //   String? name,
+  //   String? avatar,
+  // }) async {
+  //   try {
+  //     final userDoc = _firestore.collection('users').doc(userId);
 
-      if (userDoc.exists) {
-        String? name = userDoc.data()?['userName'];
-        String? avatar = userDoc.data()?['userAvatar'];
+  //     Map<String, dynamic> updates = {};
+  //     if (name != null) updates['name'] = name;
+  //     if (avatar != null) updates['avatar'] = avatar;
 
-        return {
-          'userName': name,
-          'userAvatar': avatar,
-        };
-      } else {
-        throw Exception("User document does not exist");
-      }
-    } catch (e) {
-      throw Exception('Failed to retrieve user information: $e');
-    }
-  }
+  //     await userDoc.update(updates);
+  //   } catch (e) {
+  //     throw Exception('Failed to update user information: $e');
+  //   }
+  // }
+
+  // // Lấy thông tin người dùng bằng userId
+  // Future<UserModel> getUserById(String userId) async {
+  //   try {
+  //     final snapshot = await _firestore.collection('users').doc(userId).get();
+  //     if (snapshot.exists) {
+  //       return UserModel.fromJson(snapshot.data()!);
+  //     } else {
+  //       throw Exception('User not found');
+  //     }
+  //   } catch (e) {
+  //     throw Exception('Failed to fetch user: $e');
+  //   }
+  // }
 }

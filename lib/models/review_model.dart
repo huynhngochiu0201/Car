@@ -3,12 +3,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ReviewModel {
   final String id;
   final String userEmail;
+  final String userId;
   final String productId;
   final double rating;
   final String comment;
+  final String userName;
+  final String userImage;
   final DateTime timestamp;
 
   ReviewModel({
+    required this.userId,
+    required this.userName,
+    required this.userImage,
     required this.id,
     required this.userEmail,
     required this.productId,
@@ -19,12 +25,15 @@ class ReviewModel {
 
   factory ReviewModel.fromJson(Map<String, dynamic> json) {
     return ReviewModel(
+      userId: json['userId'] ?? '',
+      userName: json['userName'] ?? '',
+      userImage: json['userImage'] ?? '',
       id: json['id'] ?? '',
       userEmail: json['userEmail'] ?? '',
       productId: json['productId'] ?? '',
       rating: (json['rating'] ?? 0).toDouble(),
       comment: json['comment'] ?? '',
-      timestamp: json['timestamp'] != null 
+      timestamp: json['timestamp'] != null
           ? (json['timestamp'] as Timestamp).toDate()
           : DateTime.now(),
     );
@@ -33,6 +42,9 @@ class ReviewModel {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'userId': userId,
+      'userName': userName,
+      'userImage': userImage,
       'userEmail': userEmail,
       'productId': productId,
       'rating': rating,

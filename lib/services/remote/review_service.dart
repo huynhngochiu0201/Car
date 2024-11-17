@@ -30,6 +30,8 @@ class ReviewService {
     required String productId,
     required double rating,
     required String comment,
+    // required String userName,
+    // required String userAvatar,
   }) async {
     try {
       await FirebaseFirestore.instance
@@ -39,9 +41,11 @@ class ReviewService {
           .add({
         'userId': userId,
         'userEmail': userEmail,
-        'productId': productId, // Thêm productId ở đây
+        'productId': productId,
         'rating': rating,
         'comment': comment,
+        // 'userName': userName,
+        // 'userAvatar': userAvatar,
         'timestamp': Timestamp.now(),
       });
     } catch (e) {

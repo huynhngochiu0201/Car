@@ -5,6 +5,7 @@ import '../../components/button/cr_elevated_button.dart';
 import '../../components/snack_bar/td_snack_bar.dart';
 import '../../components/snack_bar/top_snack_bar.dart';
 import '../../components/text_field/cr_text_field_password.dart';
+import '../../constants/app_color.dart';
 import '../../services/shared_prefs.dart';
 import '../../utils/validator.dart';
 import 'login_page.dart';
@@ -65,6 +66,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        backgroundColor: AppColor.white,
         appBar: CustomAppBar(title: 'Change Password'),
         body: Form(
           key: formKey,
