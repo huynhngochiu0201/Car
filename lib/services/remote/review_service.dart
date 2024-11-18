@@ -25,13 +25,12 @@ class ReviewService {
   }
 
   Future<void> addReview({
-    required String userId,
     required String userEmail,
     required String productId,
+    required String userName,
+    required String userAvatar,
     required double rating,
     required String comment,
-    // required String userName,
-    // required String userAvatar,
   }) async {
     try {
       await FirebaseFirestore.instance
@@ -39,13 +38,12 @@ class ReviewService {
           .doc(productId)
           .collection('reviews')
           .add({
-        'userId': userId,
         'userEmail': userEmail,
         'productId': productId,
+        'userName': userName,
+        'userAvatar': userAvatar,
         'rating': rating,
         'comment': comment,
-        // 'userName': userName,
-        // 'userAvatar': userAvatar,
         'timestamp': Timestamp.now(),
       });
     } catch (e) {

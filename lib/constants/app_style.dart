@@ -156,6 +156,11 @@ class AppStyle {
     fontWeight: bold,
     color: AppColor.black,
   );
+  static TextStyle bold_10 = TextStyle(
+    fontSize: 10.0,
+    fontWeight: bold,
+    color: AppColor.black,
+  );
   static TextStyle bold_16 = TextStyle(
     fontSize: 16.0,
     fontWeight: bold,

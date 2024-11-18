@@ -77,35 +77,22 @@ class AuthService {
     await _auth.signOut();
   }
 
-  // Future<void> updateUserInfo({
-  //   required String userId,
-  //   String? name,
-  //   String? avatar,
-  // }) async {
-  //   try {
-  //     final userDoc = _firestore.collection('users').doc(userId);
+  Future<Map<String, dynamic>?> getUserInfo(String userEmail) async {
+    try {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userEmail)
+          .get();
 
-  //     Map<String, dynamic> updates = {};
-  //     if (name != null) updates['name'] = name;
-  //     if (avatar != null) updates['avatar'] = avatar;
-
-  //     await userDoc.update(updates);
-  //   } catch (e) {
-  //     throw Exception('Failed to update user information: $e');
-  //   }
-  // }
-
-  // // Lấy thông tin người dùng bằng userId
-  // Future<UserModel> getUserById(String userId) async {
-  //   try {
-  //     final snapshot = await _firestore.collection('users').doc(userId).get();
-  //     if (snapshot.exists) {
-  //       return UserModel.fromJson(snapshot.data()!);
-  //     } else {
-  //       throw Exception('User not found');
-  //     }
-  //   } catch (e) {
-  //     throw Exception('Failed to fetch user: $e');
-  //   }
-  // }
+      if (userDoc.exists) {
+        return userDoc.data() as Map<String, dynamic>;
+      } else {
+        print('User not found');
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching user info: $e');
+      return null;
+    }
+  }
 }

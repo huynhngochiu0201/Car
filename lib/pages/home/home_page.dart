@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/constants/app_style.dart';
 import 'package:app_car_rescue/gen/assets.gen.dart';
-import 'package:app_car_rescue/pages/home/widget/new_product.dart';
+import 'package:app_car_rescue/pages/home/product/new_product.dart';
 import 'package:app_car_rescue/pages/home/service/service.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
@@ -430,7 +430,7 @@ class _HomePageState extends State<HomePage> {
           sliver: SliverGrid(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisExtent: 280,
+              mainAxisExtent: 260,
               crossAxisSpacing: 30,
               mainAxisSpacing: 30, // khoảng cách giữa các hàng
             ),

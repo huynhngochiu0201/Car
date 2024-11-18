@@ -177,8 +177,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                       Expanded(
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
-                                                  horizontal: 10.0)
-                                              .copyWith(bottom: 10.0),
+                                              horizontal: 10.0),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,

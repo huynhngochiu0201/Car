@@ -6,6 +6,7 @@ import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../../../../services/remote/auth_services.dart';
 import '../../../../services/remote/review_service.dart';
 
 class ReviewRating extends StatefulWidget {
@@ -42,26 +43,6 @@ class _ReviewRatingState extends State<ReviewRating> {
     super.dispose();
   }
 
-  // bool _validateReviews() {
-  //   for (var review in _reviews) {
-  //     if (review['rating'] < 1.0) {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(
-  //             content: Text('Please rate all products (minimum 1 star)')),
-  //       );
-  //       return false;
-  //     }
-  //     if (review['comment'].text.trim().isEmpty) {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(
-  //             content: Text('Please provide comments for all products')),
-  //       );
-  //       return false;
-  //     }
-  //   }
-  //   return true;
-  // }
-
   Future<void> _submitReviews() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
@@ -74,10 +55,25 @@ class _ReviewRatingState extends State<ReviewRating> {
     setState(() => _isLoading = true);
 
     try {
+      // Lấy thông tin user (name và avatar)
+      final userInfo = await AuthService().getUserInfo(user.email!);
+
+      if (userInfo == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('User information not found')),
+        );
+        return;
+      }
+
+      final userName = userInfo['name'] ?? 'Anonymous';
+      final userAvatar = userInfo['avatar'] ?? '';
+
+      // Gửi từng review kèm thông tin người dùng
       for (var review in _reviews) {
         await ReviewService().addReview(
-          userId: user.uid,
           userEmail: user.email!,
+          userName: userName, // Thêm name
+          userAvatar: userAvatar, // Thêm avatar
           productId: review['productId'],
           rating: review['rating'],
           comment: review['comment'].text.trim(),
@@ -177,7 +173,6 @@ class _ReviewRatingState extends State<ReviewRating> {
                                 ],
                               ),
                             ),
-                            //
                             spaceH10,
                             Padding(
                               padding: const EdgeInsets.symmetric(

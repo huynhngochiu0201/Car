@@ -1,4 +1,5 @@
 import 'package:app_car_rescue/constants/app_color.dart';
+import 'package:app_car_rescue/constants/app_style.dart';
 import 'package:app_car_rescue/pages/home/orders/widget/Cancelled_page.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,7 @@ class _OrdersPageState extends State<OrdersPage>
               color: Colors.transparent,
             ),
             child: TabBar(
+              unselectedLabelStyle: AppStyle.regular_12,
               dividerColor: Colors.transparent,
               controller: tabController,
               indicatorSize: TabBarIndicatorSize.tab,

@@ -86,7 +86,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       }
 
       CartModel cartItem = CartModel(
-        userId: user.email!,
+        userId: user.uid,
         productId: widget.product.id.toString(),
         productName: widget.product.name,
         productImage: widget.product.image,
@@ -241,40 +241,41 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        widget.product.price.toVND(),
+                        style: AppStyle.bold_18,
+                      ),
+                      spaceH6,
+                      Text(
+                        widget.product.name,
+                        style:
+                            AppStyle.bold_16.copyWith(color: AppColor.grey700),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      spaceH6,
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Expanded(
-                            flex: 2,
-                            child: Text(
-                              widget.product.name,
-                              style: AppStyle.bold_12,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                          Text(
+                            widget.product.quantity.toString(),
+                            style: AppStyle.bold_10,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          Expanded(
-                            child: Text(
-                              widget.product.price.toVND(),
-                              style: AppStyle.bold_14,
-                            ),
+                          spaceW4,
+                          Text(
+                            'sold',
+                            style: AppStyle.bold_10
+                                .copyWith(color: AppColor.grey700),
                           ),
                         ],
                       ),
-                      Align(
-                          alignment: Alignment.topLeft,
-                          child: RatingBar.readOnly(
-                            filledColor: AppColor.E508A7B,
-                            size: 19.0,
-                            filledIcon: Icons.star,
-                            emptyIcon: Icons.star_border,
-                            initialRating: 4,
-                            maxRating: 5,
-                          )),
+                      spaceH6,
                       Divider(),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 9.0),
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Row(
@@ -309,7 +310,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       Divider(),
                       if (_isDescriptionExpanded) _buildProductDescription(),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 9.0),
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Row(
@@ -359,7 +360,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                       children: [
                                         CircleAvatar(
                                           backgroundImage: NetworkImage(
-                                              'URL Avatar người dùng'),
+                                              review.userAvatar ?? ''),
                                         ),
                                         spaceW10,
                                         Column(
@@ -367,7 +368,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              review.userEmail.split('@').first,
+                                              review.userName,
                                               style: AppStyle.bold_16,
                                             ),
                                             RatingBar.readOnly(

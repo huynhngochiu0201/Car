@@ -48,9 +48,9 @@ OverlayEntry? _previousEntry;
 void showTopSnackBar(
   BuildContext context,
   Widget child, {
-  Duration animationDuration = const Duration(milliseconds: 1200),
-  Duration reverseAnimationDuration = const Duration(milliseconds: 550),
-  Duration displayDuration = const Duration(milliseconds: 2000),
+  Duration animationDuration = const Duration(milliseconds: 100),
+  Duration reverseAnimationDuration = const Duration(milliseconds: 500),
+  Duration displayDuration = const Duration(milliseconds: 200),
   VoidCallback? onTap,
   OverlayState? overlayState,
   bool persistent = false,
