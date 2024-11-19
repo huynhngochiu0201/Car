@@ -45,7 +45,7 @@ class CancelledPageState extends State<CancelledPage> {
           } else if (snapshot.hasError) {
             return const Center(child: Text('Something went wrong!'));
           } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text('No pending orders found'));
+            return const Center(child: Text('No Cancelled orders found'));
           }
 
           var orders = snapshot.data!.docs;

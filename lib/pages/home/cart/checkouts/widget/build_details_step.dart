@@ -2,6 +2,7 @@ import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/gen/assets.gen.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../constants/app_style.dart';
@@ -29,11 +30,11 @@ class _BuildDetailsStepState extends State<BuildDetailsStep> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'STEP 2',
+            AppLocalizations.of(context)?.step2 ?? 'STEP 2',
             style: AppStyle.regular_12,
           ),
           Text(
-            'Payment',
+            AppLocalizations.of(context)?.payment ?? 'Payment',
             style: AppStyle.bold_24,
           ),
           spaceH36,

@@ -5,6 +5,7 @@ import '../../../constants/app_color.dart';
 import '../../../constants/app_style.dart';
 import '../../../utils/spaces.dart';
 import '../../../utils/validator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Replacement extends StatefulWidget {
   const Replacement({super.key});
@@ -53,7 +54,8 @@ class _ReplacementState extends State<Replacement> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32.0),
                   child: Text(
-                    'Rescue address information',
+                    AppLocalizations.of(context)?.rescueAddress ??
+                        'Rescue address',
                     style: AppStyle.bold_20,
                   ),
                 ),
@@ -64,28 +66,31 @@ class _ReplacementState extends State<Replacement> {
                     children: [
                       CrTextField(
                         controller: nameController,
-                        labelText: 'First name',
+                        labelText: AppLocalizations.of(context)?.firstName ??
+                            'First name',
                         textInputAction: TextInputAction.next,
                         validator: Validator.required,
                       ),
                       spaceH30,
                       CrTextField(
                         controller: addressController,
-                        labelText: 'Address',
+                        labelText:
+                            AppLocalizations.of(context)?.address ?? 'Address',
                         textInputAction: TextInputAction.next,
                         validator: Validator.required,
                       ),
                       spaceH30,
                       CrTextField(
                         controller: phoneController,
-                        labelText: 'Phone Number',
+                        labelText: AppLocalizations.of(context)?.phoneNumber ??
+                            'Phone Number',
                         textInputAction: TextInputAction.next,
                         validator: Validator.phoneNumber,
                       ),
                       spaceH30,
                       CrTextField(
                         controller: noteController,
-                        labelText: 'Note',
+                        labelText: AppLocalizations.of(context)?.note ?? 'Note',
                         textInputAction: TextInputAction.done,
                         validator: Validator.required,
                       ),
@@ -98,7 +103,9 @@ class _ReplacementState extends State<Replacement> {
                               dropdownColor: AppColor.white,
                               value: selectedSize,
                               decoration: InputDecoration(
-                                labelText: "Wheel Size",
+                                labelText:
+                                    AppLocalizations.of(context)?.wheelSize ??
+                                        'Wheel Size',
                                 // contentPadding:
                                 //     EdgeInsets.symmetric(horizontal: 12.0),
                               ),
@@ -128,7 +135,8 @@ class _ReplacementState extends State<Replacement> {
                               dropdownColor: AppColor.white,
                               value: selectedArea,
                               decoration: InputDecoration(
-                                labelText: "Area",
+                                labelText: AppLocalizations.of(context)?.area ??
+                                    'Area',
                                 // contentPadding:
                                 //     EdgeInsets.symmetric(horizontal: 12.0),
                               ),
@@ -160,7 +168,7 @@ class _ReplacementState extends State<Replacement> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: CrElevatedButton(
-                    text: 'Submit',
+                    text: AppLocalizations.of(context)?.submit ?? 'Submit',
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         // Handle form submission

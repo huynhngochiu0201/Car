@@ -3,7 +3,7 @@ import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/pages/home/service/replacement.dart';
 import 'package:app_car_rescue/pages/home/service/towing_and_winching.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../utils/spaces.dart';
 
 class ServicePage extends StatefulWidget {
@@ -26,7 +26,7 @@ class _ServicePageState extends State<ServicePage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.white,
-      appBar: CustomAppBar(title: 'Service'),
+      appBar: CustomAppBar(title: AppLocalizations.of(context)?.service ?? 'Service'),
       body: Column(
         children: [
           spaceH10,
@@ -46,9 +46,11 @@ class _ServicePageState extends State<ServicePage>
                   borderRadius: BorderRadius.circular(22.0),
                   color: AppColor.E43484B),
               labelColor: Colors.white,
-              tabs: const [
-                Tab(text: 'Mobile Tire Swap'),
-                Tab(text: 'Towing & Transport'),
+              tabs: [
+                Tab(
+                    text: AppLocalizations.of(context)?.replaceTire ??
+                        'Replace tire'),
+                Tab(text: AppLocalizations.of(context)?.rescue ?? 'Rescue'),
               ],
             ),
           ),

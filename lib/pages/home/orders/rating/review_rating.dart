@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../../services/remote/auth_services.dart';
 import '../../../../services/remote/review_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReviewRating extends StatefulWidget {
   final List<Map<String, dynamic>>
@@ -96,7 +97,8 @@ class _ReviewRatingState extends State<ReviewRating> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Rate Product'),
+      appBar: CustomAppBar(
+          title: AppLocalizations.of(context)?.rateProduct ?? 'Rate Product'),
       backgroundColor: AppColor.white,
       body: Column(
         children: [
@@ -155,7 +157,9 @@ class _ReviewRatingState extends State<ReviewRating> {
                                   const EdgeInsets.symmetric(horizontal: 10.0),
                               child: Row(
                                 children: [
-                                  const Text('Product reviews:'),
+                                  Text(
+                                      AppLocalizations.of(context)?.productReviews ??
+                                          'Product reviews:'),
                                   spaceW10,
                                   RatingBar(
                                     filledIcon: Icons.star,
@@ -184,7 +188,8 @@ class _ReviewRatingState extends State<ReviewRating> {
                                 decoration: InputDecoration(
                                   hintStyle: AppStyle.regular_12
                                       .copyWith(color: AppColor.grey500),
-                                  hintText:
+                                  hintText: AppLocalizations.of(context)
+                                          ?.shareYourExperienceWithThisProduct ??
                                       'Share your experience with this product...',
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
@@ -228,7 +233,10 @@ class _ReviewRatingState extends State<ReviewRating> {
               children: [
                 CrElevatedButton(
                   onPressed: _isLoading ? null : _submitReviews,
-                  text: _isLoading ? 'Submitting...' : 'Submit Review',
+                  text: _isLoading
+                      ? AppLocalizations.of(context)?.adding ?? 'Adding...'
+                      : AppLocalizations.of(context)?.submitReview ??
+                          'Submit Review',
                 ),
               ],
             ),

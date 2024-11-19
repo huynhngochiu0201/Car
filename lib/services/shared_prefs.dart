@@ -34,4 +34,14 @@ class SharedPrefs {
   static removeSeason() {
     _prefs.remove(userKey);
   }
+
+  static Future<void> saveLanguagePreference(String languageCode) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('language_code', languageCode);
+  }
+
+  static Future<String?> loadLanguagePreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('language_code') ?? 'en';
+  }
 }

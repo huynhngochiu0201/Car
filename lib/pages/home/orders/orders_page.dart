@@ -1,6 +1,7 @@
 import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/constants/app_style.dart';
 import 'package:app_car_rescue/pages/home/orders/widget/Cancelled_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:flutter/material.dart';
 import '../../../components/app_bar/cr_app_bar.dart';
@@ -48,10 +49,10 @@ class _OrdersPageState extends State<OrdersPage>
                   borderRadius: BorderRadius.circular(22.0),
                   color: AppColor.E43484B),
               labelColor: Colors.white,
-              tabs: const [
-                Tab(text: 'Pending'),
-                Tab(text: 'Delivered'),
-                Tab(text: 'Cancelled'),
+              tabs: [
+                Tab(text: AppLocalizations.of(context)?.pending ?? 'Pending'),
+                Tab(text: AppLocalizations.of(context)?.delivered ?? 'Delivered'),
+                Tab(text: AppLocalizations.of(context)?.cancelled ?? 'Cancelled'),
               ],
             ),
           ),

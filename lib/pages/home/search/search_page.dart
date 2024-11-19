@@ -3,11 +3,11 @@ import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../../constants/app_color.dart';
 import '../../../constants/app_style.dart';
 import '../../../models/product_model.dart';
 import '../../../utils/spaces.dart';
 import '../product/product_detail_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -72,7 +72,11 @@ class SearchPageState extends State<SearchPage> {
                           child: Text('Error loading products'));
                     } else if (!snapshot.hasData ||
                         snapshot.data!.docs.isEmpty) {
-                      return const Center(child: Text('No products found'));
+                      return Center(
+                          child: Text(
+                        AppLocalizations.of(context)?.noProductsFound ??
+                            'No products found',
+                      ));
                     }
                     var products = snapshot.data!.docs;
                     return Padding(

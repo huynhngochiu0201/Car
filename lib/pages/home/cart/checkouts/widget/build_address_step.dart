@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../../components/text_field/cr_text_field.dart';
 import '../../../../../constants/app_style.dart';
 import '../../../../../utils/spaces.dart';
@@ -26,17 +26,18 @@ class BuildAddressStep extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'STEP 1',
+              AppLocalizations.of(context)?.step ?? 'STEP 1',
               style: AppStyle.regular_12,
             ),
             Text(
-              'Shipping',
+              AppLocalizations.of(context)?.shipping ?? 'Shipping',
               style: AppStyle.bold_24,
             ),
             spaceH20,
             CrTextField(
               controller: nameController,
-              labelText: 'First name',
+              labelText:
+                  AppLocalizations.of(context)?.firstName ?? 'First name',
               validator: Validator.required,
               textInputAction: TextInputAction.next,
             ),
@@ -50,7 +51,8 @@ class BuildAddressStep extends StatelessWidget {
             spaceH30,
             CrTextField(
               controller: phoneController,
-              labelText: 'Phone Number',
+              labelText:
+                  AppLocalizations.of(context)?.phoneNumber ?? 'Phone Number',
               validator: Validator.phoneNumber,
               textInputAction: TextInputAction.next,
             ),
@@ -58,7 +60,7 @@ class BuildAddressStep extends StatelessWidget {
             CrTextField(
               maxLines: 2,
               controller: addressController,
-              labelText: 'Address',
+              labelText: AppLocalizations.of(context)?.address ?? 'Address',
               validator: Validator.required,
               textInputAction: TextInputAction.done,
             ),

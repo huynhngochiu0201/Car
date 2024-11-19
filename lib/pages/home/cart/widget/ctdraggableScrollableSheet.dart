@@ -5,6 +5,7 @@ import '../../../../constants/app_color.dart';
 import '../../../../constants/app_style.dart';
 import '../../../../models/cart_model.dart';
 import '../../../../services/remote/cart_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../checkouts/checkouts_page.dart';
 
 class CTDraggableScrollable extends StatefulWidget {
@@ -119,7 +120,7 @@ class CTDraggableScrollableState extends State<CTDraggableScrollable> {
           },
         ),
         Text(
-          'Select All',
+          AppLocalizations.of(context)?.selectAll ?? 'Select All',
           style: AppStyle.regular_14.copyWith(color: AppColor.black),
         ),
       ],
@@ -154,7 +155,7 @@ class CTDraggableScrollableState extends State<CTDraggableScrollable> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Product price',
+            AppLocalizations.of(context)?.productPrice ?? 'Product price',
             style: AppStyle.regular_14.copyWith(color: AppColor.black),
           ),
           Text(totalCost.toVND(),
@@ -171,11 +172,15 @@ class CTDraggableScrollableState extends State<CTDraggableScrollable> {
       child: CrElevatedButton(
         height: 60.0,
         borderRadius: BorderRadius.circular(25.0),
-        text: 'Proceed to checkout ( $totalQuantity )',
+        text:
+            '${AppLocalizations.of(context)?.proceedToCheckout ?? 'Proceed to checkout'} ( $totalQuantity )',
         onPressed: () {
           if (widget._selectedItems.isEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('No items selected for checkout')),
+              SnackBar(
+                  content: Text(
+                      AppLocalizations.of(context)?.noItemsSelected ??
+                          'No items selected for checkout')),
             );
             return;
           }

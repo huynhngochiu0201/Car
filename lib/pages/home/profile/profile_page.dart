@@ -11,6 +11,7 @@ import '../../../services/shared_prefs.dart';
 import '../../auth/change_password_page.dart';
 import '../../auth/login_page.dart';
 import 'language/language_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -44,7 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Welcome',
+                        AppLocalizations.of(context)?.welcome ?? 'Welcome',
                         style: AppStyle.bold_18,
                       ),
                       Text(SharedPrefs.user?.name ?? '',
@@ -90,7 +91,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               color: AppColor.black,
                             ),
                             spaceW10,
-                            Text('Change Profile'),
+                            Text(AppLocalizations.of(context)?.changeProfile ??
+                                'Change Profile'),
                           ],
                         ),
                       ),
@@ -112,7 +114,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           children: [
                             Icon(Icons.lock_outline),
                             spaceW10,
-                            Text('Change Password'),
+                            Text(AppLocalizations.of(context)?.changePassword ??
+                                'Change Password'),
                           ],
                         ),
                       ),
@@ -133,7 +136,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           children: [
                             SvgPicture.asset(Assets.icons.language),
                             spaceW10,
-                            Text('Language'),
+                            Text(AppLocalizations.of(context)?.language ??
+                                'Language'),
                           ],
                         ),
                       ),
@@ -166,7 +170,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Icon(Icons.logout),
                             spaceW10,
                             Text(
-                              'Logout',
+                              AppLocalizations.of(context)?.logout ?? 'Logout',
                             ),
                           ],
                         ),

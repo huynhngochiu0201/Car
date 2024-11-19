@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../constants/app_color.dart';
 import '../../gen/assets.gen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SeachAppBar extends StatelessWidget implements PreferredSizeWidget {
   const SeachAppBar(
@@ -56,7 +57,7 @@ class SeachAppBar extends StatelessWidget implements PreferredSizeWidget {
               style: const TextStyle(color: AppColor.black),
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Search...',
+                hintText: '${AppLocalizations.of(context)?.search}...',
                 hintStyle: const TextStyle(color: AppColor.E43484B),
                 prefixIcon: SvgPicture.asset(
                   Assets.icons.seach,

@@ -45,7 +45,7 @@ class DeliveredPageState extends State<DeliveredPage> {
           } else if (snapshot.hasError) {
             return const Center(child: Text('Something went wrong!'));
           } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text('No pending orders found'));
+            return const Center(child: Text('No Delivered orders found'));
           }
 
           var orders = snapshot.data!.docs;

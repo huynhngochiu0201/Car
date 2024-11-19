@@ -8,6 +8,7 @@ import 'package:app_car_rescue/components/snack_bar/td_snack_bar.dart';
 import 'package:app_car_rescue/components/snack_bar/top_snack_bar.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:app_car_rescue/pages/home/cart/widget/ctdraggableScrollableSheet.dart';
 
 class CartPage extends StatefulWidget {
@@ -101,7 +102,8 @@ class CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Your Cart'),
+      appBar: CustomAppBar(
+          title: AppLocalizations.of(context)?.yourCart ?? 'Your Cart'),
       backgroundColor: AppColor.white,
       body: Stack(
         children: [
@@ -111,9 +113,13 @@ class CartPageState extends State<CartPage> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
+                return Center(
+                    child: Text(
+                        '${AppLocalizations.of(context)?.error ?? 'Error'}: ${snapshot.error}'));
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return const Center(child: Text('Your cart is empty'));
+                return Center(
+                    child: Text(AppLocalizations.of(context)?.yourCartIsEmpty ??
+                        'Your cart is empty'));
               }
 
               final cartItems = snapshot.data!;
@@ -280,20 +286,21 @@ class CartPageState extends State<CartPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Confirm'),
-        content: const Text(
-            'Are you sure you want to remove this item from the cart?'),
+        title: Text(AppLocalizations.of(context)?.confirm ?? 'Confirm'),
+        content: Text(
+            AppLocalizations.of(context)?.areYouSureYouWantToRemoveThisItemFromTheCart ??
+                'Are you sure you want to remove this item from the cart?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)?.cancel ?? 'Cancel'),
           ),
           TextButton(
             onPressed: () {
               _removeItem(cartItem.productId);
               Navigator.pop(context);
             },
-            child: const Text('Remove'),
+            child: Text(AppLocalizations.of(context)?.remove ?? 'Remove'),
           ),
         ],
       ),

@@ -7,7 +7,7 @@ import 'package:app_car_rescue/pages/home/service/service.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../components/app_bar/cr_app_bar.dart';
 import '../../models/category_model.dart';
 import '../../models/product_model.dart';
@@ -26,7 +26,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final zoomDrawerController = ZoomDrawerController();
   final PageController _pageController = PageController();
   final CategoryService _categoryService = CategoryService();
   final ProductService _productService = ProductService();
@@ -53,11 +52,6 @@ class _HomePageState extends State<HomePage> {
         );
       }
     });
-  }
-
-  toggleDrawer() {
-    zoomDrawerController.toggle?.call();
-    setState(() {});
   }
 
   @override
@@ -120,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Products',
+                      AppLocalizations.of(context)?.product ?? 'Product',
                       style: AppStyle.bold_20,
                     ),
                     GestureDetector(
@@ -130,7 +124,11 @@ class _HomePageState extends State<HomePage> {
                         });
                       },
                       child: Text(
-                        isGridView ? 'Show list' : 'Show all',
+                        isGridView
+                            ? AppLocalizations.of(context)?.showList ??
+                                'Show list'
+                            : AppLocalizations.of(context)?.showAll ??
+                                'Show all',
                         style: AppStyle.regular_12,
                       ),
                     ),
@@ -157,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                 child: Row(
                   children: [
                     Text(
-                      'New Product',
+                      AppLocalizations.of(context)?.newProduct ?? 'New Product',
                       style: AppStyle.bold_20,
                     ),
                   ],
@@ -170,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.symmetric(horizontal: 32.0)
                     .copyWith(bottom: 10.0, top: 10.0),
                 child: Text(
-                  'Service',
+                  AppLocalizations.of(context)?.service ?? 'Service',
                   style: AppStyle.bold_20
                       .copyWith(fontFamily: 'Product Sans Medium'),
                 ),
@@ -243,7 +241,11 @@ class _HomePageState extends State<HomePage> {
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text('No categories found'));
+          return Center(
+              child: Text(
+            AppLocalizations.of(context)?.noCategoriesFound ??
+                'No categories found',
+          ));
         }
 
         final categories = snapshot.data!;
@@ -291,7 +293,9 @@ class _HomePageState extends State<HomePage> {
                           child: Text(
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            category.name ?? 'Unknown Category',
+                            category.name ??
+                                AppLocalizations.of(context)?.unknownCategory ??
+                                'Unknown Category',
                             style: AppStyle.regular_12
                                 .copyWith(color: AppColor.black),
                           ),
@@ -317,10 +321,18 @@ class _HomePageState extends State<HomePage> {
               child: Center(child: CircularProgressIndicator()));
         } else if (snapshot.hasError) {
           return SliverToBoxAdapter(
-              child: Center(child: Text('Error: ${snapshot.error}')));
+              child: Center(
+                  child: Text(
+            AppLocalizations.of(context)?.errorLoadingProducts ??
+                'Error: ${snapshot.error}',
+          )));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return SliverToBoxAdapter(
-              child: Center(child: Text('No products found')));
+              child: Center(
+                  child: Text(
+            AppLocalizations.of(context)?.noProductsFound ??
+                'No products found',
+          )));
         }
 
         final products = snapshot.data!;
@@ -420,7 +432,11 @@ class _HomePageState extends State<HomePage> {
               child: Center(child: Text('Error: ${snapshot.error}')));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return SliverToBoxAdapter(
-              child: Center(child: Text('No products found')));
+              child: Center(
+                  child: Text(
+            AppLocalizations.of(context)?.noProductsFound ??
+                'No products found',
+          )));
         }
 
         final products = snapshot.data!;
@@ -503,15 +519,6 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-
-                    // RatingBar.readOnly(
-                    //   filledColor: AppColor.E508A7B,
-                    //   size: 19.0,
-                    //   filledIcon: Icons.star,
-                    //   emptyIcon: Icons.star_border,
-                    //   initialRating: 4,
-                    //   maxRating: 5,
-                    // )
                   ],
                 );
               },

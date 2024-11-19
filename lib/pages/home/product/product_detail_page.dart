@@ -5,6 +5,7 @@ import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -266,7 +267,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           ),
                           spaceW4,
                           Text(
-                            'sold',
+                            AppLocalizations.of(context)?.sold ?? 'sold',
                             style: AppStyle.bold_10
                                 .copyWith(color: AppColor.grey700),
                           ),
@@ -281,7 +282,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Description', style: AppStyle.bold_16),
+                              Text(
+                                AppLocalizations.of(context)?.description ??
+                                    'Description',
+                                style: AppStyle.bold_16,
+                              ),
                               GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -316,7 +321,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Reviews', style: AppStyle.bold_16),
+                              Text(
+                                AppLocalizations.of(context)?.reviews ??
+                                    'Reviews',
+                                style: AppStyle.bold_16,
+                              ),
                               GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -347,9 +356,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           children: [
                             _buildRatingBars(),
                             spaceH20,
-                            Text('${_reviews.length} Reviews',
-                                style: AppStyle.regular_14
-                                    .copyWith(color: AppColor.E8A8A8F)),
+                            Text(
+                              '${_reviews.length} ${AppLocalizations.of(context)?.reviews ?? 'Reviews'}',
+                              style: AppStyle.regular_14
+                                  .copyWith(color: AppColor.E8A8A8F),
+                            ),
                             spaceH40,
                             Column(
                               children: _reviews.map((review) {
@@ -423,7 +434,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         children: [
           if (!isExpanded && widget.product.description.length > 200)
             TextSpan(
-              text: ' Read more',
+              text: ' ${AppLocalizations.of(context)?.readMore ?? 'Read more'}',
               style: const TextStyle(color: Colors.blue),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
@@ -434,7 +445,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ),
           if (isExpanded && widget.product.description.length > 200)
             TextSpan(
-              text: ' Show less',
+              text: ' ${AppLocalizations.of(context)?.showLess ?? 'Show less'}',
               style: const TextStyle(color: Colors.blue),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
@@ -468,7 +479,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             SvgPicture.asset(Assets.icons.filled),
             spaceW10,
             Text(
-              _isAddingToCart ? 'Adding...' : 'Add to Cart',
+              _isAddingToCart
+                  ? AppLocalizations.of(context)?.adding ?? 'Adding...'
+                  : AppLocalizations.of(context)?.addToCart ?? 'Add to Cart',
               style: AppStyle.bold_18.copyWith(color: AppColor.white),
             ),
           ],

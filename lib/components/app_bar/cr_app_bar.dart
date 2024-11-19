@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../constants/app_color.dart';
 import '../../pages/home/search/search_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CrAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CrAppBar({
@@ -59,7 +60,7 @@ class CrAppBar extends StatelessWidget implements PreferredSizeWidget {
                       width: 18.0,
                     ),
                     spaceW10,
-                    const Text('Search...'),
+                    Text(AppLocalizations.of(context)?.search ?? 'Search...'),
                   ],
                 ),
               ),

@@ -13,6 +13,7 @@ import '../../../../models/cart_model.dart';
 import '../../../../services/remote/cart_service.dart';
 import '../../../../services/remote/checkout_service.dart';
 import 'widget/build_confirm_step.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CheckoutPage extends StatefulWidget {
   final List<CartModel> cartData;
@@ -131,9 +132,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: const CustomAppBar(title: 'Checkout'),
+        appBar: CustomAppBar(
+            title: AppLocalizations.of(context)?.checkout ?? 'Checkout'),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 23.0)
+          padding: const EdgeInsets.symmetric(horizontal: 32.0)
               .copyWith(bottom: 20.0),
           child: Column(
             children: [
@@ -165,7 +167,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 onPressed: _currentStep == 2 ? _handleCheckout : _nextStep,
                 height: 60.0,
                 borderRadius: BorderRadius.circular(25.0),
-                text: (_currentStep == 2 ? 'Place Order' : 'Next'),
+                text: _currentStep == 2
+                    ? AppLocalizations.of(context)?.placeOrder ?? 'Place Order'
+                    : AppLocalizations.of(context)?.next ?? 'Next',
               ),
             ],
           ),
@@ -196,7 +200,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
             // totalProduct: widget.totalProduct,
             );
       default:
-        return const Text('Error');
+        return Text(AppLocalizations.of(context)?.error ?? 'Error');
     }
   }
 }
