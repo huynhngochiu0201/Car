@@ -1,7 +1,10 @@
 import 'package:app_car_rescue/components/app_bar/custom_app_bar.dart';
 import 'package:app_car_rescue/components/button/cr_elevated_button.dart';
 import 'package:app_car_rescue/constants/app_style.dart';
+import 'package:app_car_rescue/pages/home/profile/language/locale_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class LanguagePage extends StatefulWidget {
   const LanguagePage({super.key});
@@ -12,6 +15,11 @@ class LanguagePage extends StatefulWidget {
 
 class _LanguagePageState extends State<LanguagePage> {
   String _selectedLanguageCode = 'en'; // Ngôn ngữ được chọn mặc định
+
+  void _changeLanguage(BuildContext context, String languageCode) {
+    final provider = Provider.of<LocaleProvider>(context, listen: false);
+    provider.setLocale(Locale(languageCode));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +75,13 @@ class _LanguagePageState extends State<LanguagePage> {
           Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 32.0, vertical: 20.0),
-            child: CrElevatedButton.outline(text: 'Done', onPressed: () {}),
+            child: CrElevatedButton.outline(
+              text: 'Done',
+              onPressed: () {
+                _changeLanguage(context, _selectedLanguageCode);
+                Navigator.pop(context);
+              },
+            ),
           )
         ],
       ),
