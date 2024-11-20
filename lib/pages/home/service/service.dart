@@ -19,7 +19,7 @@ class Service extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ServicePage()),
+                MaterialPageRoute(builder: (context) => ServicePge()),
               );
             },
             child: Container(

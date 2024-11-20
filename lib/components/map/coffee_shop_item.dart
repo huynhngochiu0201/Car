@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/data_address_map_model.dart';
+import '../../models/address_map_model.dart';
 
 class CoffeeShopItem extends StatelessWidget {
   const CoffeeShopItem(
@@ -9,7 +9,7 @@ class CoffeeShopItem extends StatelessWidget {
   });
 
   final Function()? onPressed;
-  final DataAddressMapModel shop;
+  final AddressMapModel shop;
 
   @override
   Widget build(BuildContext context) {

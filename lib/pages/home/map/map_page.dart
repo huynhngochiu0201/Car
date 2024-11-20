@@ -10,7 +10,7 @@ import '../../../components/map/card_shop.dart';
 import '../../../components/map/coffee_shop_item.dart';
 import '../../../components/map/search_box.dart';
 import '../../../gen/assets.gen.dart';
-import '../../../models/data_address_map_model.dart';
+import '../../../models/address_map_model.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -28,8 +28,8 @@ class _MapPageState extends State<MapPage> {
   // doi tuong geolocator de lay vi tri hien tai
 
   TextEditingController searchController = TextEditingController();
-  List<DataAddressMapModel> searchCoffeeShops = [];
-  DataAddressMapModel selectedShop = DataAddressMapModel();
+  List<AddressMapModel> searchCoffeeShops = [];
+  AddressMapModel selectedShop = AddressMapModel();
   bool showCardShop = false;
 
   Position? currentPosition;
@@ -403,7 +403,7 @@ class _MapPageState extends State<MapPage> {
         bottomNavigationBar: SearchBox(
           controller: searchController,
           onChanged: _search,
-          hintText: 'Search Coffee Shops',
+          hintText: 'Search...',
         ),
       ),
     );

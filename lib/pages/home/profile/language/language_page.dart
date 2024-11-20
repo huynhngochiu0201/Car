@@ -31,11 +31,15 @@ class _LanguagePageState extends State<LanguagePage> {
         'image': 'assets/images/vietnam.png',
         'name': 'Tiếng Việt'
       },
+      {'code': 'ru', 'image': 'assets/images/russia.png', 'name': 'Russian'},
+      {'code': 'ja', 'image': 'assets/images/japan.png', 'name': 'Japanese'},
+      {'code': 'ko', 'image': 'assets/images/south-korea.png', 'name': 'Korean'}
     ];
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CustomAppBar(title: 'Language'),
+      appBar: CustomAppBar(
+          title: AppLocalizations.of(context)?.language ?? 'Language'),
       body: Column(
         children: [
           Expanded(
