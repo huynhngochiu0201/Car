@@ -222,9 +222,13 @@ class _HomePageState extends State<HomePage> {
             },
             itemCount: promotions.length,
             itemBuilder: (context, index) {
-              return Image.asset(
-                promotions[index].path ?? '-',
-                fit: BoxFit.cover,
+              return AnimatedOpacity(
+                duration: const Duration(milliseconds: 800),
+                opacity: index == _currentIndex ? 1.0 : 0.0,
+                child: Image.asset(
+                  promotions[index].path ?? '-',
+                  fit: BoxFit.cover,
+                ),
               );
             },
           ),
@@ -277,58 +281,63 @@ class _HomePageState extends State<HomePage> {
         final categories = snapshot.data!;
 
         return SizedBox(
-          height: 90.0,
+          height: 100.0,
           child: ListView.separated(
-            padding: EdgeInsets.symmetric(horizontal: 35.0),
+            padding: EdgeInsets.symmetric(horizontal: 20.0).copyWith(top: 20.0),
             scrollDirection: Axis.horizontal,
             itemCount: categories.length,
-            separatorBuilder: (context, index) => const SizedBox(width: 40.0),
+            separatorBuilder: (context, index) => const SizedBox(width: 20.0),
             itemBuilder: (context, index) {
               final category = categories[index];
               return GestureDetector(
                 onTap: () => _loadProductsByCategory(category.id),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 42,
-                      height: 42,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: category.image != null &&
-                                  category.image!.isNotEmpty
-                              ? NetworkImage(category.image!)
-                              : AssetImage(Assets.images.dummyCategory.path)
-                                  as ImageProvider,
-                          fit: BoxFit.cover,
-                        ),
-                        border: Border.all(
-                          color: _selectedCategoryId == category.id
-                              ? AppColor.E3A2C27
-                              : Colors.grey,
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                    spaceH6,
-                    Expanded(
-                      child: SizedBox(
-                        width: 50,
-                        child: Center(
-                          child: Text(
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            category.name ??
-                                AppLocalizations.of(context)?.unknownCategory ??
-                                'Unknown Category',
-                            style: AppStyle.regular_12
-                                .copyWith(color: AppColor.black),
+                child: SizedBox(
+                  width: 60,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 45,
+                        height: 45,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: category.image != null &&
+                                    category.image!.isNotEmpty
+                                ? NetworkImage(category.image!)
+                                : AssetImage(Assets.images.dummyCategory.path)
+                                    as ImageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                          border: Border.all(
+                            color: _selectedCategoryId == category.id
+                                ? AppColor.E3A2C27
+                                : Colors.grey,
+                            width: 2,
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                      spaceH6,
+                      Expanded(
+                        child: SizedBox(
+                          width: 70,
+                          child: Center(
+                            child: Text(
+                              maxLines: 2,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              category.name ??
+                                  AppLocalizations.of(context)
+                                      ?.unknownCategory ??
+                                  'Unknown Category',
+                              style: AppStyle.regular_12
+                                  .copyWith(color: AppColor.black),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

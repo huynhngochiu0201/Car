@@ -1,6 +1,5 @@
 import 'package:app_car_rescue/gen/assets.gen.dart';
 import 'package:app_car_rescue/pages/home/cart/cart_page.dart';
-import 'package:app_car_rescue/pages/home/profile/notification/notification_page.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -79,39 +78,39 @@ class CrAppBar extends StatelessWidget implements PreferredSizeWidget {
                 child: const Icon(Icons.shopping_cart),
               ),
               spaceW10,
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => NotificationPage()),
-                  );
-                },
-                child: Stack(
-                  clipBehavior:
-                      Clip.none, // Để cho chấm đỏ có thể đè lên ngoài Stack
-                  children: [
-                    SvgPicture.asset(
-                      Assets.icons.notification,
-                      color: AppColor.black,
-                      height: 20.0,
-                      width: 20.0,
-                    ),
-                    //if (hasNotification) // Nếu có thông báo, hiển thị chấm đỏ
-                    Positioned(
-                      right: -0.1, // Vị trí chấm đỏ
-                      top: -0.1,
-                      child: Container(
-                        width: 8.0,
-                        height: 8.0,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(builder: (context) => NotificationPage()),
+              //     );
+              //   },
+              //   child: Stack(
+              //     clipBehavior:
+              //         Clip.none, // Để cho chấm đỏ có thể đè lên ngoài Stack
+              //     children: [
+              //       SvgPicture.asset(
+              //         Assets.icons.notification,
+              //         color: AppColor.black,
+              //         height: 20.0,
+              //         width: 20.0,
+              //       ),
+              //       //if (hasNotification) // Nếu có thông báo, hiển thị chấm đỏ
+              //       Positioned(
+              //         right: -0.1, // Vị trí chấm đỏ
+              //         top: -0.1,
+              //         child: Container(
+              //           width: 8.0,
+              //           height: 8.0,
+              //           decoration: BoxDecoration(
+              //             color: Colors.red,
+              //             shape: BoxShape.circle,
+              //           ),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ],

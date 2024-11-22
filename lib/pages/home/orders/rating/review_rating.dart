@@ -145,8 +145,12 @@ class _ReviewRatingState extends State<ReviewRating> {
                                     ),
                                   ),
                                   spaceW10,
-                                  Text(product['productName'],
-                                      style: AppStyle.bold_16),
+                                  Expanded(
+                                    child: Text(product['productName'],
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: AppStyle.bold_16),
+                                  ),
                                 ],
                               ),
                             ),
@@ -157,9 +161,9 @@ class _ReviewRatingState extends State<ReviewRating> {
                                   const EdgeInsets.symmetric(horizontal: 10.0),
                               child: Row(
                                 children: [
-                                  Text(
-                                      AppLocalizations.of(context)?.productReviews ??
-                                          'Product reviews:'),
+                                  Text(AppLocalizations.of(context)
+                                          ?.productReviews ??
+                                      'Product reviews:'),
                                   spaceW10,
                                   RatingBar(
                                     filledIcon: Icons.star,
