@@ -87,6 +87,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
     // Prepare checkout model
     final checkoutModel = AddCheckoutModel(
+      status: 'Pending',
       userId: _checkoutService.userId,
       cartData: widget.cartData,
       totalPrice: widget.totalPrice,

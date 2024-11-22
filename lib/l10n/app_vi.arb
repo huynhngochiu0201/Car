@@ -4,7 +4,7 @@
   "showAll": "Hiển thị tất cả",
   "showList": "Hiển thị danh sách",
   "newProduct": "Sản phẩm mới",
-  "service": "Dịch vụ",
+  "serviceRescue": "Dịch vụ cứu hộ",
   "pending": "Đang chờ xử lý",
   "delivered": "Đã giao",
   "cancelled": "Đã hủy",
@@ -72,5 +72,6 @@
   "area": "Khu vực",
   "payload": "Tải trọng",
   "submit": "Gửi",
-  "wheelSize": "Kích thước lốp xe"
+  "wheelSize": "Kích thước lốp xe",
+  "updateReview": "Cập nhật đánh giá"
 }

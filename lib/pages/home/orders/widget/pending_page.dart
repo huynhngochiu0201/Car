@@ -16,7 +16,7 @@ class PendingPage extends StatefulWidget {
 }
 
 class PendingPageState extends State<PendingPage> {
-  String get userId => FirebaseAuth.instance.currentUser!.uid;
+  String get userId => FirebaseAuth.instance.currentUser!.email!;
 
   Stream<QuerySnapshot> fetchPendingOrders() {
     return FirebaseFirestore.instance

@@ -8,7 +8,7 @@ class CheckoutService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Lấy userId của người dùng hiện tại
-  String get userId => _auth.currentUser!.uid;
+  String get userId => _auth.currentUser!.email!;
 
   Future<String> placeOrder(AddCheckoutModel checkoutModel) async {
     String res = "Some error occurred";

@@ -4,7 +4,7 @@
   "showAll": "すべて表示",
   "showList": "リストを表示",
   "newProduct": "新商品",
-  "service": "サービス",
+  "serviceRescue": "サービス救援",
   "pending": "保留中",
   "delivered": "配達済み",
   "cancelled": "キャンセル済み",
@@ -65,5 +65,6 @@
   "youCanViewYourOrderInMyOrders": "「マイオーダー」で注文内容を確認できます。",
   "section": "セクション",
   "payment": "支払い",
-  "welcome": "ようこそ"
+  "welcome": "ようこそ",
+  "updateReview": "レビューを更新"
 }

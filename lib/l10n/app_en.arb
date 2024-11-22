@@ -4,7 +4,7 @@
   "showAll": "Show all",
   "showList": "Show list",
   "newProduct": "New product",
-  "service": "Service",
+  "serviceRescue": "Service rescue",
   "pending": "Pending",
   "delivered": "Delivered",
   "cancelled": "Cancelled",
@@ -72,5 +72,6 @@
   "area": "Area",
   "payload": "Payload",
   "submit": "Submit",
-  "wheelSize": "Wheel Size"
+  "wheelSize": "Wheel Size",
+  "updateReview": "Update Review"
 }

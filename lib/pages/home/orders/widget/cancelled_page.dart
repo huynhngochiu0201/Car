@@ -17,7 +17,7 @@ class CancelledPage extends StatefulWidget {
 
 class CancelledPageState extends State<CancelledPage> {
   // Retrieve the current user's ID
-  String get userId => FirebaseAuth.instance.currentUser!.uid;
+  String get userId => FirebaseAuth.instance.currentUser!.email!;
 
   // Stream to fetch only orders with 'Pending' status
   Stream<QuerySnapshot> fetchPendingOrders() {

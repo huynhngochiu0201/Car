@@ -4,7 +4,7 @@
   "showAll": "Показать все",
   "showList": "Показать список",
   "newProduct": "Новый товар",
-  "service": "Сервис",
+  "serviceRescue": "Сервис",
   "pending": "В ожидании",
   "delivered": "Доставлено",
   "cancelled": "Отменено",
@@ -65,5 +65,6 @@
   "youCanViewYourOrderInMyOrders": "Вы можете увидеть свой заказ в разделе 'Мои заказы'.",
   "section": "Раздел",
   "payment": "Оплата",
-  "welcome": "Добро пожаловать"
+  "welcome": "Добро пожаловать",
+  "updateReview": "Обновить отзыв"
 }

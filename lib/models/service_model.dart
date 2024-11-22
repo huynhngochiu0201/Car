@@ -1,41 +1,45 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class ServiceModel {
-  String id;
-  final String? name;
-  final String? image;
-  final double? price;
-  final String? description;
-  final Timestamp? createAt;
-
+  final String name;
+  final String address;
+  final String phone;
+  final String note;
+  final String service;
+  final String? area;
+  final String? payload;
+  final String? wheelSize;
+  final double totalPrice;
+  final String? status;
+  final DateTime createdAt;
+  final String? userId;
   ServiceModel({
-    required this.id,
-    this.name,
-    this.image,
-    this.price,
-    this.description,
-    this.createAt,
+    required this.name,
+    required this.address,
+    required this.phone,
+    required this.note,
+    required this.service,
+    this.area,
+    this.payload,
+    this.wheelSize,
+    required this.totalPrice,
+    required this.createdAt,
+    this.status,
+    this.userId,
   });
-
-  factory ServiceModel.fromJson(Map<String, dynamic> json) {
-    return ServiceModel(
-      id: json['id'] as String,
-      name: json['name'] as String?,
-      image: json['image'] as String?,
-      price: (json['price'] as num?)?.toDouble(),
-      description: json['description'] as String?,
-      createAt: json['createAt'] as Timestamp?,
-    );
-  }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'name': name,
-      'image': image,
-      'price': price,
-      'description': description,
-      'createAt': createAt,
+      'address': address,
+      'phone': phone,
+      'note': note,
+      'service': service,
+      'area': area,
+      'payload': payload,
+      'wheelSize': wheelSize,
+      'totalPrice': totalPrice,
+      'createdAt': createdAt,
+      'status': status,
+      'userId': userId,
     };
   }
 }

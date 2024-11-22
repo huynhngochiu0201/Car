@@ -3,7 +3,7 @@ import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/constants/app_style.dart';
 import 'package:app_car_rescue/gen/assets.gen.dart';
 import 'package:app_car_rescue/pages/home/product/new_product.dart';
-import 'package:app_car_rescue/pages/home/service/service.dart';
+import 'package:app_car_rescue/pages/home/service/service_pge.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:flutter/material.dart';
@@ -168,13 +168,39 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.symmetric(horizontal: 32.0)
                     .copyWith(bottom: 10.0, top: 10.0),
                 child: Text(
-                  AppLocalizations.of(context)?.service ?? 'Service',
+                  AppLocalizations.of(context)?.serviceRescue ??
+                      'Service rescue',
                   style: AppStyle.bold_20
                       .copyWith(fontFamily: 'Product Sans Medium'),
                 ),
               ),
             ),
-            SliverToBoxAdapter(child: Service()),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ServicePge()),
+                    );
+                  },
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: AppColor.F8F8FA,
+                          borderRadius: BorderRadius.circular(10.0)),
+                      height: 154.0,
+                      width: double.infinity,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: Image.asset(
+                          Assets.images.vf3BannerJpg.path,
+                          fit: BoxFit.cover,
+                        ),
+                      )),
+                ),
+              ),
+            ),
           ],
         ),
       ),

@@ -1,23 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../models/service_model.dart';
 import '../../resources/define_collection.dart';
 
-class ServiceService {
+class ServiceRequestService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  Future<List<ServiceModel>> fetchServices() async {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String get userId => _auth.currentUser!.email!;
+  Future<void> submitRequest(ServiceModel request) async {
     try {
-      QuerySnapshot snapshot = await _firestore
+      await _firestore
           .collection(AppDefineCollection.APP_USER_SERVICE)
-          .get();
-      return snapshot.docs.map((doc) {
-        return ServiceModel.fromJson({
-          'id': doc.id,
-          ...doc.data() as Map<String, dynamic>,
-        });
-      }).toList();
+          .add(request.toJson());
     } catch (e) {
-      throw Exception('Failed to load services: $e');
+      throw Exception('Failed to submit request: $e');
     }
   }
 }
