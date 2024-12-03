@@ -74,5 +74,6 @@
   "submit": "Gửi",
   "wheelSize": "Kích thước lốp xe",
   "updateReview": "Cập nhật đánh giá",
-   "service":"Dịch vụ"
+   "service":"Dịch vụ",
+   "soldOut":"Bán hết"
 }

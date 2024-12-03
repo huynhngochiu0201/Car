@@ -1,4 +1,5 @@
 import 'package:app_car_rescue/resources/double_extension.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:app_car_rescue/components/app_bar/custom_app_bar.dart';
 import 'package:app_car_rescue/components/snack_bar/td_snack_bar.dart';
@@ -46,13 +47,35 @@ class CartPageState extends State<CartPage> {
   }
 
   Future<void> _updateQuantity(CartModel cartItem, int newQuantity) async {
-    if (newQuantity < 1) return;
     setState(() => _isLoading = true);
     try {
+      // Lấy số lượng hiện tại của sản phẩm từ Firestore
+      final productSnapshot = await FirebaseFirestore.instance
+          .collection('products')
+          .doc(cartItem.productId)
+          .get();
+
+      final productData = productSnapshot.data();
+      if (productData == null) throw Exception("Product does not exist");
+
+      final currentStock = productData['quantity'] as int;
+
+      if (newQuantity > currentStock) {
+        showTopSnackBar(
+          context,
+          TDSnackBar.error(message: 'Cannot add more than available stock'),
+        );
+        return;
+      }
+
+      if (newQuantity < 1) return;
+
       await _cartService.updateQuantity(cartItem.productId, newQuantity);
     } catch (e) {
       showTopSnackBar(
-          context, TDSnackBar.error(message: 'Error: ${e.toString()}'));
+        context,
+        TDSnackBar.error(message: 'Error: ${e.toString()}'),
+      );
     } finally {
       setState(() => _isLoading = false);
     }
@@ -400,7 +423,27 @@ class CartPageState extends State<CartPage> {
                 style: AppStyle.bold_12.copyWith(color: Colors.grey),
               ),
               GestureDetector(
-                onTap: () => _updateQuantity(cartItem, cartItem.quantity + 1),
+                onTap: () async {
+                  // Thực hiện kiểm tra số lượng trước khi tăng số lượng sản phẩm
+                  final productSnapshot = await FirebaseFirestore.instance
+                      .collection('products')
+                      .doc(cartItem.productId)
+                      .get();
+
+                  final productData = productSnapshot.data();
+                  if (productData != null) {
+                    final currentStock = productData['quantity'] as int;
+                    if (cartItem.quantity + 1 > currentStock) {
+                      showTopSnackBar(
+                        context,
+                        TDSnackBar.error(
+                            message: 'Cannot add more than available stock'),
+                      );
+                    } else {
+                      _updateQuantity(cartItem, cartItem.quantity + 1);
+                    }
+                  }
+                },
                 child: CircleAvatar(
                     backgroundColor: Colors.transparent,
                     radius: 12.0,

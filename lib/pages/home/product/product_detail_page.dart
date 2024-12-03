@@ -23,8 +23,11 @@ class ProductDetailPage extends StatefulWidget {
   final ProductModel product;
   final String productId;
 
-  const ProductDetailPage(
-      {super.key, required this.product, required this.productId});
+  const ProductDetailPage({
+    super.key,
+    required this.product,
+    required this.productId,
+  });
 
   @override
   State<ProductDetailPage> createState() => _ProductDetailPageState();
@@ -111,7 +114,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     }
   }
 
-  // Thêm phương thức tính số lượng đánh giá cho mỗi số sao
   Map<int, int> _calculateRatingCounts() {
     Map<int, int> ratingCounts = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
     for (var review in _reviews) {
@@ -121,7 +123,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     return ratingCounts;
   }
 
-  // Thêm phương thức tính phần trăm cho mỗi số sao
   double _calculateRatingPercentage(int rating) {
     if (_reviews.isEmpty) return 0.0;
     Map<int, int> ratingCounts = _calculateRatingCounts();
@@ -298,13 +299,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                   margin: const EdgeInsets.only(top: 4.0),
                                   height: 20.0,
                                   width: 20.0,
-                                  decoration:
-                                      BoxDecoration(shape: BoxShape.circle),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
                                   child: Center(
                                     child: SvgPicture.asset(
-                                        height: 10.0,
-                                        width: 10.0,
-                                        Assets.icons.dropdownButton),
+                                      height: 10.0,
+                                      width: 10.0,
+                                      Assets.icons.dropdownButton,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -327,24 +330,27 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 style: AppStyle.bold_16,
                               ),
                               GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _isReviewsExpanded = !_isReviewsExpanded;
-                                    });
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 4.0),
-                                    height: 20.0,
-                                    width: 20.0,
-                                    decoration:
-                                        BoxDecoration(shape: BoxShape.circle),
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                          height: 10.0,
-                                          width: 10.0,
-                                          Assets.icons.dropdownButton),
+                                onTap: () {
+                                  setState(() {
+                                    _isReviewsExpanded = !_isReviewsExpanded;
+                                  });
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(top: 4.0),
+                                  height: 20.0,
+                                  width: 20.0,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                      height: 10.0,
+                                      width: 10.0,
+                                      Assets.icons.dropdownButton,
                                     ),
-                                  ))
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -400,8 +406,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                       child: Text(
                                         review.comment,
                                         style: AppStyle.regular_14.copyWith(
-                                            color: Colors.black,
-                                            fontFamily: 'Product Sans Light'),
+                                          color: Colors.black,
+                                          fontFamily: 'Product Sans Light',
+                                        ),
                                       ),
                                     ),
                                     spaceH20,
@@ -460,8 +467,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }
 
   Widget _buildBottomRow() {
+    final isSoldOut = widget.product.quantity == 0;
+
     return GestureDetector(
-      onTap: _isAddingToCart ? null : _addProductToCart,
+      onTap: _isAddingToCart || isSoldOut ? null : _addProductToCart,
       child: Container(
         height: 62.0,
         width: double.infinity,
@@ -479,9 +488,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             SvgPicture.asset(Assets.icons.filled),
             spaceW10,
             Text(
-              _isAddingToCart
-                  ? AppLocalizations.of(context)?.adding ?? 'Adding...'
-                  : AppLocalizations.of(context)?.addToCart ?? 'Add to Cart',
+              isSoldOut
+                  ? AppLocalizations.of(context)?.soldOut ?? 'Sold out'
+                  : _isAddingToCart
+                      ? AppLocalizations.of(context)?.adding ?? 'Adding...'
+                      : AppLocalizations.of(context)?.addToCart ??
+                          'Add to Cart',
               style: AppStyle.bold_18.copyWith(color: AppColor.white),
             ),
           ],

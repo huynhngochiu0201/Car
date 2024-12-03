@@ -74,5 +74,6 @@
   "submit": "Submit",
   "wheelSize": "Wheel Size",
   "updateReview": "Update Review",
-  "service": "Service"
+  "service": "Service",
+  "soldOut":"Sold Out"
 }
