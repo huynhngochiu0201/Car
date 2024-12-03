@@ -258,23 +258,23 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         overflow: TextOverflow.ellipsis,
                       ),
                       spaceH6,
-                      Row(
-                        children: [
-                          Text(
-                            widget.product.quantity.toString(),
-                            style: AppStyle.bold_10,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          spaceW4,
-                          Text(
-                            AppLocalizations.of(context)?.sold ?? 'sold',
-                            style: AppStyle.bold_10
-                                .copyWith(color: AppColor.grey700),
-                          ),
-                        ],
-                      ),
-                      spaceH6,
+                      // Row(
+                      //   children: [
+                      //     Text(
+                      //       '${widget.product.sold}',
+                      //       style: AppStyle.bold_10,
+                      //       maxLines: 1,
+                      //       overflow: TextOverflow.ellipsis,
+                      //     ),
+                      //     spaceW4,
+                      //     Text(
+                      //       AppLocalizations.of(context)?.sold ?? 'sold',
+                      //       style: AppStyle.bold_10
+                      //           .copyWith(color: AppColor.grey700),
+                      //     ),
+                      //   ],
+                      // ),
+                      // spaceH6,
                       Divider(),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -468,6 +468,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   Widget _buildBottomRow() {
     final isSoldOut = widget.product.quantity == 0;
+    final buttonColor = isSoldOut ? Colors.grey.shade600 : AppColor.E343434;
+    final buttonText = isSoldOut
+        ? AppLocalizations.of(context)?.soldOut ?? 'Sold out'
+        : _isAddingToCart
+            ? AppLocalizations.of(context)?.adding ?? 'Adding...'
+            : AppLocalizations.of(context)?.addToCart ?? 'Add to Cart';
 
     return GestureDetector(
       onTap: _isAddingToCart || isSoldOut ? null : _addProductToCart,
@@ -475,8 +481,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         height: 62.0,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: AppColor.E343434,
-          borderRadius: BorderRadius.only(
+          color: buttonColor,
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(30.0),
             topRight: Radius.circular(30.0),
           ),
@@ -486,14 +492,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(Assets.icons.filled),
-            spaceW10,
+            const SizedBox(width: 10.0),
             Text(
-              isSoldOut
-                  ? AppLocalizations.of(context)?.soldOut ?? 'Sold out'
-                  : _isAddingToCart
-                      ? AppLocalizations.of(context)?.adding ?? 'Adding...'
-                      : AppLocalizations.of(context)?.addToCart ??
-                          'Add to Cart',
+              buttonText,
               style: AppStyle.bold_18.copyWith(color: AppColor.white),
             ),
           ],
