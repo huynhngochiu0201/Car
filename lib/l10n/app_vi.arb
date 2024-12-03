@@ -73,5 +73,6 @@
   "payload": "Tải trọng",
   "submit": "Gửi",
   "wheelSize": "Kích thước lốp xe",
-  "updateReview": "Cập nhật đánh giá"
+  "updateReview": "Cập nhật đánh giá",
+   "service":"Dịch vụ"
 }

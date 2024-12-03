@@ -7,7 +7,7 @@ class ProductModel {
   final String image;
   final double price;
   final String description;
-  final int viewCount;
+  final int sold;
   final int orderCount;
   final int quantity;
   final int? favourute;
@@ -20,7 +20,7 @@ class ProductModel {
       required this.image,
       required this.price,
       required this.description,
-      required this.viewCount,
+      required this.sold,
       required this.orderCount,
       this.favourute,
       required this.quantity,
@@ -34,7 +34,7 @@ class ProductModel {
         image: json['image'],
         price: json['price'].toDouble(),
         description: json['description'],
-        viewCount: json['viewCount'],
+        sold: json['viewCount'],
         orderCount: json['orderCount'],
         quantity: json['quantity'],
         favourute: json['favourute'],

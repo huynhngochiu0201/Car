@@ -16,4 +16,15 @@ class ServiceRequestService {
       throw Exception('Failed to submit request: $e');
     }
   }
+
+  Stream<List<ServiceModel>> streamServicesByUserId(String userId) {
+    return _firestore
+        .collection('services') // Tên collection
+        .where('userId', isEqualTo: userId) // Lọc theo userId
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) =>
+                ServiceModel.fromFirestore(doc)) // Sử dụng fromFirestore
+            .toList());
+  }
 }

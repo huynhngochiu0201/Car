@@ -1,6 +1,7 @@
 import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/constants/app_style.dart';
 import 'package:app_car_rescue/pages/home/orders/widget/Cancelled_page.dart';
+import 'package:app_car_rescue/pages/home/orders/widget/service_item_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class _OrdersPageState extends State<OrdersPage>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -50,9 +51,30 @@ class _OrdersPageState extends State<OrdersPage>
                   color: AppColor.E43484B),
               labelColor: Colors.white,
               tabs: [
-                Tab(text: AppLocalizations.of(context)?.pending ?? 'Pending'),
-                Tab(text: AppLocalizations.of(context)?.delivered ?? 'Delivered'),
-                Tab(text: AppLocalizations.of(context)?.cancelled ?? 'Cancelled'),
+                Tab(
+                  child: Text(
+                    AppLocalizations.of(context)?.service ?? 'Service',
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    AppLocalizations.of(context)?.pending ?? 'Pending',
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    AppLocalizations.of(context)?.delivered ?? 'Delivered',
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    AppLocalizations.of(context)?.cancelled ?? 'Cancelled',
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
               ],
             ),
           ),
@@ -60,7 +82,12 @@ class _OrdersPageState extends State<OrdersPage>
           Expanded(
             child: TabBarView(
               controller: tabController,
-              children: const [PendingPage(), DeliveredPage(), CancelledPage()],
+              children: const [
+                ServiceItemPage(),
+                PendingPage(),
+                DeliveredPage(),
+                CancelledPage(),
+              ],
             ),
           ),
         ],

@@ -8,43 +8,77 @@ class AppDialog {
 
   static void dialog(
     BuildContext context, {
-    required title,
-    required content,
+    required String title,
+    required String content,
     Function()? action,
   }) {
     showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: Text(
-          content,
-          style: const TextStyle(color: AppColor.brown, fontSize: 18.0),
-          textAlign: TextAlign.center,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
         ),
-        actions: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              CrElevatedButton.smallOutline(
-                onPressed: () => Navigator.pop(context),
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                text: 'No',
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 12.0),
-                child: CrElevatedButton.smallOutline(
-                  onPressed: () {
-                    action?.call();
-                    Navigator.pop(context);
-                  },
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  text: 'Yes',
-                ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: AppColor.white,
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10.0,
+                offset: const Offset(0.0, 10.0),
               ),
             ],
           ),
-        ],
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                content,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: AppColor.black,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: CrElevatedButton.smallOutline(
+                      onPressed: () => Navigator.pop(context),
+                      text: 'No',
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: CrElevatedButton.smallOutline(
+                      onPressed: () {
+                        action?.call();
+                        Navigator.pop(context);
+                      },
+                      text: 'Yes',
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

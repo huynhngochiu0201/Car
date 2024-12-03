@@ -178,9 +178,8 @@ class CTDraggableScrollableState extends State<CTDraggableScrollable> {
           if (widget._selectedItems.isEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                  content: Text(
-                      AppLocalizations.of(context)?.noItemsSelected ??
-                          'No items selected for checkout')),
+                  content: Text(AppLocalizations.of(context)?.noItemsSelected ??
+                      'No items selected for checkout')),
             );
             return;
           }

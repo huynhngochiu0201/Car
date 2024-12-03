@@ -41,7 +41,6 @@ class _ServicePgeState extends State<ServicePge> {
   String? selectedWheelSize;
   String selectedService = 'rescue';
   late Future<void> _dataFuture;
-
   double areaPrice = 0;
   double payloadPrice = 0;
   double wheelSizePrice = 0;
@@ -113,7 +112,7 @@ class _ServicePgeState extends State<ServicePge> {
         address: addressController.text.trim(),
         phone: phoneController.text.trim(),
         note: noteController.text.trim(),
-        service: selectedService,
+        nameservice: selectedService,
         area: selectedArea,
         payload: selectedPayload,
         wheelSize: selectedWheelSize,
@@ -138,6 +137,7 @@ class _ServicePgeState extends State<ServicePge> {
         payloadPrice = 0;
         wheelSizePrice = 0;
       });
+      Navigator.pop(context);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to submit request: $e')),

@@ -12,12 +12,9 @@ class BuildConfirmStep extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Text(
-            AppLocalizations.of(context)?.orderCompleted ?? 'Order Completed',
-            style: AppStyle.bold_24,
-          ),
+        Text(
+          AppLocalizations.of(context)?.orderCompleted ?? 'Order Completed',
+          style: AppStyle.bold_24,
         ),
         spaceH68,
         SvgPicture.asset(Assets.icons.doneOder),

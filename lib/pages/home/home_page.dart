@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'package:app_car_rescue/components/button/cr_elevated_button.dart';
 import 'package:app_car_rescue/constants/app_color.dart';
 import 'package:app_car_rescue/constants/app_style.dart';
 import 'package:app_car_rescue/gen/assets.gen.dart';
 import 'package:app_car_rescue/pages/home/product/new_product.dart';
-import 'package:app_car_rescue/pages/home/service/service_pge.dart';
+import 'package:app_car_rescue/pages/home/service/service_page.dart';
 import 'package:app_car_rescue/resources/double_extension.dart';
 import 'package:app_car_rescue/utils/spaces.dart';
 import 'package:flutter/material.dart';
@@ -177,7 +178,8 @@ class _HomePageState extends State<HomePage> {
             ),
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                padding: const EdgeInsets.symmetric(horizontal: 32.0)
+                    .copyWith(bottom: 20.0),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -185,19 +187,30 @@ class _HomePageState extends State<HomePage> {
                       MaterialPageRoute(builder: (context) => ServicePge()),
                     );
                   },
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: AppColor.F8F8FA,
-                          borderRadius: BorderRadius.circular(10.0)),
-                      height: 154.0,
-                      width: double.infinity,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10.0),
-                        child: Image.asset(
-                          Assets.images.vf3BannerJpg.path,
-                          fit: BoxFit.cover,
-                        ),
-                      )),
+                  child: Stack(
+                    children: [
+                      Container(
+                          decoration: BoxDecoration(
+                              color: AppColor.F8F8FA,
+                              borderRadius: BorderRadius.circular(10.0)),
+                          height: 154.0,
+                          width: double.infinity,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Image.asset(
+                              Assets.images.vf3BannerJpg.path,
+                              fit: BoxFit.cover,
+                            ),
+                          )),
+                      Positioned(
+                          bottom: 10.0,
+                          right: 10.0,
+                          child: CrElevatedButton(
+                            text: AppLocalizations.of(context)?.serviceRescue ??
+                                'Service rescue',
+                          ))
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -243,7 +256,7 @@ class _HomePageState extends State<HomePage> {
                 (index) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4.6),
                   child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
+                    duration: const Duration(milliseconds: 300),
                     width: 10.0,
                     height: 10.0,
                     decoration: BoxDecoration(
@@ -481,7 +494,7 @@ class _HomePageState extends State<HomePage> {
           sliver: SliverGrid(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisExtent: 260,
+              mainAxisExtent: 280,
               crossAxisSpacing: 30,
               mainAxisSpacing: 30, // khoảng cách giữa các hàng
             ),

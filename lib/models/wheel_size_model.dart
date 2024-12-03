@@ -17,7 +17,8 @@ class WheelSizeModel {
     return WheelSizeModel(
       id: json['id'] as String,
       name: json['name'] as String?,
-      price: json['price'] as double?,
+      price: (json['price'] as num?)
+          ?.toDouble(), // Chuyển int hoặc double thành double
       createAt: json['createAt'] as Timestamp?,
     );
   }

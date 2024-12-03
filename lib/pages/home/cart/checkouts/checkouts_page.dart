@@ -1,6 +1,5 @@
 import 'package:app_car_rescue/gen/assets.gen.dart';
 import 'package:app_car_rescue/pages/home/cart/checkouts/widget/build_address_step.dart';
-import 'package:app_car_rescue/pages/home/cart/checkouts/widget/build_details_step.dart';
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -64,7 +63,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     }
 
     setState(() {
-      _currentStep = (_currentStep + 1) % 3;
+      _currentStep = (_currentStep + 1) % 2;
     });
   }
 
@@ -148,9 +147,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   EasyStep(
                     customStep: SvgPicture.asset(Assets.icons.address),
                   ),
-                  EasyStep(
-                    customStep: SvgPicture.asset(Assets.icons.bag),
-                  ),
+                  // EasyStep(
+                  //   customStep: SvgPicture.asset(Assets.icons.bag),
+                  // ),
                   EasyStep(
                     customStep: SvgPicture.asset(Assets.icons.check),
                   ),
@@ -165,10 +164,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 child: _buildStepContent(),
               ),
               CrElevatedButton(
-                onPressed: _currentStep == 2 ? _handleCheckout : _nextStep,
+                onPressed: _currentStep == 1 ? _handleCheckout : _nextStep,
                 height: 60.0,
                 borderRadius: BorderRadius.circular(25.0),
-                text: _currentStep == 2
+                text: _currentStep == 1
                     ? AppLocalizations.of(context)?.placeOrder ?? 'Place Order'
                     : AppLocalizations.of(context)?.next ?? 'Next',
               ),
@@ -189,17 +188,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
           addressController: _addressController,
         );
       case 1:
-        return BuildDetailsStep(
-            // cartData: widget.cartData,
-            // totalPrice: widget.totalPrice,
-            // totalProduct: widget.totalProduct,
-            );
-      case 2:
-        return BuildConfirmStep(
-            // cartData: widget.cartData,
-            // totalPrice: widget.totalPrice,
-            // totalProduct: widget.totalProduct,
-            );
+        return BuildConfirmStep();
+      // case 2:
+      //   return BuildConfirmStep(
+      //       // cartData: widget.cartData,
+      //       // totalPrice: widget.totalPrice,
+      //       // totalProduct: widget.totalProduct,
+      //       );
       default:
         return Text(AppLocalizations.of(context)?.error ?? 'Error');
     }

@@ -73,5 +73,6 @@
   "payload": "Payload",
   "submit": "Submit",
   "wheelSize": "Wheel Size",
-  "updateReview": "Update Review"
+  "updateReview": "Update Review",
+  "service": "Service"
 }
